@@ -4,14 +4,20 @@ module RSpec
   module Matchers
 
     class NokogiriMatcher#:nodoc:
+      attr_reader :current_scope
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag, options, block
       end
 
-      def matches?(document,&block)
-	parsed_html = Nokogiri::HTML(document)
-	@current_scope = parsed_html.css(@tag)
+      def matches?(document)
+	@block.call if @block
+
+	if document.class==self.class
+	  @current_scope = document.current_scope
+	else
+	  @current_scope = Nokogiri::HTML(document).css(@tag)
+	end
 
 	tag_in_scope? || (return false)
 	count_right? || (return false) if @options.has_key?(:count)
@@ -40,15 +46,15 @@ module RSpec
     #   string.should have_tag(tag,options={},&block)
     #
     def have_tag tag,options={}, &block
-      NokogiriMatcher.new(tag,options, &block)
+      @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag,options, &block)
     end
 
     def with_tag tag, options={}, &block
-      pending
+      @__current_scope_for_nokogiri_matcher.should have_tag(tag, options, &block)
     end
 
     def without_tag tag, options={}, &block
-      pending
+      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
     end
 
   end
