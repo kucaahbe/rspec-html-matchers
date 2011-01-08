@@ -11,10 +11,8 @@ module RSpec
       end
 
       def matches?(document)
-	@block.call if @block
-
 	if document.class==self.class
-	  @current_scope = document.current_scope
+	  @current_scope = document.current_scope.css(@tag)
 	else
 	  @current_scope = Nokogiri::HTML(document).css(@tag)
 	end
@@ -22,6 +20,8 @@ module RSpec
 	tag_in_scope? || (return false)
 	count_right? || (return false) if @options.has_key?(:count)
 	text_presents? || (return false) if @options.has_key?(:text)
+
+	@block.call if @block
 	true
       end
 

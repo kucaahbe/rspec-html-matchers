@@ -78,6 +78,12 @@ describe 'have_tag' do
       }
     end
 
+    it "should not find tags inside other tag" do
+      rendered.should have_tag('ol') {
+	without_tag('div')
+      }
+    end
+
   end
 
 end
