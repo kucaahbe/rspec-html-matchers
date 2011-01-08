@@ -71,7 +71,11 @@ describe 'have_tag' do
   context "nested matching:" do
 
     it "should find tags inside other tag" do
-      pending
+      rendered.should have_tag('ol') do
+        with_tag('li', :text => 'list item 1')
+        with_tag('li', :text => 'list item 2')
+        with_tag('li', :text => 'list item 3')
+      end
     end
 
   end
