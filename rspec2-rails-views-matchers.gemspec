@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'rspec', '>= 2.0.0'
+  s.add_dependency 'nokogiri', '~> 1.4.4'
 end

@@ -2,12 +2,14 @@ PATH
   remote: .
   specs:
     rspec2-rails-views-matchers (0.0.1)
+      nokogiri (~> 1.4.4)
       rspec (>= 2.0.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
+    nokogiri (1.4.4)
     rspec (2.4.0)
       rspec-core (~> 2.4.0)
       rspec-expectations (~> 2.4.0)
@@ -21,5 +23,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  nokogiri (~> 1.4.4)
   rspec (>= 2.0.0)
   rspec2-rails-views-matchers!
