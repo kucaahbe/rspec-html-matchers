@@ -4,7 +4,7 @@ require "rspec/rails/views/matchers/version"
 
 Gem::Specification.new do |s|
   s.name        = "rspec2-rails-views-matchers"
-  s.version     = Rspec::Rails::Views::Matchers::VERSION
+  s.version     = RSpec::Rails::Views::Matchers::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
