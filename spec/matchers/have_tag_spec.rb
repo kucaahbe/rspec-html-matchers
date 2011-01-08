@@ -16,6 +16,22 @@ describe 'have_tag' do
       rendered.should have_tag('p',:count => 3)
     end
 
+    it "should find more than 2 tags <p>" do
+      pending("TODO: rendered.should have_tag('p',:count => '>2')")
+    end
+
+    it "should find more than 3(or 3) tags <p>" do
+      pending("TODO: rendered.should have_tag('p',:count => '>=3')")
+    end
+
+    it "should find less than 5 tags <p>" do
+      pending("TODO: rendered.should have_tag('p',:count => '<5')")
+    end
+
+    it "should find less than 3(or 3) tags <p>" do
+      pending("TODO: rendered.should have_tag('p',:count => '<=3')")
+    end
+
     it "should not find 2 or 5 tags <p>" do
       rendered.should_not have_tag('p', :count => 2)
       rendered.should_not have_tag('p', :count => 5)
