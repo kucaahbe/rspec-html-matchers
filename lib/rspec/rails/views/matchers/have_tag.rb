@@ -24,9 +24,10 @@ module RSpec
 
     # :call-seq:
     #   rendered.should have_tag(tag,options={},&block)
+    #   rendered.should have_tag(tag,options={},&block) { with_tag(other_tag) }
     #   string.should have_tag(tag,options={},&block)
     #
-    def have_tag(tag,options={}, &block)
+    def have_tag tag,options={}, &block
       NokogiriMatcher.new(tag,options, &block)
     end
 
