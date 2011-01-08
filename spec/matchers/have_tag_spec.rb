@@ -28,6 +28,20 @@ describe 'have_tag' do
       rendered.should have_tag('p', :text => 'three')
     end
 
+    it "should find text as regexp" do
+      rendered.should have_tag('div', :text => /sample/)
+    end
+
+    it "should not find text" do
+      rendered.should_not have_tag('p', :text => 'text does not present')
+      rendered.should_not have_tag('strong', :text => 'text does not present')
+    end
+
+    it "should not find text as regexp" do
+      rendered.should_not have_tag('p', :text => /text does not present/)
+      rendered.should_not have_tag('strong', :text => /text does not present/)
+    end
+
   end
 
 end
