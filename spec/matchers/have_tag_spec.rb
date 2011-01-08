@@ -62,6 +62,18 @@ describe 'have_tag' do
       rendered.should_not have_tag('strong', :text => /text does not present/)
     end
 
+    it "should match html attributes" do
+      pending
+    end
+
+  end
+
+  context "nested matching:" do
+
+    it "should find tags inside other tag" do
+      pending
+    end
+
   end
 
 end
