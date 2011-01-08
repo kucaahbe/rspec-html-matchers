@@ -11,14 +11,26 @@ module RSpec
 
       def matches?(document,&block)
 	parsed_html = Nokogiri::HTML(document)
-	node_set = parsed_html.css(@tag)
+	@current_scope = parsed_html.css(@tag)
 
-	result = [!node_set.first.nil?]
-	if @options
-	  result << (node_set.count == @options[:count]) if @options.has_key?(:count)
-	  result << node_set.any? {|node| node.content =~ Regexp.new(@options[:text]) } if @options.has_key?(:text)
-	end
-	result.all? {|boolean| boolean==true }
+	tag_in_scope? || (return false)
+	count_right? || (return false) if @options.has_key?(:count)
+	text_presents? || (return false) if @options.has_key?(:text)
+	true
+      end
+
+      private
+
+      def tag_in_scope?
+	!@current_scope.first.nil?
+      end
+
+      def count_right?
+	@current_scope.count == @options[:count]
+      end
+
+      def text_presents?
+	@current_scope.any? {|node| node.content =~ Regexp.new(@options[:text]) }
       end
     end
 
