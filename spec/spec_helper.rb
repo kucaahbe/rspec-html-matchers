@@ -1,8 +1,12 @@
 require 'rspec/rails/views/matchers'
 
 module RenderedHelper
+  def render_html html
+    @rendered = html
+  end
+
   def rendered
-    @rendered ||= File.open(File.join(File.dirname(__FILE__),'rendered_view.html')) { |f| f.read }
+    @rendered
   end
 end
 

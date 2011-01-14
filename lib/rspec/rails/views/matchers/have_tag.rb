@@ -25,6 +25,10 @@ module RSpec
 	true
       end
 
+      def failure_message
+        'TODO'
+      end
+
       private
 
       def tag_in_scope?
