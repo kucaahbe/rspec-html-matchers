@@ -6,11 +6,11 @@ describe 'have_tag' do
 
     it "should find tag by css selector" do
       render_html <<HTML
-      <div>
-        some content
-	<div id="div">some other div</div>
-      </div>
-      <p class="paragraph">la<strong>lala</strong></p>
+<div>
+  some content
+  <div id="div">some other div</div>
+</div>
+<p class="paragraph">la<strong>lala</strong></p>
 HTML
       rendered.should have_tag('div')
       rendered.should have_tag('div#div')
@@ -38,9 +38,9 @@ HTML
 
     it "should find tags with count specified" do
       render_html <<HTML
-      <p>tag one</p>
-      <p>tag two</p>
-      <p>tag three</p>
+<p>tag one</p>
+<p>tag two</p>
+<p>tag three</p>
 HTML
 
       rendered.should have_tag('p', :count => 3)
