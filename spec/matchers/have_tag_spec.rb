@@ -14,14 +14,20 @@ describe 'have_tag' do
 HTML
       rendered.should have_tag('div')
       rendered.should have_tag('div#div')
-      rendered.should have_tag('div.paragraph')
+      rendered.should have_tag('p.paragraph')
     end
 
     it "should not find tag by css selector" do
       render_html "<p>some text<p>"
       rendered.should_not have_tag('strong')
-      expect { rendered.should have_tag('strong') }.should raise_error(RSpec::Expectations::ExpectationNotMetError,"expected following:\n#{rendered}\n to have <strong> tag")
-      pending('custom message for custom css selectors')
+      expect { rendered.should have_tag('strong') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include //strong}
+      )
+      expect { rendered.should have_tag('strong#some_id') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include //strong[@id = 'some_id']}
+      )
     end
 
     it "should find tags with count specified" do

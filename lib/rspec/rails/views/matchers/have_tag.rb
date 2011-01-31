@@ -15,6 +15,7 @@ module RSpec
 	  @current_scope = document.current_scope.css(@tag)
 	else
 	  @current_scope = Nokogiri::HTML(document).css(@tag)
+	  @document = document
 	end
 
 	tag_in_scope? || (return false)
@@ -26,7 +27,7 @@ module RSpec
       end
 
       def failure_message
-        'TODO'
+	"expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
       end
 
       private
