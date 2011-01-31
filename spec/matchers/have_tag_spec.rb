@@ -20,6 +20,8 @@ HTML
     it "should not find tag by css selector" do
       render_html "<p>some text<p>"
       rendered.should_not have_tag('strong')
+      rendered.should_not have_tag('strong#id')
+      rendered.should_not have_tag('strong#class')
       expect { rendered.should have_tag('strong') }.should raise_error(
 	RSpec::Expectations::ExpectationNotMetError,
 	%Q{expected following:\n#{rendered}\nto include //strong}
@@ -27,6 +29,10 @@ HTML
       expect { rendered.should have_tag('strong#some_id') }.should raise_error(
 	RSpec::Expectations::ExpectationNotMetError,
 	%Q{expected following:\n#{rendered}\nto include //strong[@id = 'some_id']}
+      )
+      expect { rendered.should have_tag('strong.some_class') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include //strong[contains(concat(' ', @class, ' '), ' some_class ')]}
       )
     end
 
