@@ -56,7 +56,12 @@ HTML
     end
 
     it "should find text" do
-      pending
+      render_html <<HTML
+<div>sample text</div>
+<p>one </p>
+<p> two</p>
+<p> three </p>
+HTML
       rendered.should have_tag('div', :text => 'sample text')
       rendered.should have_tag('p', :text => 'one')
       rendered.should have_tag('p', :text => 'two')
