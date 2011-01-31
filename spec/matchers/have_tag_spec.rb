@@ -9,12 +9,13 @@ describe 'have_tag' do
 <div>
   some content
   <div id="div">some other div</div>
+  <p class="paragraph">la<strong>lala</strong></p>
 </div>
-<p class="paragraph">la<strong>lala</strong></p>
 HTML
       rendered.should have_tag('div')
       rendered.should have_tag('div#div')
       rendered.should have_tag('p.paragraph')
+      rendered.should have_tag('div p strong')
     end
 
     it "should not find tag by css selector" do
