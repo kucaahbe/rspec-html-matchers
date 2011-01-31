@@ -53,7 +53,6 @@ HTML
 
       rendered.should_not have_tag('p', :count => 2)
       rendered.should_not have_tag('p', :count => 5)
-      rendered.should_not have_tag('p', :count => 2..5)
     end
 
     it "should find text" do

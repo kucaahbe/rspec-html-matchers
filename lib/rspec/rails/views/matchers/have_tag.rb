@@ -18,8 +18,8 @@ module RSpec
 	  @document = document
 	end
 
-	tag_in_scope? || (return false)
-	count_right? || (return false) if @options.has_key?(:count)
+	tag_in_scope? || (return @tags_found=false)
+	count_right? || (return @count_right=false) if @options.has_key?(:count)
 	text_presents? || (return false) if @options.has_key?(:text)
 
 	@block.call if @block
@@ -27,7 +27,12 @@ module RSpec
       end
 
       def failure_message
-	"expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
+	case false
+	when @tags_found
+	  "expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
+	when @count_right
+	  "TODO"
+	end
       end
 
       private
@@ -37,7 +42,27 @@ module RSpec
       end
 
       def count_right?
-	@current_scope.count == @options[:count]
+	actual_count = @current_scope.count
+	case @options[:count]
+	when Integer
+	  actual_count == @options[:count]
+	when Range
+	  @options[:count].member?(actual_count)
+	when String
+	  case @options[:count]
+	  when /^>(\d+)$/
+	    actual_count > $1.to_i
+	  when /^>=(\d+)$/
+	    actual_count >= $1.to_i
+	  when /^<(\d+)$/
+	    actual_count < $1.to_i
+	  when /^<=(\d+)$/
+	    actual_count <= $1.to_i
+	  end
+	else
+	  @wrong_formatted_count = true
+	  false
+	end
       end
 
       def text_presents?
