@@ -93,18 +93,19 @@ HTML
 
   context "nested matching:" do
 
-    #???????????????????????
-    #how here?
     it "should find tags inside other tag" do
+      render_html <<HTML
+<ol>
+  <li>list item 1</li>
+  <li>list item 2</li>
+  <li>list item 3</li>
+</ol>
+HTML
+
       rendered.should have_tag('ol') {
         with_tag('li', :text => 'list item 1')
         with_tag('li', :text => 'list item 2')
         with_tag('li', :text => 'list item 3')
-      }
-    end
-
-    it "should not find tags inside other tag" do
-      rendered.should have_tag('ol') {
 	without_tag('div')
       }
     end
