@@ -18,6 +18,19 @@ HTML
       rendered.should have_tag('div p strong')
     end
 
+    it "should find by other HTML/XML attributes through :with option" do
+      render_html <<HTML
+<form id="some_form">
+  <input id="search" type="text" />
+  <input type="submit" value="Save" />
+</form>
+HTML
+      rendered.should have_tag('input#search',:with => {:type => "text"})
+      rendered.should have_tag('input',:with => {:type => "submit", :value => "Save"})
+
+      rendered.should_not have_tag('input#search',:with => {:type => "some_other_type"})
+    end
+
     it "should not find tag by css selector" do
       render_html "<p>some text<p>"
       rendered.should_not have_tag('strong')
@@ -74,10 +87,6 @@ HTML
 
       rendered.should_not have_tag('p', :text => /text does not present/)
       rendered.should_not have_tag('strong', :text => /text does not present/)
-    end
-
-    it "should match html attributes" do
-      pending
     end
 
   end

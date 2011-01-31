@@ -11,6 +11,12 @@ module RSpec
       end
 
       def matches?(document)
+	if @options.has_key?(:with)
+	  html_attrs_string=''
+	  @options[:with].each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}="#{v.to_s}"]} }
+	  @tag << html_attrs_string
+	end
+
 	if document.class==self.class
 	  @current_scope = document.current_scope.css(@tag)
 	else
