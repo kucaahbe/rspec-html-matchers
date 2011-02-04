@@ -26,7 +26,7 @@ module RSpec
 
 	tag_in_scope? || (return @tags_found=false)
 	count_right? || (return @count_right=false) if @options.has_key?(:count)
-	text_presents? || (return false) if @options.has_key?(:text)
+	text_presents? || (return @text_found=false) if @options.has_key?(:text)
 
 	@block.call if @block
 	true
@@ -38,6 +38,8 @@ module RSpec
 	  "expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
 	when @count_right
 	  "expected following:\n#{@document}\nto include #{@count_error_msg} entries of #{Nokogiri::CSS.xpath_for(@tag)}(actually was #{@actual_count})"
+	when @text_found
+	  "expected #{Nokogiri::CSS.xpath_for(@tag)} in following:\n#{@document}\nto have content: '#{@options[:text]}'\nactual content:\n#{@current_scope.first.content}"
 	end
       end
 

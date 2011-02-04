@@ -150,7 +150,15 @@ HTML
     end
 
     it "should not find tags and display appropriate message" do
-      pending :TODO
+      # TODO rewrite this all:
+      expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected //div in following:\n#{rendered}\nto have content: 'SAMPLE text'\nactual content:\nsample text}
+	)
+      expect { rendered.should have_tag('div', :text => /SAMPLE text/) }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected //div in following:\n#{rendered}\nto have content: '(?-mix:SAMPLE text)'\nactual content:\nsample text}
+	)
     end
 
   end
