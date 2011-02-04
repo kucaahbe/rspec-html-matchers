@@ -164,21 +164,42 @@ HTML
   end
 
   context "nested matching:" do
-
-    it "should find tags inside other tag" do
+    before :each do
       render_html <<HTML
-<ol>
-  <li>list item 1</li>
-  <li>list item 2</li>
-  <li>list item 3</li>
-</ol>
+<html>
+  <body>
+    <ol>
+      <li>list item 1</li>
+      <li>list item 2</li>
+      <li>list item 3</li>
+    </ol>
+  </body>
+</html>
 HTML
+    end
 
+    it "should find tags" do
       rendered.should have_tag('ol') {
         with_tag('li', :text => 'list item 1')
         with_tag('li', :text => 'list item 2')
         with_tag('li', :text => 'list item 3')
+      }
+    end
+
+    it "should not find tags" do
+      rendered.should have_tag('ol') {
 	without_tag('div')
+	without_tag('li', :count => 2)
+	without_tag('li', :count => 3..8)
+	without_tag('li', :count => '>100')
+	without_tag('li', :text => 'blabla')
+	without_tag('li', :text => /list item (?!\d)/)
+      }
+    end
+
+    it "should not find tags and display appropriate message" do
+      rendered.should have_tag('ol') {
+	pending
       }
     end
 
