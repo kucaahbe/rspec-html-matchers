@@ -37,7 +37,7 @@ module RSpec
 	when @tags_found
 	  "expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
 	when @count_right
-	  "TODO"
+	  "expected following:\n#{@document}\nto include #{@count_error_msg} entries of #{Nokogiri::CSS.xpath_for(@tag)}(actually was #{@actual_count})"
 	end
       end
 
@@ -48,22 +48,28 @@ module RSpec
       end
 
       def count_right?
-	actual_count = @current_scope.count
+	@actual_count = @current_scope.count
 	case @options[:count]
 	when Integer
-	  actual_count == @options[:count]
+	  @count_error_msg = @options[:count]
+	  @actual_count == @options[:count]
 	when Range
-	  @options[:count].member?(actual_count)
+	  @count_error_msg = "from #{@options[:count].first} to #{@options[:count].last}"
+	  @options[:count].member?(@actual_count)
 	when String
 	  case @options[:count]
 	  when /^>(\d+)$/
-	    actual_count > $1.to_i
+	    @count_error_msg = "more than #{$1}"
+	    @actual_count > $1.to_i
 	  when /^>=(\d+)$/
-	    actual_count >= $1.to_i
+	    @count_error_msg = "more(or equal) than #{$1}"
+	    @actual_count >= $1.to_i
 	  when /^<(\d+)$/
-	    actual_count < $1.to_i
+	    @count_error_msg = "less than #{$1}"
+	    @actual_count < $1.to_i
 	  when /^<=(\d+)$/
-	    actual_count <= $1.to_i
+	    @count_error_msg = "less(or equal) than #{$1}"
+	    @actual_count <= $1.to_i
 	  end
 	else
 	  @wrong_formatted_count = true

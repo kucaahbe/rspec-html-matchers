@@ -81,18 +81,46 @@ HTML
     it "should find tags" do
       rendered.should have_tag('p', :count => 3)
       rendered.should have_tag('p', :count => 2..3)
-      rendered.should have_tag('p',:count => '>2')
-      rendered.should have_tag('p',:count => '>=3')
-      rendered.should have_tag('p',:count => '<5')
-      rendered.should have_tag('p',:count => '<=3')
+      rendered.should have_tag('p', :count => '>2')
+      rendered.should have_tag('p', :count => '>=3')
+      rendered.should have_tag('p', :count => '<5')
+      rendered.should have_tag('p', :count => '<=3')
     end
 
     it "should not find tags" do
-      pending :TODO
+      rendered.should_not have_tag('p', :count => 10)
+      rendered.should_not have_tag('p', :count => 4..8)
+      rendered.should_not have_tag('p', :count => '>10')
+      rendered.should_not have_tag('p', :count => '>=10')
+      rendered.should_not have_tag('p', :count => '<3')
+      rendered.should_not have_tag('p', :count => '<=2')
     end
 
     it "should not find tags and display appropriate message" do
-      pending :TODO
+      expect { rendered.should have_tag('p', :count => 10) }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include 10 entries of //p(actually was 3)}
+	)
+      expect { rendered.should have_tag('p', :count => 4..8) }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include from 4 to 8 entries of //p(actually was 3)}
+	)
+      expect { rendered.should have_tag('p', :count => '>100') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include more than 100 entries of //p(actually was 3)}
+	)
+      expect { rendered.should have_tag('p', :count => '>=100') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include more(or equal) than 100 entries of //p(actually was 3)}
+	)
+      expect { rendered.should have_tag('p', :count => '<2') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include less than 2 entries of //p(actually was 3)}
+	)
+      expect { rendered.should have_tag('p', :count => '<=2') }.should raise_error(
+	RSpec::Expectations::ExpectationNotMetError,
+	%Q{expected following:\n#{rendered}\nto include less(or equal) than 2 entries of //p(actually was 3)}
+	)
     end
 
   end
