@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe 'have_tag' do
 
+  it "should have message for have_not"
+
   context "through css selector" do
 
     before :each do
@@ -29,20 +31,18 @@ HTML
       rendered.should_not have_tag('span')
       rendered.should_not have_tag('span#id')
       rendered.should_not have_tag('span#class')
+      rendered.should_not have_tag('div div span')
     end
 
     it "should not find tags and display appropriate message" do
-      expect { rendered.should have_tag('span') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include //span}
+      expect { rendered.should have_tag('span') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span", found 0.}
       )
-      expect { rendered.should have_tag('span#some_id') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include //span[@id = 'some_id']}
+      expect { rendered.should have_tag('span#some_id') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_id", found 0.}
       )
-      expect { rendered.should have_tag('span.some_class') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include //span[contains(concat(' ', @class, ' '), ' some_class ')]}
+      expect { rendered.should have_tag('span.some_class') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_class", found 0.}
       )
     end
 
@@ -58,9 +58,8 @@ HTML
       end
 
       it "should not find tags and display appropriate message" do
-	expect { rendered.should have_tag('input#search',:with => {:type => "some_other_type"}) }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include //input[@id = 'search' and @type = "some_other_type"]}
+	expect { rendered.should have_tag('input#search',:with => {:type => "some_other_type"}) }.should raise_spec_error(
+	  %Q{expected following:\n#{rendered}\nto have at least 1 element matching "input#search[type='some_other_type']", found 0.}
 	)
       end
 
@@ -79,48 +78,49 @@ HTML
     end
 
     it "should find tags" do
-      rendered.should have_tag('p', :count => 3)
+      rendered.should have_tag('p', :count    => 3)
       rendered.should have_tag('p', :count => 2..3)
-      rendered.should have_tag('p', :count => '>2')
-      rendered.should have_tag('p', :count => '>=3')
-      rendered.should have_tag('p', :count => '<5')
-      rendered.should have_tag('p', :count => '<=3')
+      rendered.should have_tag('p', :min      => 3)
+      rendered.should have_tag('p', :minimum  => 2)
+      rendered.should have_tag('p', :max      => 4)
+      rendered.should have_tag('p', :maximum  => 3)
     end
 
     it "should not find tags" do
-      rendered.should_not have_tag('p', :count => 10)
+      rendered.should_not have_tag('p', :count   => 10)
       rendered.should_not have_tag('p', :count => 4..8)
-      rendered.should_not have_tag('p', :count => '>10')
-      rendered.should_not have_tag('p', :count => '>=10')
-      rendered.should_not have_tag('p', :count => '<3')
-      rendered.should_not have_tag('p', :count => '<=2')
+      rendered.should_not have_tag('p', :min     => 11)
+      rendered.should_not have_tag('p', :minimum => 10)
+      rendered.should_not have_tag('p', :max     => 2)
+      rendered.should_not have_tag('p', :maximum => 2)
     end
 
     it "should not find tags and display appropriate message" do
-      expect { rendered.should have_tag('p', :count => 10) }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include 10 entries of //p(actually was 3)}
+      expect { rendered.should have_tag('p', :count => 10) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have 10 element(s) matching "p", found 3.}
 	)
-      expect { rendered.should have_tag('p', :count => 4..8) }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include from 4 to 8 entries of //p(actually was 3)}
+
+      expect { rendered.should have_tag('p', :count => 4..8) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 4 and at most 8 element(s) matching "p", found 3.}
 	)
-      expect { rendered.should have_tag('p', :count => '>100') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include more than 100 entries of //p(actually was 3)}
+
+      expect { rendered.should have_tag('p', :min => 100) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
 	)
-      expect { rendered.should have_tag('p', :count => '>=100') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include more(or equal) than 100 entries of //p(actually was 3)}
+      expect { rendered.should have_tag('p', :minimum => 100) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at least 101 element(s) matching "p", found 3.}
 	)
-      expect { rendered.should have_tag('p', :count => '<2') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include less than 2 entries of //p(actually was 3)}
+
+      expect { rendered.should have_tag('p', :max => 2) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
 	)
-      expect { rendered.should have_tag('p', :count => '<=2') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected following:\n#{rendered}\nto include less(or equal) than 2 entries of //p(actually was 3)}
+      expect { rendered.should have_tag('p', :maximum => 2) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
 	)
+    end
+
+    it "should raise error when wrong params specified" do
+      pending
     end
 
   end
@@ -138,8 +138,8 @@ HTML
 
     it "should find tags" do
       rendered.should have_tag('div', :text => 'sample text')
-      rendered.should have_tag('p',   :text => 'one'        )
-      rendered.should have_tag('div', :text => /sample/     )
+      rendered.should have_tag('p',   :text => 'one '       )
+      rendered.should have_tag('div', :text => /SAMPLE/i    )
     end
 
     it "should not find tags" do
@@ -150,14 +150,12 @@ HTML
     end
 
     it "should not find tags and display appropriate message" do
-      # TODO rewrite this all:
-      expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected //div in following:\n#{rendered}\nto have content: 'SAMPLE text'\nactual content:\nsample text}
+      # TODO make diffable,maybe...
+      expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.should raise_spec_error(
+	%Q{<"SAMPLE text"> expected but was:\n<"sample text">\nrendered template:\n#{rendered}}
 	)
-      expect { rendered.should have_tag('div', :text => /SAMPLE text/) }.should raise_error(
-	RSpec::Expectations::ExpectationNotMetError,
-	%Q{expected //div in following:\n#{rendered}\nto have content: '(?-mix:SAMPLE text)'\nactual content:\nsample text}
+      expect { rendered.should have_tag('div', :text => /SAMPLE text/i) }.should raise_spec_error(
+	%Q{</SAMPLE text/i> expected but was:\n<"sample text">\nrendered template:\n#{rendered}}
 	)
     end
 
@@ -180,9 +178,13 @@ HTML
 
     it "should find tags" do
       rendered.should have_tag('ol') {
-        with_tag('li', :text => 'list item 1')
-        with_tag('li', :text => 'list item 2')
-        with_tag('li', :text => 'list item 3')
+	with_tag('li', :text  => 'list item 1')
+	with_tag('li', :text  => 'list item 2')
+	with_tag('li', :text  => 'list item 3')
+	with_tag('li', :count => 3)
+	with_tag('li', :count => 2..3)
+	with_tag('li', :min   => 2)
+	with_tag('li', :max   => 6)
       }
     end
 
@@ -190,8 +192,9 @@ HTML
       rendered.should have_tag('ol') {
 	without_tag('div')
 	without_tag('li', :count => 2)
-	without_tag('li', :count => 3..8)
-	without_tag('li', :count => '>100')
+	without_tag('li', :count => 4..8)
+	without_tag('li', :min => 100)
+	without_tag('li', :max => 2)
 	without_tag('li', :text => 'blabla')
 	without_tag('li', :text => /list item (?!\d)/)
       }
