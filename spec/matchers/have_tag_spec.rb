@@ -163,14 +163,17 @@ HTML
 
   context "nested matching:" do
     before :each do
-      render_html <<HTML
-<html>
-  <body>
+      @ordered_list =<<OL
     <ol>
       <li>list item 1</li>
       <li>list item 2</li>
       <li>list item 3</li>
     </ol>
+OL
+      render_html <<HTML
+<html>
+  <body>
+#{@ordered_list}
   </body>
 </html>
 HTML
@@ -201,9 +204,17 @@ HTML
     end
 
     it "should not find tags and display appropriate message" do
-      rendered.should have_tag('ol') {
-	pending
-      }
+      expect {
+	rendered.should have_tag('ol') { with_tag('div') }
+      }.should raise_spec_error(%Q{expected following:\n#{@ordered_list}\nto have at least 1 element matching "span", found 0.})
+
+      expect {
+	rendered.should have_tag('ol') { with_tag('li', :count => 10) }
+      }.should raise_spec_error(%Q{expected following:\n#{@ordered_list}\nto have 10 element(s) matching "li", found 3.})
+
+      expect {
+	rendered.should have_tag('ol') { with_tag('li', :text => /SAMPLE text/i) }
+      }.should raise_spec_error(%Q{</SAMPLE text/i> expected but was:\n<"list item 1">\nrendered template:\n#{@ordered_list}})
     end
 
   end
