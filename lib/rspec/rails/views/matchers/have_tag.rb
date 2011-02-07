@@ -4,18 +4,25 @@ module RSpec
   module Matchers
 
     class NokogiriMatcher#:nodoc:
-      attr_reader :current_scope
+      attr_reader :current_scope, :failure_message
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag, options, block
+
+	if attrs = @options.delete(:with)
+	  html_attrs_string=''
+	  attrs.each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}='#{v.to_s}']} }
+	  @tag << html_attrs_string
+	end
+
+	# TODO add min and max processing
+
+	if @options.has_key?(:count)
+	  raise 'wrong options' if @options.has_key?(:minimum) || @options.has_key?(:maximum)
+	end
       end
 
       def matches?(document)
-	if @options.has_key?(:with)
-	  html_attrs_string=''
-	  @options[:with].each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}="#{v.to_s}"]} }
-	  @tag << html_attrs_string
-	end
 
 	if document.class==self.class
 	  @current_scope = document.current_scope.css(@tag)
@@ -24,32 +31,27 @@ module RSpec
 	  @document = document
 	end
 
-	tag_in_scope? || (return @tags_found=false)
-	count_right? || (return @count_right=false) if @options.has_key?(:count)
-	text_presents? || (return @text_found=false) if @options.has_key?(:text)
-
-	@block.call if @block
-	true
-      end
-
-      def failure_message
-	case false
-	when @tags_found
-	  "expected following:\n#{@document}\nto include #{Nokogiri::CSS.xpath_for(@tag)}"
-	when @count_right
-	  "expected following:\n#{@document}\nto include #{@count_error_msg} entries of #{Nokogiri::CSS.xpath_for(@tag)}(actually was #{@actual_count})"
-	when @text_found
-	  "expected #{Nokogiri::CSS.xpath_for(@tag)} in following:\n#{@document}\nto have content: '#{@options[:text]}'\nactual content:\n#{@current_scope.first.content}"
+	if tag_presents? #and count_right? and content_right?
+	  @block.call if @block
+	  true
+	else
+	  false
 	end
       end
 
       private
 
-      def tag_in_scope?
-	!@current_scope.first.nil?
+      def tag_presents?
+	if @current_scope.first
+	  true
+	else
+	  @failure_message = %Q{expected following:\n#{@document}\nto have at least 1 element matching "#{@tag}", found 0.}
+	  false
+	end
       end
 
       def count_right?
+	return true unless @options[:count] || @options[:minimum] || @options[:maximum]
 	@actual_count = @current_scope.count
 	case @options[:count]
 	when Integer
@@ -58,29 +60,16 @@ module RSpec
 	when Range
 	  @count_error_msg = "from #{@options[:count].first} to #{@options[:count].last}"
 	  @options[:count].member?(@actual_count)
-	when String
-	  case @options[:count]
-	  when /^>(\d+)$/
-	    @count_error_msg = "more than #{$1}"
-	    @actual_count > $1.to_i
-	  when /^>=(\d+)$/
-	    @count_error_msg = "more(or equal) than #{$1}"
-	    @actual_count >= $1.to_i
-	  when /^<(\d+)$/
-	    @count_error_msg = "less than #{$1}"
-	    @actual_count < $1.to_i
-	  when /^<=(\d+)$/
-	    @count_error_msg = "less(or equal) than #{$1}"
-	    @actual_count <= $1.to_i
-	  end
 	else
 	  @wrong_formatted_count = true
 	  false
 	end
       end
 
-      def text_presents?
-	@current_scope.any? {|node| node.content =~ Regexp.new(@options[:text]) }
+      def content_right?
+	if @options[:text]
+	  @current_scope.any? {|node| node.content =~ Regexp.new(@options[:text]) }
+	end
       end
     end
 

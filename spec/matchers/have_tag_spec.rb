@@ -42,7 +42,7 @@ HTML
 	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_id", found 0.}
       )
       expect { rendered.should have_tag('span.some_class') }.should raise_spec_error(
-	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_class", found 0.}
+	%Q{expected following:\n#{rendered}\nto have at least 1 element matching "span.some_class", found 0.}
       )
     end
 
