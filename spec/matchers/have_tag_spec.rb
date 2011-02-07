@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'have_tag' do
 
   it "should have message for have_not"
+  it "should have #description method"
 
   context "through css selector" do
 
