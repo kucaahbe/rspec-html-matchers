@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'have_tag' do
 
-  it "should have message for have_not"
+  it "should have message for should_not"
   it "should have #description method"
 
   context "through css selector" do
@@ -68,7 +68,7 @@ HTML
 
   end
 
-  context "with count specified" do
+  context "by count" do
 
     before :each do
       render_html <<HTML
@@ -81,13 +81,19 @@ HTML
     it "should find tags" do
       rendered.should have_tag('p', :count    => 3)
       rendered.should have_tag('p', :count => 2..3)
+    end
+
+    it "should find tags when :minimum specified" do
       rendered.should have_tag('p', :min      => 3)
       rendered.should have_tag('p', :minimum  => 2)
+    end
+
+    it "should find tags when :maximum specified" do
       rendered.should have_tag('p', :max      => 4)
       rendered.should have_tag('p', :maximum  => 3)
     end
 
-    it "should not find tags" do
+    it "should not find tags(with :count, :minimum or :maximum specified)" do
       rendered.should_not have_tag('p', :count   => 10)
       rendered.should_not have_tag('p', :count => 4..8)
       rendered.should_not have_tag('p', :min     => 11)
@@ -96,7 +102,7 @@ HTML
       rendered.should_not have_tag('p', :maximum => 2)
     end
 
-    it "should not find tags and display appropriate message" do
+    it "should not find tags and display appropriate message(with :count)" do
       expect { rendered.should have_tag('p', :count => 10) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have 10 element(s) matching "p", found 3.}
 	)
@@ -104,14 +110,18 @@ HTML
       expect { rendered.should have_tag('p', :count => 4..8) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at least 4 and at most 8 element(s) matching "p", found 3.}
 	)
+    end
 
+    it "should not find tags and display appropriate message(with :minimum)" do
       expect { rendered.should have_tag('p', :min => 100) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
 	)
       expect { rendered.should have_tag('p', :minimum => 100) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at least 101 element(s) matching "p", found 3.}
 	)
+    end
 
+    it "should not find tags and display appropriate message(with :maximum)" do
       expect { rendered.should have_tag('p', :max => 2) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
 	)
@@ -121,7 +131,19 @@ HTML
     end
 
     it "should raise error when wrong params specified" do
-      pending
+      pending(:TODO)
+      wrong_params_error_msg_1 = 'TODO1'
+      expect { rendered.should have_tag('div', :count => 2, :minimum => 1 ) }.should raise_error(wrong_params_error_msg_1)
+      expect { rendered.should have_tag('div', :count => 2, :min => 1 )     }.should raise_error(wrong_params_error_msg_1)
+      expect { rendered.should have_tag('div', :count => 2, :maximum => 1 ) }.should raise_error(wrong_params_error_msg_1)
+      expect { rendered.should have_tag('div', :count => 2, :max => 1 )     }.should raise_error(wrong_params_error_msg_1)
+
+      wrong_params_error_msg_2 = 'TODO2'
+      expect { rendered.should have_tag('div', :minimum => 2, :maximum => 1 ) }.should raise_error(wrong_params_error_msg_2)
+
+      [ 4..1, -2..6, 'a'..'z', 3..-9 ].each do |range|
+	expect { rendered.should have_tag('div', :count => range ) }.should raise_error("Your :count range(#{range.to_s}) has no sence!")
+      end
     end
 
   end
