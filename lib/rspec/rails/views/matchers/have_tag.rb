@@ -16,10 +16,8 @@ module RSpec
 	end
 
 	# TODO add min and max processing
-
-	if @options.has_key?(:count)
-	  raise 'wrong options' if @options.has_key?(:minimum) || @options.has_key?(:maximum)
-	end
+	@options[:minimum] ||= @options.delete(:min)
+	@options[:maximum] ||= @options.delete(:max)
       end
 
       def matches?(document)
@@ -31,7 +29,7 @@ module RSpec
 	  @document = document
 	end
 
-	if tag_presents? #and count_right? and content_right?
+	if tag_presents? and count_right? and content_right?
 	  @block.call if @block
 	  true
 	else
@@ -43,6 +41,7 @@ module RSpec
 
       def tag_presents?
 	if @current_scope.first
+	  @count = @current_scope.count
 	  true
 	else
 	  @failure_message = %Q{expected following:\n#{@document}\nto have at least 1 element matching "#{@tag}", found 0.}
@@ -51,24 +50,30 @@ module RSpec
       end
 
       def count_right?
-	return true unless @options[:count] || @options[:minimum] || @options[:maximum]
-	@actual_count = @current_scope.count
 	case @options[:count]
 	when Integer
-	  @count_error_msg = @options[:count]
-	  @actual_count == @options[:count]
+	  @count == @options[:count] || (@failure_message=%Q{expected following:\n#{@document}\nto have #{@options[:count]} element(s) matching "#{@tag}", found #{@count}.}; false)
 	when Range
-	  @count_error_msg = "from #{@options[:count].first} to #{@options[:count].last}"
-	  @options[:count].member?(@actual_count)
+	  @options[:count].member?(@count) || (@failure_message=%Q{expected following:\n#{@document}\nto have at least #{@options[:count].min} and at most #{@options[:count].max} element(s) matching "#{@tag}", found #{@count}.}; false)
+	when nil
+	  if @options[:maximum]
+	    @count <= @options[:maximum] || (@failure_message=%Q{expected following:\n#{@document}\nto have at most #{@options[:maximum]} element(s) matching "#{@tag}", found #{@count}.}; false)
+	  elsif @options[:minimum]
+	    @count >= @options[:minimum] || (@failure_message=%Q{expected following:\n#{@document}\nto have at least #{@options[:minimum]} element(s) matching "#{@tag}", found #{@count}.}; false)
+	  else
+	    true
+	  end
 	else
-	  @wrong_formatted_count = true
-	  false
+	  @failure_message = 'wrong count specified'
+	  return false
 	end
       end
 
       def content_right?
 	if @options[:text]
 	  @current_scope.any? {|node| node.content =~ Regexp.new(@options[:text]) }
+	else
+	  true
 	end
       end
     end

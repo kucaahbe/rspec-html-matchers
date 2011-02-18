@@ -117,7 +117,7 @@ HTML
 	%Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
 	)
       expect { rendered.should have_tag('p', :minimum => 100) }.should raise_spec_error(
-	%Q{expected following:\n#{rendered}\nto have at least 101 element(s) matching "p", found 3.}
+	%Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
 	)
     end
 
