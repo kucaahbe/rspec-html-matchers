@@ -175,10 +175,10 @@ HTML
     it "should not find tags and display appropriate message" do
       # TODO make diffable,maybe...
       expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.should raise_spec_error(
-	%Q{<"SAMPLE text"> expected but was:\n<"sample text">\nrendered template:\n#{rendered}}
+	%Q{"SAMPLE text" expected within "div" in following template:\n#{rendered}}
 	)
-      expect { rendered.should have_tag('div', :text => /SAMPLE text/i) }.should raise_spec_error(
-	%Q{</SAMPLE text/i> expected but was:\n<"sample text">\nrendered template:\n#{rendered}}
+      expect { rendered.should have_tag('div', :text => /SAMPLE tekzt/i) }.should raise_spec_error(
+	%Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
 	)
     end
 

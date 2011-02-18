@@ -70,10 +70,23 @@ module RSpec
       end
 
       def content_right?
-	if @options[:text]
-	  @current_scope.any? {|node| node.content =~ Regexp.new(@options[:text]) }
+	return true unless @options[:text]
+
+	case text=@options[:text]
+	when Regexp
+	  if @current_scope.any? {|node| node.content =~ text }
+	    true
+	  else
+	    @failure_message=%Q{#{text.inspect} regexp expected within "#{@tag}" in following template:\n#{@document}}
+	    false
+	  end
 	else
-	  true
+	  if @current_scope.any? {|node| node.content == text }
+	    true
+	  else
+	    @failure_message=%Q{"#{text}" expected within "#{@tag}" in following template:\n#{@document}}
+	    false
+	  end
 	end
       end
     end
