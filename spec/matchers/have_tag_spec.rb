@@ -230,15 +230,15 @@ HTML
       ordered_list_regexp = @ordered_list.gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
       expect {
 	rendered.should have_tag('ol') { with_tag('div') }
-      }.should raise_spec_error(Regexp.new(%Q{expected following:\n#{ordered_list_regexp}\nto have at least 1 element matching "div", found 0.}))
+      }.should raise_spec_error(/expected following:#{ordered_list_regexp}to have at least 1 element matching "div", found 0/)
 
       expect {
 	rendered.should have_tag('ol') { with_tag('li', :count => 10) }
-      }.should raise_spec_error(Regexp.new(%Q{expected following:\n#{ordered_list_regexp}\nto have 10 element\\(s\\) matching "li", found 3.}))
+      }.should raise_spec_error(/expected following:#{ordered_list_regexp}to have 10 element\(s\) matching "li", found 3/)
 
       expect {
 	rendered.should have_tag('ol') { with_tag('li', :text => /SAMPLE text/i) }
-      }.should raise_spec_error(Regexp.new(%Q{/SAMPLE text/i regexp expected within "li" in following template:\n#{ordered_list_regexp}}))
+      }.should raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:#{ordered_list_regexp}/)
     end
 
   end
