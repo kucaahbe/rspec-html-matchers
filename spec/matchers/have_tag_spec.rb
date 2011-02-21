@@ -229,15 +229,15 @@ HTML
     it "should not find tags and display appropriate message" do
       ordered_list_regexp = @ordered_list.gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
       expect {
-	rendered.should have_tag('ol') { with_tag('div') }
+	rendered.should have_tag('ol') { with_tag('li'); with_tag('div') }
       }.should raise_spec_error(/expected following:#{ordered_list_regexp}to have at least 1 element matching "div", found 0/)
 
       expect {
-	rendered.should have_tag('ol') { with_tag('li', :count => 10) }
+	rendered.should have_tag('ol') { with_tag('li'); with_tag('li', :count => 10) }
       }.should raise_spec_error(/expected following:#{ordered_list_regexp}to have 10 element\(s\) matching "li", found 3/)
 
       expect {
-	rendered.should have_tag('ol') { with_tag('li', :text => /SAMPLE text/i) }
+	rendered.should have_tag('ol') { with_tag('li'); with_tag('li', :text => /SAMPLE text/i) }
       }.should raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:#{ordered_list_regexp}/)
     end
 
