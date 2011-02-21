@@ -4,7 +4,8 @@ module RSpec
   module Matchers
 
     class NokogiriMatcher#:nodoc:
-      attr_reader :current_scope, :failure_message
+      attr_reader :failure_message
+      attr_reader :parent_scope, :current_scope
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag, options, block
@@ -22,15 +23,18 @@ module RSpec
 
       def matches?(document)
 
-	if document.class==self.class
-	  @current_scope = document.current_scope.css(@tag)
-	  @document = document.current_scope.to_html
-	else
-	  @current_scope = Nokogiri::HTML(document).css(@tag)
+	case document
+	when String
+	  @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
 	  @document = document
+	else
+	  @parent_scope = document.current_scope
+	  @current_scope = document.parent_scope.css(@tag)
+	  @document = @parent_scope.to_html
 	end
 
 	if tag_presents? and count_right? and content_right?
+	  @current_scope = @parent_scope
 	  @block.call if @block
 	  true
 	else
@@ -98,7 +102,7 @@ module RSpec
     #   string.should have_tag(tag,options={},&block)
     #
     def have_tag tag,options={}, &block
-      @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag,options, &block)
+      @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
     def with_tag tag, options={}, &block
