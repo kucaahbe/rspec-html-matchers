@@ -24,6 +24,7 @@ module RSpec
 
 	if document.class==self.class
 	  @current_scope = document.current_scope.css(@tag)
+	  @document = document.current_scope.to_html
 	else
 	  @current_scope = Nokogiri::HTML(document).css(@tag)
 	  @document = document
