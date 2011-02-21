@@ -1,0 +1,19 @@
+= Why?
+
+* you need to test some complex views
+* and you want to use rspec2
+* and assert\_select seems is something strange to you
+* rspec-rails[https://github.com/rspec/rspec-rails] for some reason does not provide instruments for testing views
+* you need user-firendly output in error messages
+
+== Install
+
+add to your Gemfile(in group :test :) ):
+
+  gem 'rspec2-rails-views-matchers', :git => 'git://github.com/kucaahbe/rspec2-rails-views-matchers.git'
+
+currently there is no gem on rubygems, will be fixed soon
+
+== Usage
+
+  TODO
