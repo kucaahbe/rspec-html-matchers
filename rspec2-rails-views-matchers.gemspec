@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "rspec/rails/views/matchers/version"
+require "version"
 
 Gem::Specification.new do |s|
   s.name        = "rspec2-rails-views-matchers"
@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
-  s.homepage    = ""
-  s.summary     = %q{collection of rspec2 views matchers for rails}
+  s.homepage    = "http://github.com/kucaahbe/rspec2-rails-views-matchers"
+  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' for rspec-2 without assert_select dependencies and useful error messages}
   s.description = s.summary
 
   s.rubyforge_project = "rspec2-rails-views-matchers"
