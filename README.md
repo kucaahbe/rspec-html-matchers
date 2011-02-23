@@ -31,4 +31,4 @@ some examples:
 More info
 ---------
 
-[On RubyDoc](http://rubydoc.info/gems/rspec2-rails-views-matchers)
+[On RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers)
