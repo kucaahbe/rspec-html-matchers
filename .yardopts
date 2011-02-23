@@ -1,4 +1,4 @@
 --no-private
---readme README.rdoc
+--readme README.md
+--files docs/CHANGELOG.md
 --markup rdoc
---files CHANGELOG.md
