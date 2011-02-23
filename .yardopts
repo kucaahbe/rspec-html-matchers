@@ -1,0 +1,4 @@
+--no-private
+--readme README.rdoc
+--markup rdoc
+--files CHANGELOG.md

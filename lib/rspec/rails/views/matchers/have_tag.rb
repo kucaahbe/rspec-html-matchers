@@ -3,6 +3,8 @@ require 'nokogiri'
 module RSpec
   module Matchers
 
+    # @api
+    # @private
     class NokogiriMatcher#:nodoc:
       attr_reader :failure_message
       attr_reader :parent_scope, :current_scope
@@ -96,19 +98,52 @@ module RSpec
       end
     end
 
-    # :call-seq:
-    #   rendered.should have_tag(tag,options={},&block)
-    #   rendered.should have_tag(tag,options={},&block) { with_tag(other_tag) }
-    #   string.should have_tag(tag,options={},&block)
+    # have_tag matcher
     #
+    # @yield block where you should put with_tag
+    #
+    # @param [String] tag     css selector for tag you want to match
+    # @param [Hash]   options options hash(see below)
+    # @option options [Fixnum] :count count of matched tags(DO NOT USE :count with :minimum(:min) or :maximum(:max)*)
+    # @option options [Range]  :count count of matched tags should be between range minimum and maximum values
+    # @option options [Fixnum] :minimum
+    # @option options [Fixnum] :min same as :minimum
+    # @option options [Fixnum] :maximum
+    # @option options [Fixnum] :max same as :maximum
+    #
+    #
+    # @example
+    #   rendered.should have_tag('div')
+    #   rendered.should have_tag('h1.header')
+    #   rendered.should have_tag('div#footer')
+    #   rendered.should have_tag('input#email', with => { :name => 'user[email]', :type => 'email' } )
+    #   rendered.should have_tag('div', :count => 3)            # matches exactly 3 'div' tags
+    #   rendered.should have_tag('div', :count => 3..7)         # something like have_tag('div', :minimum => 3, :maximum => 7)
+    #   rendered.should have_tag('div', :minimum => 3)          # matches more(or equal) than 3 'div' tags
+    #   rendered.should have_tag('div', :maximum => 3)          # matches less(or equal) than 3 'div' tags
+    #   rendered.should have_tag('p', :text => 'some content')  # will match "<p>some content</p>"
+    #   rendered.should have_tag('p', :text => /some content/i) # will match "<p>sOme cOntEnt</p>"
+    #   "<html>
+    #     <body>
+    #       <h1>some html document</h1>
+    #     </body>
+    #    </html>".should have_tag('body') { with_tag('h1', :text => 'some html document') }
     def have_tag tag,options={}, &block
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
+    # with_tag matcher
+    # @yield
+    # @see #have_tag
+    # @note this should be used within block of have_tag matcher
     def with_tag tag, options={}, &block
       @__current_scope_for_nokogiri_matcher.should have_tag(tag, options, &block)
     end
 
+    # without_tag matcher
+    # @yield
+    # @see #have_tag
+    # @note this should be used within block of have_tag matcher
     def without_tag tag, options={}, &block
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
     end

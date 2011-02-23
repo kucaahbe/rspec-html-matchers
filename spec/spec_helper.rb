@@ -1,4 +1,4 @@
-require 'rspec/rails/views/matchers'
+require 'rspec2-rails-views-matchers'
 
 # Requires supporting files with custom matchers and macros, etc,
 # # in ./support/ and its subdirectories.

@@ -14,11 +14,17 @@ add to your Gemfile(in group :test :) ):
 
 == Usage
 
-descriptive code:
+some examples:
 
   rendered.should have_tag('form',:with => {:action => user_path, :method => 'post'}) {
-    with_tag "input", :with => { :name => "user[email]", :type => 'email' }
-    with_tag "input", :with => { :name => "user[password]", :type => 'password'}
+    with_tag "input", :with => { :name => "user[email]",    :type => 'email' }
+    with_tag "input", :with => { :name => "user[password]", :type => 'password' }
     with_tag "input", :with => { :name => "user[password_confirmation]", :type => 'password' }
-    with_tag "input#special_submit"
+    with_tag "input#special_submit", :count => 1
+    without_tag "h1", :text => 'unneeded tag'
+    without_tag "p",  :text => /content/i
   }
+
+== More info
+
+RubyDoc[http://rubydoc.info/gems/rspec2-rails-views-matchers]

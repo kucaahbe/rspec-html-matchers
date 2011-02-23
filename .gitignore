@@ -1,4 +1,7 @@
 pkg/*
 *.gem
 .bundle
+# documentation:
 html
+doc
+.yardoc
