@@ -226,6 +226,14 @@ HTML
       }
     end
 
+    it "should handle do; end" do
+      expect do
+	rendered.should have_tag('ol') do
+	  with_tag('div')
+	end
+      end.should raise_spec_error(/have at least 1 element matching "div", found 0/)
+    end
+
     it "should not find tags and display appropriate message" do
       ordered_list_regexp = @ordered_list.gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
       expect {

@@ -13,7 +13,12 @@ unreleased(TODO)
 0.0.3
 -----
 
-* add ability to write should have\_tag(...) do; end
+* now following will work:
+
+>     rendered.should have_tag('div') do
+>       with_tag('p')
+>     end
+
 * tags can be specified via symbol
 * classes can be specified via array
 * attributes can be specified via regexp

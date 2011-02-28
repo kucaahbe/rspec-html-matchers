@@ -23,7 +23,8 @@ module RSpec
 	@options[:maximum] ||= @options.delete(:max)
       end
 
-      def matches?(document)
+      def matches? document, &block
+	@block = block if block
 
 	case document
 	when String
