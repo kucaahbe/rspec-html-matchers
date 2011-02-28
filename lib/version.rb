@@ -6,7 +6,7 @@ module RSpec#:nodoc:
       # @private
       module Matchers#:nodoc:
 	# @private
-        VERSION = "0.0.2"
+        VERSION = "0.0.3"
       end
     end
   end
