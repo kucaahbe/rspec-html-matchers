@@ -12,23 +12,23 @@ Install
 
 add to your Gemfile(in group :test :) ):
 
-    gem 'rspec2-rails-views-matchers'
+>     gem 'rspec2-rails-views-matchers'
 
 Usage
 -----
 
 some examples:
 
-    rendered.should have_tag('form',:with => {:action => user_path, :method => 'post'}) {
-      with_tag "input", :with => { :name => "user[email]",    :type => 'email' }
-      with_tag "input", :with => { :name => "user[password]", :type => 'password' }
-      with_tag "input", :with => { :name => "user[password_confirmation]", :type => 'password' }
-      with_tag "input#special_submit", :count => 1
-      without_tag "h1", :text => 'unneeded tag'
-      without_tag "p",  :text => /content/i
-    }
+>     rendered.should have_tag('form',:with => {:action => user_path, :method => 'post'}) do
+>       with_tag "input", :with => { :name => "user[email]",    :type => 'email' }
+>       with_tag "input#special_submit", :count => 1
+>       without_tag "h1", :text => 'unneeded tag'
+>       without_tag "p",  :text => /content/i
+>     end
 
 More info
 ---------
 
-[On RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers)
+You can find [on RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers), take a look at {RSpec::Matchers#have\_tag have\_tag} method.
+
+Also, please read {file:docs/CHANGELOG.md CHANGELOG}, it might be helpful.
