@@ -25,7 +25,7 @@ unreleased(TODO)
 >     '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
 >     '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
 
-* attributes can be specified via regexp
+* (TODO)attributes can be specified via regexp
 
 0.0.2
 ------
