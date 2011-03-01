@@ -9,7 +9,7 @@ describe 'have_tag' do
 
     before :each do
       render_html <<HTML
-<div>
+<div class="class-one class-two">
   some content
   <div id="div">some other div</div>
   <p class="paragraph">la<strong>lala</strong></p>
@@ -54,6 +54,28 @@ HTML
       it "should find tags" do
 	rendered.should have_tag('input#search',:with => {:type => "text"})
 	rendered.should have_tag(:input ,:with => {:type => "submit", :value => "Save"})
+      end
+
+      it "should find tags that have classes specified via array(or string)" do
+	rendered.should have_tag('div',:with => {:class => %w(class-one class-two)})
+	rendered.should have_tag('div',:with => {:class => 'class-two class-one'})
+      end
+
+      it "should not find tags that have classes specified via array" do
+	rendered.should_not have_tag('div',:with => {:class => %w(class-other class-two)})
+      end
+
+      it "should not find tags that have classes specified via array and display appropriate message" do
+	expect do
+	  rendered.should have_tag('div',:with => {:class => %w(class-other class-two)})
+	end.should raise_spec_error(
+	  %Q{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
+	)
+	expect do
+	  rendered.should have_tag('div',:with => {:class => 'class-other class-two'})
+	end.should raise_spec_error(
+	  %Q{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
+	)
       end
 
       it "should not find tags" do

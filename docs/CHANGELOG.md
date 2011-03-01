@@ -20,7 +20,11 @@ unreleased(TODO)
 >     end
 
 * tags can be specified via symbol
-* classes can be specified via array
+* classes can be specified via array or string(class-names separated by spaces), so following will work:
+
+>     '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
+>     '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
+
 * attributes can be specified via regexp
 
 0.0.2

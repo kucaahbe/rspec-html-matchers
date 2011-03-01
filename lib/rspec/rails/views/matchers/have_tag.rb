@@ -13,6 +13,15 @@ module RSpec
         @tag, @options, @block = tag.to_s, options, block
 
 	if attrs = @options.delete(:with)
+	  if classes=attrs.delete(:class)
+	    classes = case classes
+		      when Array
+			classes.join('.')
+		      when String
+			classes.gsub("\s",'.')
+		      end
+	    @tag << '.'+classes
+	  end
 	  html_attrs_string=''
 	  attrs.each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}='#{v.to_s}']} }
 	  @tag << html_attrs_string
