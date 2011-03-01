@@ -23,6 +23,7 @@ HTML
 
     it "should find tags" do
       rendered.should have_tag('div')
+      rendered.should have_tag(:div)
       rendered.should have_tag('div#div')
       rendered.should have_tag('p.paragraph')
       rendered.should have_tag('div p strong')
@@ -30,6 +31,7 @@ HTML
 
     it "should not find tags" do
       rendered.should_not have_tag('span')
+      rendered.should_not have_tag(:span)
       rendered.should_not have_tag('span#id')
       rendered.should_not have_tag('span#class')
       rendered.should_not have_tag('div div span')
@@ -51,11 +53,12 @@ HTML
 
       it "should find tags" do
 	rendered.should have_tag('input#search',:with => {:type => "text"})
-	rendered.should have_tag('input',:with => {:type => "submit", :value => "Save"})
+	rendered.should have_tag(:input ,:with => {:type => "submit", :value => "Save"})
       end
 
       it "should not find tags" do
 	rendered.should_not have_tag('input#search',:with => {:type => "some_other_type"})
+	rendered.should_not have_tag(:input, :with => {:type => "some_other_type"})
       end
 
       it "should not find tags and display appropriate message" do

@@ -10,7 +10,7 @@ module RSpec
       attr_reader :parent_scope, :current_scope
 
       def initialize tag, options={}, &block
-        @tag, @options, @block = tag, options, block
+        @tag, @options, @block = tag.to_s, options, block
 
 	if attrs = @options.delete(:with)
 	  html_attrs_string=''
