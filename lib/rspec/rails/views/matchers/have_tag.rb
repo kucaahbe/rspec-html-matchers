@@ -141,7 +141,7 @@ module RSpec
     #    </html>".should have_tag('body') { with_tag('h1', :text => 'some html document') }
     #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
     #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
-    def have_tag tag,options={}, &block
+    def have_tag tag, options={}, &block
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
@@ -159,6 +159,15 @@ module RSpec
     # @note this should be used within block of have_tag matcher
     def without_tag tag, options={}, &block
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
+    end
+
+    def have_form action_url, method, options={}
+      options[:with] ||= {}
+      id = options[:with].delete(:id)
+      tag = 'form'; tag += '#'+id if id
+      options[:with].merge!(:action => action_url)
+      options[:with].merge!(:method => method.to_s)
+      have_tag tag, options
     end
 
   end
