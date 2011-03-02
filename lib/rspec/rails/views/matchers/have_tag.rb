@@ -114,11 +114,12 @@ module RSpec
     #
     # @param [String] tag     css selector for tag you want to match
     # @param [Hash]   options options hash(see below)
+    # @option options [Hash]   :with  hash with other attributes, within this, key :class have special meaning, you may specify it as array of expected classes or string of classes separated by spaces, order does not matter
     # @option options [Fixnum] :count count of matched tags(DO NOT USE :count with :minimum(:min) or :maximum(:max)*)
     # @option options [Range]  :count count of matched tags should be between range minimum and maximum values
-    # @option options [Fixnum] :minimum
+    # @option options [Fixnum] :minimum minimum count of elements to match
     # @option options [Fixnum] :min same as :minimum
-    # @option options [Fixnum] :maximum
+    # @option options [Fixnum] :maximum maximum count of elements to match
     # @option options [Fixnum] :max same as :maximum
     #
     #
@@ -126,7 +127,7 @@ module RSpec
     #   rendered.should have_tag('div')
     #   rendered.should have_tag('h1.header')
     #   rendered.should have_tag('div#footer')
-    #   rendered.should have_tag('input#email', with => { :name => 'user[email]', :type => 'email' } )
+    #   rendered.should have_tag('input#email', :with => { :name => 'user[email]', :type => 'email' } )
     #   rendered.should have_tag('div', :count => 3)            # matches exactly 3 'div' tags
     #   rendered.should have_tag('div', :count => 3..7)         # something like have_tag('div', :minimum => 3, :maximum => 7)
     #   rendered.should have_tag('div', :minimum => 3)          # matches more(or equal) than 3 'div' tags
@@ -138,6 +139,8 @@ module RSpec
     #       <h1>some html document</h1>
     #     </body>
     #    </html>".should have_tag('body') { with_tag('h1', :text => 'some html document') }
+    #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
+    #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
     def have_tag tag,options={}, &block
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
