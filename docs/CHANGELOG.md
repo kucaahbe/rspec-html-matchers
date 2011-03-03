@@ -8,21 +8,23 @@ unreleased(TODO)
 * add description
 * raise exception when wrong parametres specified(:count and :minimum simultaneously)
 * organize code
+* add :without to have\_tag?
 
 0.0.4-dev
 ---------
 
-* TODO: add more matchers(have\_form,with\_input)?
+* TODO: add more matchers:
   * TODO: have\_form
-  * TODO: with\_text\_field
-  * TODO: with\_password\_field
-  * TODO: with\_file\_field?
-  * TODO: with\_text\_area
-  * TODO: with\_check\_box
-  * TODO: with\_radio\_button
-  * TODO: with\_select
-    * TODO: with\_option
-  * TODO: with\_submit
+    * TODO: with\_hidden\_field
+    * TODO: with\_text\_field
+    * TODO: with\_password\_field
+    * TODO: with\_file\_field?
+    * TODO: with\_text\_area
+    * TODO: with\_check\_box
+    * TODO: with\_radio\_button
+    * with\_select
+      * with\_option(TODO:finish tests)
+    * TODO: with\_submit
 
 0.0.3
 -----
