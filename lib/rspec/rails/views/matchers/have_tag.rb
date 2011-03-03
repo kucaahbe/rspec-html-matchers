@@ -186,5 +186,37 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
     end
 
+    def with_option text, value=nil, options={}
+      options[:with] ||= {}
+      if value.is_a?(Hash)
+	options.merge!(value)
+	value=nil
+      end
+      tag='option'
+      options[:with].merge!(:value => value.to_s) if value
+      if options[:selected]
+	options[:with].merge!(:selected => "selected")
+      end
+      options.delete(:selected)
+      options.merge!(:text => text) if text
+      @__current_scope_for_nokogiri_matcher.should have_tag(tag, options)
+    end
+
+    def without_option text, value=nil, options={}
+      options[:with] ||= {}
+      if value.is_a?(Hash)
+	options.merge!(value)
+	value=nil
+      end
+      tag='option'
+      options[:with].merge!(:value => value.to_s) if value
+      if options[:selected]
+	options[:with].merge!(:selected => "selected")
+      end
+      options.delete(:selected)
+      options.merge!(:text => text) if text
+      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options)
+    end
+
   end
 end

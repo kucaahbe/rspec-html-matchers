@@ -18,7 +18,7 @@ describe "have_form" do
         </label>
 	<select id="book_publisher_id" name="book[publisher_id]">
 	  <option value=""></option>
-	  <option value="1">The Pragmatic Bookshelf</option>
+	  <option value="1" selected="selected">The Pragmatic Bookshelf</option>
 	  <option value="2">sitepoint</option>
 	  <option value="3">O'Reilly</option>
 	</select>
@@ -65,6 +65,33 @@ HTML
 	  self.should_receive(:have_tag).with("select#book_publisher_id", :with => { :name => "koob[publisher_id]" })
 	  without_select("koob[publisher_id]", :with => { :id => "book_publisher_id" })
 	end
+      end
+
+      context "with_option" do
+
+	it "should find options" do
+	  rendered.should have_form("/books", :post) do
+	    with_select("book[publisher_id]") do
+	      with_option(nil)
+	      with_option("The Pragmatic Bookshelf", :selected => true)
+	      #with_option(/sitepoint/,3) why it doesn't work?
+
+	      self.should_receive(:have_tag).with('option', :with => { :value => '3' }, :text => "O'Reilly")
+	      with_option("O'Reilly", 3, :selected => false)
+	    end
+	  end
+	end
+
+	it "should not find options" do
+	  rendered.should have_form("/books", :post) do
+	    with_select("book[publisher_id]") do
+	      without_option("blah blah")
+	      without_option("O'Reilly", 3, :selected => true)
+	      without_option("O'Reilly", 100500)
+	    end
+	  end
+	end
+
       end
 
     end
