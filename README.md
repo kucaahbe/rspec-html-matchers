@@ -1,3 +1,10 @@
+Test views, be true! :)
+=======================
+
+![Mikhalok](http://investigator.org.ua/wp-content/uploads/01_500_liapis_powe-300x192.jpg)
+
+([Lyapis Trubetskoy](http://www.myspace.com/lyapis))
+
 Why?
 ===
 
