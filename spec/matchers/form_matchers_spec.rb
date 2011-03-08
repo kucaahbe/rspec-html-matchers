@@ -74,7 +74,7 @@ HTML
 	    with_select("book[publisher_id]") do
 	      with_option(nil)
 	      with_option("The Pragmatic Bookshelf", :selected => true)
-	      #with_option(/sitepoint/,3) why it doesn't work?
+	      with_option(/sitepoint/,2)
 
 	      self.should_receive(:have_tag).with('option', :with => { :value => '3' }, :text => "O'Reilly")
 	      with_option("O'Reilly", 3, :selected => false)
