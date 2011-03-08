@@ -209,6 +209,36 @@ HTML
 
   end
 
+  context "mixed matching" do
+
+    before :each do
+      render_html <<HTML
+<table>
+  <tr>
+    <td>user_1</td>
+    <td>user_2</td>
+    <td>user_3</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>a</td>
+    <td>a</td>
+  </tr>
+</table>
+HTML
+    end
+
+    it "should find tags by count and exact content" do
+      rendered.should have_tag("td", :text => 'a', :count => 3)
+    end
+    it "should find tags by count and rough content(regexp)" do
+      rendered.should have_tag("td", :text => /user/, :count => 3)
+    end
+    it "should find tags with exact content and additional attributes"
+    it "MORE EXAMPLES HERE"
+
+  end
+
   context "nested matching:" do
     before :each do
       @ordered_list =<<OL

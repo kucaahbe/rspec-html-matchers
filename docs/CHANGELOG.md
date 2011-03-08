@@ -10,7 +10,7 @@ unreleased(TODO)
 * organize code
 * add :without to have\_tag?
 
-0.0.4-dev (trial-trip)
+0.0.5-dev (trial-trip)
 ----------------------
 
 * TODO: add more matchers:
@@ -25,6 +25,11 @@ unreleased(TODO)
     * with\_select
       * with\_option
     * TODO: with\_submit
+
+0.0.4 (bugfix)
+--------------
+
+* additional parameters(:count,:text,:with) should rely on each other to match what exactly tester whant to match([link to comment](https://github.com/kucaahbe/rspec2-rails-views-matchers/issues#issue/2/comment/848775))
 
 0.0.3
 -----
