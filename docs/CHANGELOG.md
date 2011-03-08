@@ -17,7 +17,7 @@ unreleased(TODO)
   * TODO: have\_form
     * with\_hidden\_field
     * with\_text\_field
-    * TODO: with\_password\_field
+    * with\_password\_field
     * TODO: with\_file\_field?
     * TODO: with\_text\_area
     * TODO: with\_check\_box

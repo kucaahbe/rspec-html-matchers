@@ -38,6 +38,13 @@ describe "have_form" do
         <input id="book_author" maxlength="255" name="book[author]" size="50" type="text" value="Authorname" />
       </li>
 
+      <li class="password optional" id="user_password_input">
+      <label for="user_password">
+        Password:
+      </label>
+        <input id="user_password" name="user[password]" size="30" type="password" />
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -152,8 +159,17 @@ HTML
 
     context "with_password_field" do
 
-      it "should find password field"
-      it "should not find password field"
+      it "should find password field" do
+	rendered.should have_form("/books", :post) do
+	  with_password_field('user[password]')
+	end
+      end
+
+      it "should not find password field" do
+	rendered.should have_form("/books", :post) do
+	  without_password_field('account[password]')
+	end
+      end
 
     end
 
