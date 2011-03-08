@@ -96,5 +96,73 @@ HTML
 
     end
 
+    context "with_hidden_field" do
+
+      it "should find hidden field" do
+	rendered.should have_form("/books", :post) do
+	  with_hidden_field("authenticity_token")
+	  self.should_receive(:have_tag).with('input', :with => { :name => 'authenticity_token', :type => 'hidden', :value => '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=' })
+	  with_hidden_field("authenticity_token", '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=')
+	end
+      end
+
+      it "should not find hidden field" do
+	rendered.should have_form("/books", :post) do
+	  without_hidden_field('user_id')
+	  without_hidden_field('authenticity_token', 'blabla')
+	end
+      end
+
+    end
+
+    context "with_text_field" do
+
+      it "should find text field"
+      it "should not find text field"
+
+    end
+
+    context "with_password_field" do
+
+      it "should find password field"
+      it "should not find password field"
+
+    end
+
+    context "with_file_field" do
+
+      it "should find file field"
+      it "should not find file field"
+
+    end
+
+    context "with_text_area" do
+
+      it "should find text area"
+      it "should not find text area"
+
+    end
+
+    context "with_check_box" do
+
+      it "should find check box"
+      it "should not find check box"
+
+    end
+
+    context "with_radio_button" do
+
+      it "should find radio button"
+      it "should not find radio button"
+
+    end
+
+    context "with_submit" do
+
+      it "should find submit"
+      it "should not find submit"
+
+    end
+
   end
 end

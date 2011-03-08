@@ -170,6 +170,18 @@ module RSpec
       have_tag tag, options, &block
     end
 
+    def with_hidden_field name, value=nil
+      options = { :with => { :name => name, :type => 'hidden' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_hidden_field name, value=nil
+      options = { :with => { :name => name, :type => 'hidden' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)

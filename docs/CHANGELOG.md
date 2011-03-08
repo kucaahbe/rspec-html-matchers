@@ -15,7 +15,7 @@ unreleased(TODO)
 
 * TODO: add more matchers:
   * TODO: have\_form
-    * TODO: with\_hidden\_field
+    * with\_hidden\_field
     * TODO: with\_text\_field
     * TODO: with\_password\_field
     * TODO: with\_file\_field?
@@ -23,7 +23,7 @@ unreleased(TODO)
     * TODO: with\_check\_box
     * TODO: with\_radio\_button
     * with\_select
-      * with\_option(TODO:finish tests)
+      * with\_option
     * TODO: with\_submit
 
 0.0.3
