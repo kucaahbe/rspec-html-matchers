@@ -23,6 +23,21 @@ describe "have_form" do
 	  <option value="3">O'Reilly</option>
 	</select>
       </li>
+
+      <li class="string required" id="book_title_input">
+      <label for="book_title">
+        Title<abbr title="required">*</abbr>
+      </label>
+        <input id="book_title" maxlength="255" name="book[title]" size="50" type="text" />
+      </li>
+
+      <li class="string required" id="book_author_input">
+      <label for="book_author">
+        Author<abbr title="required">*</abbr>
+      </label>
+        <input id="book_author" maxlength="255" name="book[author]" size="50" type="text" value="Authorname" />
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -117,8 +132,21 @@ HTML
 
     context "with_text_field" do
 
-      it "should find text field"
-      it "should not find text field"
+      it "should find text field" do
+	rendered.should have_form("/books", :post) do
+	  with_text_field('book[title]')
+	  with_text_field('book[title]',nil)
+	  with_text_field('book[author]','Authorname')
+	end
+      end
+
+      it "should not find text field" do
+	rendered.should have_form("/books", :post) do
+	  without_text_field('book[title]','title does not exist')
+	  without_text_field('book[authoRR]')
+	  without_text_field('book[blabla]')
+	end
+      end
 
     end
 
