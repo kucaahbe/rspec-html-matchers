@@ -10,11 +10,11 @@ unreleased(TODO)
 * organize code
 * add :without to have\_tag?
 
-0.0.4-dev
----------
+0.0.4-dev (trial-trip)
+----------------------
 
 * TODO: add more matchers:
-  * TODO: have\_form
+  * have\_form(will be finished when "child" matchers will be done)
     * with\_hidden\_field
     * with\_text\_field
     * with\_password\_field
