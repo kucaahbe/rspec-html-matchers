@@ -5,3 +5,4 @@ pkg/*
 html
 doc
 .yardoc
+coverage

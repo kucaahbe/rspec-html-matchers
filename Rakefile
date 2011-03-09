@@ -13,4 +13,8 @@ namespace :spec do
     t.rspec_opts='--tag wip'
     t.fail_on_error = false
   end
+
+  RSpec::Core::RakeTask.new(:rcov) do |t|
+    t.rspec_opts=['-r simplecov']
+  end
 end

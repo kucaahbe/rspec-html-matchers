@@ -45,7 +45,7 @@ module RSpec
 	  @document = @parent_scope.to_html
 	end
 
-	if tag_presents? and count_right? and content_right?
+	if tag_presents? and content_right? and count_right?
 	  @current_scope = @parent_scope
 	  @block.call if @block
 	  true

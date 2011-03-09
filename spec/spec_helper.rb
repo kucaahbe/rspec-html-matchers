@@ -1,3 +1,11 @@
+require 'rspec/core'
+
+if defined?(SimpleCov)
+  SimpleCov.start do
+    add_group 'Main', '/lib/'
+  end
+end
+
 require 'rspec2-rails-views-matchers'
 
 # Requires supporting files with custom matchers and macros, etc,
