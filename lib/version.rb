@@ -1,12 +1,12 @@
-module RSpec#:nodoc:
+module RSpec
   # @private
-  module Rails#:nodoc:
+  module Rails
     # @private
-    module Views#:nodoc:
+    module Views
       # @private
-      module Matchers#:nodoc:
+      module Matchers
 	# @private
-        VERSION = "0.0.3"
+        VERSION = "0.0.4"
       end
     end
   end
