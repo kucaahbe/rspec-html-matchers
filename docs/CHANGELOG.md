@@ -10,6 +10,7 @@ unreleased(TODO)
 * organize code
 * add :without to have\_tag?
 * !make possible constructions like:
+
 >     rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
 
 0.0.5-dev (trial-trip)

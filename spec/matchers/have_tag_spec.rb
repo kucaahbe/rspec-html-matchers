@@ -216,26 +216,64 @@ HTML
 <table>
   <tr>
     <td>user_1</td>
-    <td>user_2</td>
+    <td id="other-special">user_2</td>
     <td>user_3</td>
   </tr>
   <tr>
     <td>a</td>
-    <td>a</td>
+    <td id="special">a</td>
     <td>a</td>
   </tr>
 </table>
+
+<div class="one">text</div>
+<div class="one">text</div>
+<div class="one">text</div>
+<div class="one">text bla</div>
+<div class="one">content bla</div>
+<div class="one">content</div>
+<div class="two">content bla</div>
+<div class="two">content</div>
+<div class="two">text</div>
 HTML
     end
 
     it "should find tags by count and exact content" do
       rendered.should have_tag("td", :text => 'a', :count => 3)
     end
+
     it "should find tags by count and rough content(regexp)" do
       rendered.should have_tag("td", :text => /user/, :count => 3)
     end
-    it "should find tags with exact content and additional attributes"
-    it "MORE EXAMPLES HERE"
+
+    it "should find tags with exact content and additional attributes" do
+      rendered.should have_tag("td", :text => 'a', :with => { :id => "special" })
+      rendered.should_not have_tag("td", :text => 'a', :with => { :id => "other-special" })
+    end
+
+    it "should find tags with rough content and additional attributes" do
+      rendered.should have_tag("td", :text => /user/, :with => { :id => "other-special" })
+      rendered.should_not have_tag("td", :text => /user/, :with => { :id => "special" })
+    end
+
+    it "should find tags with count and additional attributes" do
+      rendered.should have_tag("div", :with => { :class => "one" }, :count => 6)
+      rendered.should have_tag("div", :with => { :class => "two" }, :count => 3)
+    end
+
+    it "should find tags with count, exact text and additional attributes" do
+      rendered.should have_tag("div", :with => { :class => "one" }, :count => 3, :text => 'text')
+      rendered.should_not have_tag("div", :with => { :class => "one" }, :count => 5, :text => 'text')
+      rendered.should_not have_tag("div", :with => { :class => "one" }, :count => 3, :text => 'other text')
+      rendered.should_not have_tag("div", :with => { :class => "two" }, :count => 3, :text => 'text')
+    end
+
+    it "should find tags with count, regexp text and additional attributes" do
+      rendered.should have_tag("div", :with => { :class => "one" }, :count => 2, :text => /bla/)
+      rendered.should have_tag("div", :with => { :class => "two" }, :count => 1, :text => /bla/)
+      rendered.should_not have_tag("div", :with => { :class => "one" }, :count => 5, :text => /bla/)
+      rendered.should_not have_tag("div", :with => { :class => "one" }, :count => 6, :text => /other bla/)
+    end
 
   end
 
