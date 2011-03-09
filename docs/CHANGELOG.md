@@ -32,7 +32,7 @@ unreleased(TODO)
 0.0.4 (bugfix)
 --------------
 
-* additional parameters(:count,:text,:with) should rely on each other to match what exactly tester whant to match([link to comment](https://github.com/kucaahbe/rspec2-rails-views-matchers/issues#issue/2/comment/848775))
+* additional parameters(:count,:text,:with) rely on each other to match what exactly tester want to match([link to comment](https://github.com/kucaahbe/rspec2-rails-views-matchers/issues#issue/2/comment/848775))
 
 0.0.3
 -----
