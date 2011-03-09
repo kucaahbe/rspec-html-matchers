@@ -5,7 +5,7 @@ module RSpec
 
     # @api
     # @private
-    class NokogiriMatcher#:nodoc:
+    class NokogiriMatcher
       attr_reader :failure_message
       attr_reader :parent_scope, :current_scope
 
@@ -91,14 +91,26 @@ module RSpec
 
 	case text=@options[:text]
 	when Regexp
-	  if @current_scope.any? {|node| node.content =~ text }
+	  new_scope = @current_scope.css(":regexp('#{text}')",Class.new {
+	    def regexp node_set, text
+	      node_set.find_all { |node| node.content =~ Regexp.new(text) }
+	    end
+	  }.new)
+	  unless new_scope.empty?
+	    @count = new_scope.count
 	    true
 	  else
 	    @failure_message=%Q{#{text.inspect} regexp expected within "#{@tag}" in following template:\n#{@document}}
 	    false
 	  end
 	else
-	  if @current_scope.any? {|node| node.content == text }
+	  new_scope = @current_scope.css(":content('#{text}')",Class.new {
+	    def content node_set, text
+	      node_set.find_all { |node| node.content == text }
+	    end
+	  }.new)
+	  unless new_scope.empty?
+	    @count = new_scope.count
 	    true
 	  else
 	    @failure_message=%Q{"#{text}" expected within "#{@tag}" in following template:\n#{@document}}

@@ -209,7 +209,7 @@ HTML
 
   end
 
-  context "mixed matching", :wip => true do
+  context "mixed matching" do
 
     before :each do
       render_html <<HTML
