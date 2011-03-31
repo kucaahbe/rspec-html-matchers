@@ -11,7 +11,7 @@ unreleased(TODO)
 * add :without to have\_tag?
 * !make possible constructions like:
 
->     rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
+      rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
 
 0.0.5-dev (trial-trip)
 ----------------------
@@ -39,15 +39,15 @@ unreleased(TODO)
 
 * now following will work:
 
->     rendered.should have_tag('div') do
->       with_tag('p')
->     end
+      rendered.should have_tag('div') do
+        with_tag('p')
+      end
 
 * tags can be specified via symbol
 * classes can be specified via array or string(class-names separated by spaces), so following will work:
 
->     '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
->     '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
+      '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
+      '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
 
 0.0.2
 ------
