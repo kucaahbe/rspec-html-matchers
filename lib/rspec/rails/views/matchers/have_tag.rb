@@ -146,6 +146,7 @@ module RSpec
     #   rendered.should have_tag('div', :maximum => 3)          # matches less(or equal) than 3 'div' tags
     #   rendered.should have_tag('p', :text => 'some content')  # will match "<p>some content</p>"
     #   rendered.should have_tag('p', :text => /some content/i) # will match "<p>sOme cOntEnt</p>"
+    #   rendered.should have_tag('textarea', :with => {:name => 'user[description]'}, :text => "I like pie")
     #   "<html>
     #     <body>
     #       <h1>some html document</h1>
