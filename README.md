@@ -1,9 +1,9 @@
 Test views, be true! :)
 =======================
 
-![Mikhalok](http://investigator.org.ua/wp-content/uploads/01_500_liapis_powe-300x192.jpg)
+[![Build Status](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers.png)](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers)
 
-([Lyapis Trubetskoy](http://www.myspace.com/lyapis))
+[![Mikhalok](http://investigator.org.ua/wp-content/uploads/01_500_liapis_powe-300x192.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
 
 Why?
 ===
