@@ -59,6 +59,14 @@ describe "have_form" do
         <textarea cols="40" id="book_description" name="book[description]" rows="20"></textarea>
       </li>
 
+      <li class="boolean required" id="book_still_in_print_input">
+      <label for="book_still_in_print">
+	  Still in print<abbr title="required">*</abbr>
+      </label>
+	  <input name="book[still_in_print]" type="hidden" value="0" />
+	  <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -221,8 +229,19 @@ HTML
 
     context "with_check_box" do
 
-      it "should find check box"
-      it "should not find check box"
+      it "should find check box" do
+	rendered.should have_form("/books", :post) do
+	  with_checkbox("book[still_in_print]")
+	  with_checkbox("book[still_in_print]","1")
+	end
+      end
+
+      it "should not find check box" do
+	rendered.should have_form("/books", :post) do
+	  without_checkbox("book[book]")
+	  without_checkbox("book[still_in_print]","500")
+	end
+      end
 
     end
 

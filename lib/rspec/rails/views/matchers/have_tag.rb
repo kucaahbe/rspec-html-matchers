@@ -237,6 +237,18 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag('textarea', options)
     end
 
+    def with_checkbox name, value=nil
+      options = { :with => { :name => name, :type => 'checkbox' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_checkbox name, value=nil
+      options = { :with => { :name => name, :type => 'checkbox' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
