@@ -88,6 +88,14 @@ describe "have_form" do
 
     </ol>
   </fieldset>
+
+  <fieldset class="buttons">
+    <ol>
+    <li class="commit">
+      <input class="create" id="book_submit" name="commit" type="submit" value="Create Book" />
+    </li>
+    </ol>
+  </fieldset>
 </form>
 HTML
   end
@@ -283,8 +291,17 @@ HTML
 
     context "with_submit" do
 
-      it "should find submit"
-      it "should not find submit"
+      it "should find submit" do
+	rendered.should have_form("/books", :post) do
+	  with_submit("Create Book")
+	end
+      end
+
+      it "should not find submit" do
+	rendered.should have_form("/books", :post) do
+	  without_submit("Destroy Book")
+	end
+      end
 
     end
 

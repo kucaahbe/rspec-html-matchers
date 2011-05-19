@@ -13,10 +13,10 @@ unreleased(TODO)
 
       rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
 
-0.0.5-dev (trial-trip)
+0.0.5 (trial-trip)
 ----------------------
 
-* TODO: add more matchers:
+* added some experimental matchers:
   * have\_form(will be finished when "child" matchers will be done)
     * with\_hidden\_field
     * with\_text\_field
@@ -27,7 +27,7 @@ unreleased(TODO)
     * with\_radio\_button
     * with\_select
       * with\_option
-    * TODO: with\_submit
+    * with\_submit
 
 0.0.4 (bugfix)
 --------------

@@ -309,5 +309,15 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options)
     end
 
+    def with_submit value
+      options = { :with => { :type => 'submit', :value => value } }
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_submit value
+      options = { :with => { :type => 'submit', :value => value } }
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
   end
 end
