@@ -52,6 +52,13 @@ describe "have_form" do
         <input id="form_file" name="form[file]" type="file" />
       </li>
 
+      <li class="text required" id="book_description_input">
+      <label for="book_description">
+        Description<abbr title="required">*</abbr>
+      </label>
+        <textarea cols="40" id="book_description" name="book[description]" rows="20"></textarea>
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -198,8 +205,17 @@ HTML
 
     context "with_text_area" do
 
-      it "should find text area"
-      it "should not find text area"
+      it "should find text area" do
+	rendered.should have_form("/books", :post) do
+	  with_text_area('book[description]')
+	end
+      end
+
+      it "should not find text area" do
+	rendered.should have_form("/books", :post) do
+	  without_text_area('user[bio]')
+	end
+      end
 
     end
 

@@ -227,6 +227,16 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
     end
 
+    def with_text_area name
+      options = { :with => { :name => name } }
+      @__current_scope_for_nokogiri_matcher.should have_tag('textarea', options)
+    end
+
+    def without_text_area name
+      options = { :with => { :name => name } }
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('textarea', options)
+    end
+
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
