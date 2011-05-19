@@ -17,7 +17,7 @@ unreleased(TODO)
 ----------------------
 
 * added some experimental matchers:
-  * have\_form(will be finished when "child" matchers will be done)
+  * have\_form
     * with\_hidden\_field
     * with\_text\_field
     * with\_password\_field
