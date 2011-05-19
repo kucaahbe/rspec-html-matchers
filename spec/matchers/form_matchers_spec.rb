@@ -67,6 +67,25 @@ describe "have_form" do
 	  <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
       </li>
 
+      <li class="radio required" id="form_name_input">
+        <fieldset>
+	<legend class="label">
+	<label>Name<abbr title="required">*</abbr></label>
+	</legend>
+	  <ol>
+	    <li class="name_true">
+	    <label for="form_name_true">
+	      <input id="form_name_true" name="form[name]" type="radio" value="true" /> Yes
+	    </label>
+	    </li>
+	    <li class="name_false">
+	    <label for="form_name_false">
+	      <input id="form_name_false" name="form[name]" type="radio" value="false" /> No</label>
+	    </li>
+	  </ol>
+	</fieldset>
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -247,8 +266,18 @@ HTML
 
     context "with_radio_button" do
 
-      it "should find radio button"
-      it "should not find radio button"
+      it "should find radio button" do
+	rendered.should have_form("/books", :post) do
+	  with_radio_button("form[name]","true")
+	end
+      end
+
+      it "should not find radio button" do
+	rendered.should have_form("/books", :post) do
+	  without_radio_button("form[name]","100500")
+	  without_radio_button("form[item]","false")
+	end
+      end
 
     end
 

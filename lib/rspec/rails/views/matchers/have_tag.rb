@@ -249,6 +249,18 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
     end
 
+    def with_radio_button name, value
+      options = { :with => { :name => name, :type => 'radio' } }
+      options[:with].merge!(:value => value)
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_radio_button name, value
+      options = { :with => { :name => name, :type => 'radio' } }
+      options[:with].merge!(:value => value)
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)

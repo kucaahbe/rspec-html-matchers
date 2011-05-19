@@ -24,7 +24,7 @@ unreleased(TODO)
     * with\_file\_field?
     * with\_text\_area
     * with\_check\_box
-    * TODO: with\_radio\_button
+    * with\_radio\_button
     * with\_select
       * with\_option
     * TODO: with\_submit
