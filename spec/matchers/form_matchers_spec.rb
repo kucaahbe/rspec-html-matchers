@@ -45,6 +45,13 @@ describe "have_form" do
         <input id="user_password" name="user[password]" size="30" type="password" />
       </li>
 
+      <li class="file optional" id="form_file_input">
+      <label for="form_file">
+        File
+      </label>
+        <input id="form_file" name="form[file]" type="file" />
+      </li>
+
     </ol>
   </fieldset>
 </form>
@@ -175,8 +182,17 @@ HTML
 
     context "with_file_field" do
 
-      it "should find file field"
-      it "should not find file field"
+      it "should find file field" do
+	rendered.should have_form("/books", :post) do
+	  with_file_field('form[file]')
+	end
+      end
+
+      it "should not find file field" do
+	rendered.should have_form("/books", :post) do
+	  without_file_field('user[file]')
+	end
+      end
 
     end
 

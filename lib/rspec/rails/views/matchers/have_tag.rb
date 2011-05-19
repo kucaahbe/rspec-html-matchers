@@ -217,6 +217,16 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
     end
 
+    def with_file_field name
+      options = { :with => { :name => name, :type => 'file' } }
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_file_field name
+      options = { :with => { :name => name, :type => 'file' } }
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
