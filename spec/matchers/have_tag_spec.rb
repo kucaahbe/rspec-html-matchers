@@ -178,6 +178,7 @@ HTML
     before :each do
       render_html <<HTML
 <div>sample text</div>
+<span>sample with 'single' quotes</span>
 <p>one </p>
 <p> two</p>
 <p> three </p>
@@ -185,9 +186,10 @@ HTML
     end
 
     it "should find tags" do
-      rendered.should have_tag('div', :text => 'sample text')
-      rendered.should have_tag('p',   :text => 'one '       )
-      rendered.should have_tag('div', :text => /SAMPLE/i    )
+      rendered.should have_tag('div',  :text => 'sample text'                )
+      rendered.should have_tag('p',    :text => 'one '                       )
+      rendered.should have_tag('div',  :text => /SAMPLE/i                    )
+      rendered.should have_tag('span', :text => "sample with 'single' quotes")
     end
 
     it "should not find tags" do

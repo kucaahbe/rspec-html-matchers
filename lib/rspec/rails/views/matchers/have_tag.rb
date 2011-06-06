@@ -104,9 +104,11 @@ module RSpec
 	    false
 	  end
 	else
-	  new_scope = @current_scope.css(":content('#{text}')",Class.new {
+    css_param = text.gsub(/'/) { %q{\000027} }
+    new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
 	    def content node_set, text
-	      node_set.find_all { |node| node.content == text }
+        match_text = text.gsub(/\\000027/, "'")
+	      node_set.find_all { |node| node.content == match_text }
 	    end
 	  }.new)
 	  unless new_scope.empty?
