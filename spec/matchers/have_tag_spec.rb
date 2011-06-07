@@ -179,6 +179,7 @@ HTML
       render_html <<HTML
 <div>sample text</div>
 <span>sample with 'single' quotes</span>
+<span>sample with 'single' and "double" quotes</span>
 <p>one </p>
 <p> two</p>
 <p> three </p>
@@ -190,6 +191,7 @@ HTML
       rendered.should have_tag('p',    :text => 'one '                       )
       rendered.should have_tag('div',  :text => /SAMPLE/i                    )
       rendered.should have_tag('span', :text => "sample with 'single' quotes")
+      rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
     end
 
     it "should not find tags" do
