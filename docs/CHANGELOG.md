@@ -13,13 +13,18 @@ unreleased(TODO)
 
       rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
 
+0.1.6 (nokogiri update)
+-----------------------
+
+* updated <strong>nokogiri</strong> to <strong>1.5.0</strong> version, for nokokiri less than 1.5.0 use 0.0.6 release of this gem
+
 0.0.6
 -----
 
 * allow for single quotes in content matchers (thanks to [Kelly Felkins](http://github.com/kellyfelkins)).
 
 0.0.5 (trial-trip)
-----------------------
+------------------
 
 * added some experimental matchers:
   * have\_form

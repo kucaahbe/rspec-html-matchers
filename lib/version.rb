@@ -6,7 +6,7 @@ module RSpec
       # @private
       module Matchers
 	# @private
-        VERSION = "0.0.6"
+        VERSION = "0.1.6"
       end
     end
   end
