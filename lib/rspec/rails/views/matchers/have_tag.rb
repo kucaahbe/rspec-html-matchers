@@ -209,6 +209,18 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
     end
 
+    def with_email_field name, value=nil
+      options = { :with => { :name => name, :type => 'email' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def without_email_field name, value=nil
+      options = { :with => { :name => name, :type => 'email' } }
+      options[:with].merge!(:value => value) if value
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
     def with_password_field name
       options = { :with => { :name => name, :type => 'password' } }
       @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
