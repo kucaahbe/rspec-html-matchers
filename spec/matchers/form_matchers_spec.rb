@@ -38,6 +38,20 @@ describe "have_form" do
         <input id="book_author" maxlength="255" name="book[author]" size="50" type="text" value="Authorname" />
       </li>
 
+      <li class="email optional" id="user_email_input">
+      <label for="user_email">
+        E-mail address:
+      </label>
+        <input id="user_email" name="user[email]" size="30" type="email" value="email@example.com" />
+      </li>
+
+      <li class="email_confirmation optional" id="user_email_confirmation_input">
+      <label for="user_email_confirmation">
+        E-mail address confirmation:
+      </label>
+        <input id="user_email_confirmation" name="user[email_confirmation]" size="30" type="email" />
+      </li>
+
       <li class="password optional" id="user_password_input">
       <label for="user_password">
         Password:
@@ -168,141 +182,147 @@ HTML
     end
 
     context "with_hidden_field" do
-
       it "should find hidden field" do
-	rendered.should have_form("/books", :post) do
-	  with_hidden_field("authenticity_token")
-	  self.should_receive(:have_tag).with('input', :with => { :name => 'authenticity_token', :type => 'hidden', :value => '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=' })
-	  with_hidden_field("authenticity_token", '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=')
-	end
+        rendered.should have_form("/books", :post) do
+          with_hidden_field("authenticity_token")
+          self.should_receive(:have_tag).with('input', :with => {
+            :name => 'authenticity_token',
+            :type => 'hidden',
+            :value => '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE='
+          })
+          with_hidden_field("authenticity_token", '718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=')
+        end
       end
 
       it "should not find hidden field" do
-	rendered.should have_form("/books", :post) do
-	  without_hidden_field('user_id')
-	  without_hidden_field('authenticity_token', 'blabla')
-	end
+        rendered.should have_form("/books", :post) do
+          without_hidden_field('user_id')
+          without_hidden_field('authenticity_token', 'blabla')
+        end
       end
-
     end
 
     context "with_text_field" do
-
       it "should find text field" do
-	rendered.should have_form("/books", :post) do
-	  with_text_field('book[title]')
-	  with_text_field('book[title]',nil)
-	  with_text_field('book[author]','Authorname')
-	end
+        rendered.should have_form("/books", :post) do
+          with_text_field('book[title]')
+          with_text_field('book[title]',nil)
+          with_text_field('book[author]','Authorname')
+        end
       end
 
       it "should not find text field" do
-	rendered.should have_form("/books", :post) do
-	  without_text_field('book[title]','title does not exist')
-	  without_text_field('book[authoRR]')
-	  without_text_field('book[blabla]')
-	end
+        rendered.should have_form("/books", :post) do
+          without_text_field('book[title]','title does not exist')
+          without_text_field('book[authoRR]')
+          without_text_field('book[blabla]')
+        end
+      end
+    end
+
+    context "with_email_field", :wip => true do
+      it "should find email field" do
+        rendered.should have_form("/books", :post) do
+          with_email_field('user[email]')
+          with_email_field('user[email]', 'email@example.com')
+          with_email_field('user[email_confirmation]', nil)
+        end
       end
 
+      it "should not find email field" do
+        rendered.should have_form("/books", :post) do
+          without_email_field('book[author]','Authorname')
+          without_email_field('user[emaiL]')
+          without_email_field('user[apocalyptiq]')
+        end
+      end
     end
 
     context "with_password_field" do
-
       it "should find password field" do
-	rendered.should have_form("/books", :post) do
-	  with_password_field('user[password]')
-	end
+        rendered.should have_form("/books", :post) do
+          with_password_field('user[password]')
+        end
       end
 
       it "should not find password field" do
-	rendered.should have_form("/books", :post) do
-	  without_password_field('account[password]')
-	end
+        rendered.should have_form("/books", :post) do
+          without_password_field('account[password]')
+        end
       end
-
     end
 
     context "with_file_field" do
-
       it "should find file field" do
-	rendered.should have_form("/books", :post) do
-	  with_file_field('form[file]')
-	end
+        rendered.should have_form("/books", :post) do
+          with_file_field('form[file]')
+        end
       end
 
       it "should not find file field" do
-	rendered.should have_form("/books", :post) do
-	  without_file_field('user[file]')
-	end
+        rendered.should have_form("/books", :post) do
+          without_file_field('user[file]')
+        end
       end
-
     end
 
     context "with_text_area" do
-
       it "should find text area" do
-	rendered.should have_form("/books", :post) do
-	  with_text_area('book[description]')
-	end
+        rendered.should have_form("/books", :post) do
+          with_text_area('book[description]')
+        end
       end
 
       it "should not find text area" do
-	rendered.should have_form("/books", :post) do
-	  without_text_area('user[bio]')
-	end
+        rendered.should have_form("/books", :post) do
+          without_text_area('user[bio]')
+        end
       end
-
     end
 
     context "with_check_box" do
-
       it "should find check box" do
-	rendered.should have_form("/books", :post) do
-	  with_checkbox("book[still_in_print]")
-	  with_checkbox("book[still_in_print]","1")
-	end
+        rendered.should have_form("/books", :post) do
+          with_checkbox("book[still_in_print]")
+          with_checkbox("book[still_in_print]","1")
+        end
       end
 
       it "should not find check box" do
-	rendered.should have_form("/books", :post) do
-	  without_checkbox("book[book]")
-	  without_checkbox("book[still_in_print]","500")
-	end
+        rendered.should have_form("/books", :post) do
+          without_checkbox("book[book]")
+          without_checkbox("book[still_in_print]","500")
+        end
       end
-
     end
 
     context "with_radio_button" do
-
       it "should find radio button" do
-	rendered.should have_form("/books", :post) do
-	  with_radio_button("form[name]","true")
-	end
+        rendered.should have_form("/books", :post) do
+          with_radio_button("form[name]","true")
+        end
       end
 
       it "should not find radio button" do
-	rendered.should have_form("/books", :post) do
-	  without_radio_button("form[name]","100500")
-	  without_radio_button("form[item]","false")
-	end
+        rendered.should have_form("/books", :post) do
+          without_radio_button("form[name]","100500")
+          without_radio_button("form[item]","false")
+        end
       end
-
     end
 
     context "with_submit" do
-
       it "should find submit" do
-	rendered.should have_form("/books", :post) do
-	  with_submit("Create Book")
-	end
+      rendered.should have_form("/books", :post) do
+        with_submit("Create Book")
+      end
       end
 
       it "should not find submit" do
-	rendered.should have_form("/books", :post) do
-	  without_submit("Destroy Book")
-	end
+        rendered.should have_form("/books", :post) do
+          without_submit("Destroy Book")
+        end
       end
-
     end
 
   end
