@@ -1,9 +1,7 @@
-Test views, be true! :)
+Test views, be true! :) [![Build Status](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers.png)](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers)
 =======================
 
-[![Build Status](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers.png)](http://travis-ci.org/kucaahbe/rspec2-rails-views-matchers)
-
-[![Mikhalok](http://investigator.org.ua/wp-content/uploads/01_500_liapis_powe-300x192.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
+[![Mikhalok](https://github.com/kucaahbe/rspec2-rails-views-matchers/raw/master/mikhalok.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
 
 Why?
 ===
@@ -24,6 +22,8 @@ add to your Gemfile(in group :test :) ):
 
     gem 'rspec2-rails-views-matchers'
 
+TODO install nokogiri link
+
 Usage
 -----
 
@@ -36,9 +36,10 @@ some examples:
       without_tag "p",  :text => /content/i
     end
 
-additional list of defined matchers ("form" matchers)
+List of all defined matchers ("form" matchers)
 -----------------------------------------------------
 
+TODO add all
 - [have_form](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_form)
 - [with_checkbox](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_checkbox)
 - [with_file_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_file_field)
@@ -51,7 +52,7 @@ additional list of defined matchers ("form" matchers)
 - [with_text_area](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_text_area)
 - [with_text_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_text_field)
 
-and of course you can use <strong>without_</strong>matchers
+and of course you can use <strong>without_</strong>matchers(TODO CHANGEME)
 
 More info
 ---------
@@ -73,3 +74,5 @@ Contributors
 
 - [Kelly Felkins](http://github.com/kellyfelkins)
 - [Ryan Wilcox](http://github.com/rwilcox)
+
+TODO LICENSE

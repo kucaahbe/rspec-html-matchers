@@ -4,14 +4,20 @@ Changelog
 unreleased(TODO)
 ----------------
 
-* add message for should\_not
 * add description
-* raise exception when wrong parametres specified(:count and :minimum simultaneously)
-* organize code
 * add :without to have\_tag?
 * ?make possible constructions like:
 
       rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
+
+
+0.2.0
+-----
+
+- * some refactoring
+- * add message for should\_not
+- * raise exception when wrong parametres specified(:count and :minimum simultaneously)
+- * support all versions of nokogiri since 1.4.4
 
 0.1.6 (nokogiri update)
 -----------------------

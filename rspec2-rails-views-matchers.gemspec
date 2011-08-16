@@ -4,13 +4,15 @@ require "version"
 
 Gem::Specification.new do |s|
   s.name        = "rspec2-rails-views-matchers"
-  s.version     = RSpec::Rails::Views::Matchers::VERSION
+  s.version     = '0.2.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
   s.homepage    = "http://github.com/kucaahbe/rspec2-rails-views-matchers"
-  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' for rspec-2 without assert_select dependencies and useful error messages}
-  s.description = s.summary
+  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec-2}
+  s.description = <<DESC
+#{s.summary}. Does not depend on assert_select matcher, provide useful error messages.
+DESC
 
   s.rubyforge_project = "rspec2-rails-views-matchers"
 
