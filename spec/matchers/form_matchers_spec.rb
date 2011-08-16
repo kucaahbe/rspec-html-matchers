@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "have_form" do
 
-  before :each do
-    render_html <<HTML
+  let(:rendered) do
+    <<HTML
 <form action="/books" class="formtastic book" id="new_book" method="post">
 
   <div style="margin:0;padding:0;display:inline">
@@ -220,7 +220,7 @@ HTML
       end
     end
 
-    context "with_email_field", :wip => true do
+    context "with_email_field" do
       it "should find email field" do
         rendered.should have_form("/books", :post) do
           with_email_field('user[email]')

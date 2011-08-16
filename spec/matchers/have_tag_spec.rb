@@ -7,8 +7,8 @@ describe 'have_tag' do
 
   context "through css selector" do
 
-    before :each do
-      render_html <<HTML
+    let(:rendered) do
+      <<HTML
 <div class="class-one class-two">
   some content
   <div id="div">some other div</div>
@@ -95,8 +95,8 @@ HTML
 
   context "by count" do
 
-    before :each do
-      render_html <<HTML
+    let(:rendered) do
+      <<HTML
 <p>tag one</p>
 <p>tag two</p>
 <p>tag three</p>
@@ -175,8 +175,8 @@ HTML
 
   context "with content specified" do
 
-    before :each do
-      render_html <<HTML
+    let(:rendered) do
+      <<HTML
 <div>sample text</div>
 <span>sample with 'single' quotes</span>
 <span>sample with 'single' and "double" quotes</span>
@@ -215,8 +215,8 @@ HTML
 
   context "mixed matching" do
 
-    before :each do
-      render_html <<HTML
+    let(:rendered) do
+      <<HTML
 <table>
   <tr>
     <td>user_1</td>
@@ -282,18 +282,21 @@ HTML
   end
 
   context "nested matching:" do
-    before :each do
-      @ordered_list =<<OL
+    let(:ordered_list) do
+      ordered_list =<<OL
     <ol class="menu">
       <li>list item 1</li>
       <li>list item 2</li>
       <li>list item 3</li>
     </ol>
 OL
-      render_html <<HTML
+    end
+
+    let(:rendered) do
+      <<HTML
 <html>
   <body>
-#{@ordered_list}
+#{ordered_list}
   </body>
 </html>
 HTML
@@ -332,7 +335,7 @@ HTML
     end
 
     it "should not find tags and display appropriate message" do
-      ordered_list_regexp = @ordered_list.gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
+      ordered_list_regexp = ordered_list.gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
       expect {
 	rendered.should have_tag('ol') { with_tag('li'); with_tag('div') }
       }.should raise_spec_error(/expected following:#{ordered_list_regexp}to have at least 1 element matching "div", found 0/)
