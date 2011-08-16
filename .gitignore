@@ -1,6 +1,7 @@
 pkg/*
 *.gem
 .bundle
+.rvmrc
 Gemfile.lock
 # documentation:
 html
