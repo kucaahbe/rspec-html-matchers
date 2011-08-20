@@ -14,7 +14,7 @@ unreleased(TODO)
 0.2.0
 -----
 
-- * some refactoring
+* a little bit refactoring
 - * add html5 inputs
 - * add message for should\_not
 - * raise exception when wrong parametres specified(:count and :minimum simultaneously)
