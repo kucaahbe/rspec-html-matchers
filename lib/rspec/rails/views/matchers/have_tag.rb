@@ -9,6 +9,14 @@ module RSpec
       attr_reader :failure_message
       attr_reader :parent_scope, :current_scope
 
+      TAG_NOT_FOUND_MSG    = %Q|expected following:\n%s\nto have at least 1 element matching "%s", found 0.|
+      WRONG_COUNT_MSG      = %Q|expected following:\n%s\nto have %s element(s) matching "%s", found %s.|
+      BETWEEN_COUNT_MSG    = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
+      AT_MOST_MSG          = %Q|expected following:\n%s\nto have at most %s element(s) matching "%s", found %s.|
+      AT_LEAST_MSG         = %Q|expected following:\n%s\nto have at least %s element(s) matching "%s", found %s.|
+      REGEXP_NOT_FOUND_MSG = %Q|%s regexp expected within "%s" in following template:\n%s|
+      TEXT_NOT_FOUND_MSG   = %Q|"%s" expected within "%s" in following template:\n%s|
+
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
 
@@ -61,7 +69,7 @@ module RSpec
 	  @count = @current_scope.count
 	  true
 	else
-	  @failure_message = %Q{expected following:\n#{@document}\nto have at least 1 element matching "#{@tag}", found 0.}
+	  @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
 	  false
 	end
       end
@@ -69,20 +77,20 @@ module RSpec
       def count_right?
 	case @options[:count]
 	when Integer
-	  @count == @options[:count] || (@failure_message=%Q{expected following:\n#{@document}\nto have #{@options[:count]} element(s) matching "#{@tag}", found #{@count}.}; false)
+	  @count == @options[:count] || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
 	when Range
-	  @options[:count].member?(@count) || (@failure_message=%Q{expected following:\n#{@document}\nto have at least #{@options[:count].min} and at most #{@options[:count].max} element(s) matching "#{@tag}", found #{@count}.}; false)
+	  @options[:count].member?(@count) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
 	when nil
 	  if @options[:maximum]
-	    @count <= @options[:maximum] || (@failure_message=%Q{expected following:\n#{@document}\nto have at most #{@options[:maximum]} element(s) matching "#{@tag}", found #{@count}.}; false)
+	    @count <= @options[:maximum] || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
 	  elsif @options[:minimum]
-	    @count >= @options[:minimum] || (@failure_message=%Q{expected following:\n#{@document}\nto have at least #{@options[:minimum]} element(s) matching "#{@tag}", found #{@count}.}; false)
+	    @count >= @options[:minimum] || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
 	  else
 	    true
 	  end
 	else
 	  @failure_message = 'wrong count specified'
-	  return false
+	  false
 	end
       end
 
@@ -100,7 +108,7 @@ module RSpec
 	    @count = new_scope.count
 	    true
 	  else
-	    @failure_message=%Q{#{text.inspect} regexp expected within "#{@tag}" in following template:\n#{@document}}
+	    @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
 	    false
 	  end
 	else
@@ -115,7 +123,7 @@ module RSpec
 	    @count = new_scope.count
 	    true
 	  else
-	    @failure_message=%Q{"#{text}" expected within "#{@tag}" in following template:\n#{@document}}
+	    @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]
 	    false
 	  end
 	end
@@ -188,57 +196,57 @@ module RSpec
     def with_hidden_field name, value=nil
       options = { :with => { :name => name, :type => 'hidden' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_hidden_field name, value=nil
       options = { :with => { :name => name, :type => 'hidden' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_text_field name, value=nil
       options = { :with => { :name => name, :type => 'text' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_text_field name, value=nil
       options = { :with => { :name => name, :type => 'text' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_email_field name, value=nil
       options = { :with => { :name => name, :type => 'email' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_email_field name, value=nil
       options = { :with => { :name => name, :type => 'email' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_password_field name
       options = { :with => { :name => name, :type => 'password' } }
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_password_field name
       options = { :with => { :name => name, :type => 'password' } }
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_file_field name
       options = { :with => { :name => name, :type => 'file' } }
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_file_field name
       options = { :with => { :name => name, :type => 'file' } }
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_text_area name
@@ -254,25 +262,25 @@ module RSpec
     def with_checkbox name, value=nil
       options = { :with => { :name => name, :type => 'checkbox' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_checkbox name, value=nil
       options = { :with => { :name => name, :type => 'checkbox' } }
       options[:with].merge!(:value => value) if value
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_radio_button name, value
       options = { :with => { :name => name, :type => 'radio' } }
       options[:with].merge!(:value => value)
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_radio_button name, value
       options = { :with => { :name => name, :type => 'radio' } }
       options[:with].merge!(:value => value)
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      should_not_have_input(options)
     end
 
     def with_select name, options={}, &block
@@ -325,11 +333,21 @@ module RSpec
 
     def with_submit value
       options = { :with => { :type => 'submit', :value => value } }
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      should_have_input(options)
     end
 
     def without_submit value
       options = { :with => { :type => 'submit', :value => value } }
+      should_not_have_input(options)
+    end
+
+    private
+
+    def should_have_input(options)
+      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+    end
+
+    def should_not_have_input(options)
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
     end
 
