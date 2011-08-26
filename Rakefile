@@ -2,10 +2,17 @@ require 'bundler'
 require 'rspec/core/rake_task'
 Bundler::GemHelper.install_tasks
 
+gemspec = eval(File.read(Dir["*.gemspec"].first))
+
 task :default => :spec
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts='--tag ~wip'
+end
+
+desc "Validate the gemspec"
+task :gemspec do
+  gemspec.validate && puts('gemspec valid')
 end
 
 namespace :spec do
