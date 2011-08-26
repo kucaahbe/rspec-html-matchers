@@ -6,16 +6,23 @@ module RSpec
     # @api
     # @private
     class NokogiriMatcher
-      attr_reader :failure_message
+      attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
 
       TAG_NOT_FOUND_MSG    = %Q|expected following:\n%s\nto have at least 1 element matching "%s", found 0.|
+      TAG_FOUND_MSG        = %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|
       WRONG_COUNT_MSG      = %Q|expected following:\n%s\nto have %s element(s) matching "%s", found %s.|
+      RIGHT_COUNT_MSG      = %Q|expected following:\n%s\nto NOT have %s element(s) matching "%s", but found.|
       BETWEEN_COUNT_MSG    = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
+      RIGHT_BETWEEN_COUNT_MSG = %Q|expected following:\n%s\nto NOT have at least %s and at most %s element(s) matching "%s", but found %s.|
       AT_MOST_MSG          = %Q|expected following:\n%s\nto have at most %s element(s) matching "%s", found %s.|
+      RIGHT_AT_MOST_MSG    = %Q|expected following:\n%s\nto NOT have at most %s element(s) matching "%s", but found %s.|
       AT_LEAST_MSG         = %Q|expected following:\n%s\nto have at least %s element(s) matching "%s", found %s.|
+      RIGHT_AT_LEAST_MSG   = %Q|expected following:\n%s\nto NOT have at least %s element(s) matching "%s", but found %s.|
       REGEXP_NOT_FOUND_MSG = %Q|%s regexp expected within "%s" in following template:\n%s|
+      REGEXP_FOUND_MSG     = %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|
       TEXT_NOT_FOUND_MSG   = %Q|"%s" expected within "%s" in following template:\n%s|
+      TEXT_FOUND_MSG       = %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
@@ -67,6 +74,7 @@ module RSpec
       def tag_presents?
 	if @current_scope.first
 	  @count = @current_scope.count
+          @negative_failure_message = TAG_FOUND_MSG % [@document, @tag, @count]
 	  true
 	else
 	  @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
@@ -77,14 +85,14 @@ module RSpec
       def count_right?
 	case @options[:count]
 	when Integer
-	  @count == @options[:count] || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
+	  ((@negative_failure_message=RIGHT_COUNT_MSG % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
 	when Range
-	  @options[:count].member?(@count) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
+	  ((@negative_failure_message=RIGHT_BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
 	when nil
 	  if @options[:maximum]
-	    @count <= @options[:maximum] || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
+	    ((@negative_failure_message=RIGHT_AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
 	  elsif @options[:minimum]
-	    @count >= @options[:minimum] || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
+	    ((@negative_failure_message=RIGHT_AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
 	  else
 	    true
 	  end
@@ -106,6 +114,7 @@ module RSpec
 	  }.new)
 	  unless new_scope.empty?
 	    @count = new_scope.count
+            @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
 	    true
 	  else
 	    @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
@@ -121,6 +130,7 @@ module RSpec
 	  }.new)
 	  unless new_scope.empty?
 	    @count = new_scope.count
+            @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
 	    true
 	  else
 	    @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]

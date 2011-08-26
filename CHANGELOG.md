@@ -16,7 +16,7 @@ unreleased(TODO)
 
 * a little bit refactoring
 - * add html5 inputs
-- * add message for should\_not
+* added message for should\_not
 - * raise exception when wrong parametres specified(:count and :minimum simultaneously)
 - * support all versions of nokogiri since 1.4.4
 

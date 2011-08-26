@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'have_tag' do
 
-  it "should have message for should_not"
   it "should have #description method"
 
   context "through css selector" do
@@ -49,6 +48,18 @@ HTML
       )
     end
 
+    it "should find unexpected tags and display appropriate message" do
+      expect { rendered.should_not have_tag('div') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have element matching "div", found 2.}
+      )
+      expect { rendered.should_not have_tag('div#div') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have element matching "div#div", found 1.}
+      )
+      expect { rendered.should_not have_tag('p.paragraph') }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have element matching "p.paragraph", found 1.}
+      )
+    end
+
     context "with additional HTML attributes(:with option)" do
 
       it "should find tags" do
@@ -86,6 +97,12 @@ HTML
       it "should not find tags and display appropriate message" do
 	expect { rendered.should have_tag('input#search',:with => {:type => "some_other_type"}) }.should raise_spec_error(
 	  %Q{expected following:\n#{rendered}\nto have at least 1 element matching "input#search[type='some_other_type']", found 0.}
+	)
+      end
+
+      it "should find unexpected tags and display appropriate message" do
+	expect { rendered.should_not have_tag('input#search',:with => {:type => "text"}) }.should raise_spec_error(
+	  %Q{expected following:\n#{rendered}\nto NOT have element matching "input#search[type='text']", found 1.}
 	)
       end
 
@@ -137,6 +154,16 @@ HTML
 	)
     end
 
+    it "should find unexpected tags and display appropriate message(with :count)" do
+      expect { rendered.should_not have_tag('p', :count => 3) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have 3 element(s) matching "p", but found.}
+	)
+
+      expect { rendered.should_not have_tag('p', :count => 1..3) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have at least 1 and at most 3 element(s) matching "p", but found 3.}
+	)
+    end
+
     it "should not find tags and display appropriate message(with :minimum)" do
       expect { rendered.should have_tag('p', :min => 100) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
@@ -146,12 +173,30 @@ HTML
 	)
     end
 
+    it "should find unexpected tags and display appropriate message(with :minimum)" do
+      expect { rendered.should_not have_tag('p', :min => 2) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
+	)
+      expect { rendered.should_not have_tag('p', :minimum => 2) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
+	)
+    end
+
     it "should not find tags and display appropriate message(with :maximum)" do
       expect { rendered.should have_tag('p', :max => 2) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
 	)
       expect { rendered.should have_tag('p', :maximum => 2) }.should raise_spec_error(
 	%Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
+	)
+    end
+
+    it "should find unexpected tags and display appropriate message(with :maximum)" do
+      expect { rendered.should_not have_tag('p', :max => 5) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
+	)
+      expect { rendered.should_not have_tag('p', :maximum => 5) }.should raise_spec_error(
+	%Q{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
 	)
     end
 
@@ -208,6 +253,15 @@ HTML
 	)
       expect { rendered.should have_tag('div', :text => /SAMPLE tekzt/i) }.should raise_spec_error(
 	%Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
+	)
+    end
+
+    it "should find unexpected tags and display appropriate message" do
+      expect { rendered.should_not have_tag('div', :text => 'sample text') }.should raise_spec_error(
+	%Q{"sample text" unexpected within "div" in following template:\n#{rendered}\nbut was found.}
+	)
+      expect { rendered.should_not have_tag('div', :text => /SAMPLE text/i) }.should raise_spec_error(
+	%Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
 	)
     end
 
