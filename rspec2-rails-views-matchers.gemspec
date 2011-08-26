@@ -21,7 +21,7 @@ DESC
   s.require_paths = ["lib"]
 
   s.add_dependency 'rspec', '>= 2.0.0'
-  s.add_dependency 'nokogiri', '~> 1.5.0'
+  s.add_dependency 'nokogiri', '>= 1.4.4'
 
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rake'
