@@ -22,7 +22,7 @@ add to your Gemfile(in group :test :) ):
 
     gem 'rspec2-rails-views-matchers'
 
-Instruction for [installing nokogiri here.](http://nokogiri.org/tutorials/installing_nokogiri.html)
+Instructions for [installing nokogiri here.](http://nokogiri.org/tutorials/installing_nokogiri.html)
 
 Usage
 -----
@@ -39,10 +39,10 @@ some examples:
 List of all defined matchers ("form" matchers)
 -----------------------------------------------------
 
-TODO add all
-
-- [have_form](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_form)
-- [with_checkbox](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_checkbox)
+- [have\_form](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_form)
+- [have\_tag](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_tag)
+- [with\_checkbox](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_checkbox)
+- [with\_email\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_email_field)
 - [with\_file\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_file_field)
 - [with\_hidden\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_hidden_field)
 - [with\_option](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_option)
@@ -52,15 +52,21 @@ TODO add all
 - [with\_submit](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_submit)
 - [with\_text\_area](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_text_area)
 - [with\_text\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_text_field)
+- [with\_url\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_url_field)
+- [with\_number\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_number_field)
+- [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_range_field)
+- [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_date_field)
+- [with\_search\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_search_field)
+- [with\_color\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_color_field)
 
-and of course you can use <strong>without_</strong>matchers(TODO CHANGEME)
+and of course you can use <strong>without_</strong>matchers(see documentation).
 
 More info
 ---------
 
 You can find [on RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers), take a look at {RSpec::Matchers#have\_tag have\_tag} method.
 
-Also, please read {file:docs/CHANGELOG.md CHANGELOG}, it might be helpful.
+Also, please read {file:CHANGELOG.md CHANGELOG}, it might be helpful.
 
 Contribution
 ============
@@ -76,4 +82,7 @@ Contributors
 - [Kelly Felkins](http://github.com/kellyfelkins)
 - [Ryan Wilcox](http://github.com/rwilcox)
 
-TODO LICENSE
+License
+=======
+
+This gem is released under the MIT license.
