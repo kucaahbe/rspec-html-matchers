@@ -23,6 +23,9 @@ module RSpec
       REGEXP_FOUND_MSG     = %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|
       TEXT_NOT_FOUND_MSG   = %Q|"%s" expected within "%s" in following template:\n%s|
       TEXT_FOUND_MSG       = %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|
+      WRONG_COUNT_ERROR_MSG= %Q|:count with :minimum or :maximum has no sence!|
+      MIN_MAX_ERROR_MSG    = %Q|:minimum shold be less than :maximum!|
+      BAD_RANGE_ERROR_MSG  = %Q|Your :count range(%s) has no sence!|
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
@@ -42,7 +45,22 @@ module RSpec
 	  @tag << html_attrs_string
 	end
 
-	# TODO add min and max processing
+        [:min, :minimum, :max, :maximum].each do |key|
+          raise WRONG_COUNT_ERROR_MSG if @options.has_key?(key) and @options.has_key?(:count)
+        end
+
+        begin
+          raise MIN_MAX_ERROR_MSG if @options[:minimum] > @options[:maximum]
+        rescue NoMethodError # nil > 4
+        rescue ArgumentError # 2 < nil
+        end
+
+        begin
+          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
+        rescue ArgumentError, /comparison of String with/ # if @options[:count] == 'a'..'z'
+          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+        end
+
 	@options[:minimum] ||= @options.delete(:min)
 	@options[:maximum] ||= @options.delete(:max)
       end

@@ -201,14 +201,13 @@ HTML
     end
 
     it "should raise error when wrong params specified" do
-      pending(:TODO)
-      wrong_params_error_msg_1 = 'TODO1'
+      wrong_params_error_msg_1 = ':count with :minimum or :maximum has no sence!'
       expect { rendered.should have_tag('div', :count => 2, :minimum => 1 ) }.should raise_error(wrong_params_error_msg_1)
       expect { rendered.should have_tag('div', :count => 2, :min => 1 )     }.should raise_error(wrong_params_error_msg_1)
       expect { rendered.should have_tag('div', :count => 2, :maximum => 1 ) }.should raise_error(wrong_params_error_msg_1)
       expect { rendered.should have_tag('div', :count => 2, :max => 1 )     }.should raise_error(wrong_params_error_msg_1)
 
-      wrong_params_error_msg_2 = 'TODO2'
+      wrong_params_error_msg_2 = ':minimum shold be less than :maximum!'
       expect { rendered.should have_tag('div', :minimum => 2, :maximum => 1 ) }.should raise_error(wrong_params_error_msg_2)
 
       [ 4..1, -2..6, 'a'..'z', 3..-9 ].each do |range|
