@@ -56,8 +56,12 @@ module RSpec
         end
 
         begin
-          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
-        rescue ArgumentError, /comparison of String with/ # if @options[:count] == 'a'..'z'
+          begin
+            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
+          rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z'
+            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+          end
+        rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
           raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
         end
 
