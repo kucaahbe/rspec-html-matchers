@@ -257,6 +257,42 @@ module RSpec
       should_not_have_input(options)
     end
 
+    def with_url_field name, value=nil
+      options = { :with => { :name => name, :type => 'url' } }
+      options[:with].merge!(:value => value) if value
+      should_have_input(options)
+    end
+
+    def without_url_field name, value=nil
+      options = { :with => { :name => name, :type => 'url' } }
+      options[:with].merge!(:value => value) if value
+      should_not_have_input(options)
+    end
+
+    def with_number_field name, value=nil
+      options = { :with => { :name => name, :type => 'number' } }
+      options[:with].merge!(:value => value.to_s) if value
+      should_have_input(options)
+    end
+
+    def without_number_field name, value=nil
+      options = { :with => { :name => name, :type => 'number' } }
+      options[:with].merge!(:value => value.to_s) if value
+      should_not_have_input(options)
+    end
+
+    def with_range_field name, min, max, options={}
+      options = { :with => { :name => name, :type => 'range', :min => min.to_s, :max => max.to_s }.merge(options.delete(:with)||{}) }
+      should_have_input(options)
+    end
+
+    def without_range_field name, min=nil, max=nil, options={}
+      options = { :with => { :name => name, :type => 'range' }.merge(options.delete(:with)||{}) }
+      options[:with].merge!(:min => min.to_s) if min
+      options[:with].merge!(:max => max.to_s) if max
+      should_not_have_input(options)
+    end
+
     def with_password_field name
       options = { :with => { :name => name, :type => 'password' } }
       should_have_input(options)

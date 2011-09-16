@@ -52,6 +52,13 @@ describe "have_form" do
         <input id="user_email_confirmation" name="user[email_confirmation]" size="30" type="email" />
       </li>
 
+      <li class="url optional" id="user_url_input">
+      <label for="user_url">
+        E-mail address:
+      </label>
+        <input id="user_url" name="user[url]" size="30" type="url" value="http://user.com" />
+      </li>
+
       <li class="password optional" id="user_password_input">
       <label for="user_password">
         Password:
@@ -79,6 +86,21 @@ describe "have_form" do
       </label>
 	  <input name="book[still_in_print]" type="hidden" value="0" />
 	  <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
+      </li>
+      <li class="number required">
+      <label for="book_number">
+	  Still in print<abbr title="required">*</abbr>
+      </label>
+	  <input name="number" type="number" />
+	  <input name="number_defined" type="number" value="3" />
+      </li>
+
+      <li class="range required">
+      <label for="range">
+	  Still in print<abbr title="required">*</abbr>
+      </label>
+	  <input name="range1" type="range" min="1" max="3" />
+	  <input name="range2" type="range" min="1" max="3" value="2" />
       </li>
 
       <li class="radio required" id="form_name_input">
@@ -234,6 +256,61 @@ HTML
           without_email_field('book[author]','Authorname')
           without_email_field('user[emaiL]')
           without_email_field('user[apocalyptiq]')
+        end
+      end
+    end
+
+    context "with_url_field" do
+      it "should find url field" do
+        rendered.should have_form("/books", :post) do
+          with_url_field('user[url]')
+          with_url_field('user[url]', 'http://user.com')
+        end
+      end
+
+      it "should not find url field" do
+        rendered.should have_form("/books", :post) do
+          without_url_field('user[url]','Authorname')
+          without_url_field('user[emaiL]')
+          without_url_field('user[apocalyptiq]')
+        end
+      end
+    end
+
+    context "with_number_field" do
+      it "should find number field" do
+        rendered.should have_form("/books", :post) do
+          with_number_field('number')
+          with_number_field('number_defined', 3)
+          with_number_field('number_defined', '3')
+        end
+      end
+
+      it "should not find number field" do
+        rendered.should have_form("/books", :post) do
+          without_number_field('number',400)
+          without_number_field('number','400')
+          without_number_field('user[emaiL]')
+          without_number_field('user[apocalyptiq]')
+        end
+      end
+    end
+
+    context "with_range_field" do
+      it "should find range field" do
+        rendered.should have_form("/books", :post) do
+          with_range_field('range1', 1, 3)
+          with_range_field('range1','1','3')
+          with_range_field('range2', 1, 3, :with => { :value => 2 } )
+          with_range_field('range2', 1, 3, :with => { :value => '2' } )
+        end
+      end
+
+      it "should not find range field" do
+        rendered.should have_form("/books", :post) do
+          without_range_field('number')
+          without_range_field('range1', 1, 5)
+          without_range_field('range2', 1, 3, :with => { :value => 5 } )
         end
       end
     end
