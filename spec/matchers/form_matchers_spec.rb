@@ -16,12 +16,12 @@ describe "have_form" do
         <label for="book_publisher_id">
            Publisher<abbr title="required">*</abbr>
         </label>
-	<select id="book_publisher_id" name="book[publisher_id]">
-	  <option value=""></option>
-	  <option value="1" selected="selected">The Pragmatic Bookshelf</option>
-	  <option value="2">sitepoint</option>
-	  <option value="3">O'Reilly</option>
-	</select>
+        <select id="book_publisher_id" name="book[publisher_id]">
+          <option value=""></option>
+          <option value="1" selected="selected">The Pragmatic Bookshelf</option>
+          <option value="2">sitepoint</option>
+          <option value="3">O'Reilly</option>
+        </select>
       </li>
 
       <li class="string required" id="book_title_input">
@@ -81,55 +81,54 @@ describe "have_form" do
       </li>
 
       <li class="boolean required" id="book_still_in_print_input">
-      <label for="book_still_in_print">
-	  Still in print<abbr title="required">*</abbr>
-      </label>
-	  <input name="book[still_in_print]" type="hidden" value="0" />
-	  <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
+        <label for="book_still_in_print">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="book[still_in_print]" type="hidden" value="0" />
+        <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
       </li>
       <li class="number required">
-      <label for="book_number">
-	  Still in print<abbr title="required">*</abbr>
-      </label>
-	  <input name="number" type="number" />
-	  <input name="number_defined" type="number" value="3" />
+        <label for="book_number">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="number" type="number" />
+        <input name="number_defined" type="number" value="3" />
       </li>
 
       <li class="range required">
-      <label for="range">
-	  Still in print<abbr title="required">*</abbr>
-      </label>
-	  <input name="range1" type="range" min="1" max="3" />
-	  <input name="range2" type="range" min="1" max="3" value="2" />
+        <label for="range">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="range1" type="range" min="1" max="3" />
+        <input name="range2" type="range" min="1" max="3" value="2" />
       </li>
 
       <li class="radio required" id="form_name_input">
         <fieldset>
-	<legend class="label">
-	<label>Name<abbr title="required">*</abbr></label>
-	</legend>
-	  <ol>
-	    <li class="name_true">
-	    <label for="form_name_true">
-	      <input id="form_name_true" name="form[name]" type="radio" value="true" /> Yes
-	    </label>
-	    </li>
-	    <li class="name_false">
-	    <label for="form_name_false">
-	      <input id="form_name_false" name="form[name]" type="radio" value="false" /> No</label>
-	    </li>
-	  </ol>
-	</fieldset>
+          <legend class="label">
+            <label>Name<abbr title="required">*</abbr></label>
+          </legend>
+          <ol>
+            <li class="name_true">
+              <label for="form_name_true">
+                <input id="form_name_true" name="form[name]" type="radio" value="true" /> Yes
+              </label>
+            </li>
+            <li class="name_false">
+            <label for="form_name_false">
+              <input id="form_name_false" name="form[name]" type="radio" value="false" /> No</label>
+            </li>
+          </ol>
+        </fieldset>
       </li>
-
     </ol>
   </fieldset>
 
   <fieldset class="buttons">
     <ol>
-    <li class="commit">
-      <input class="create" id="book_submit" name="commit" type="submit" value="Create Book" />
-    </li>
+      <li class="commit">
+        <input class="create" id="book_submit" name="commit" type="submit" value="Create Book" />
+      </li>
     </ol>
   </fieldset>
 </form>
@@ -137,10 +136,8 @@ HTML
   end
 
   context "without &block" do
-
     it "should find form" do
       rendered.should have_form("/books", :post)
-
       self.should_receive(:have_tag).with("form#new_book", :with => { :method => "post", :action => "/books", :class => %w(book formtastic) })
       rendered.should have_form("/books", "post", :with => { :id => "new_book", :class => %w(book formtastic) })
     end
@@ -149,58 +146,49 @@ HTML
       rendered.should_not have_form("/some_url", :post)
       rendered.should_not have_form("/books", :get)
     end
-
   end
 
   context "with &block" do
-
     context "with_select" do
-
       it "should find select" do
-	rendered.should have_form("/books", :post) do
-	  with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
-
-	  self.should_receive(:have_tag).with("select#book_publisher_id", :with => { :name => "book[publisher_id]" })
-	  with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
-	end
+        rendered.should have_form("/books", :post) do
+          with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
+          self.should_receive(:have_tag).with("select#book_publisher_id", :with => { :name => "book[publisher_id]" })
+          with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
+        end
       end
 
       it "should not find select" do
-	rendered.should have_form("/books", :post) do
-	  without_select("book[publisher_id]", :with => { :id => "other_id" })
-
-	  self.should_receive(:have_tag).with("select#book_publisher_id", :with => { :name => "koob[publisher_id]" })
-	  without_select("koob[publisher_id]", :with => { :id => "book_publisher_id" })
-	end
+        rendered.should have_form("/books", :post) do
+          without_select("book[publisher_id]", :with => { :id => "other_id" })
+          self.should_receive(:have_tag).with("select#book_publisher_id", :with => { :name => "koob[publisher_id]" })
+          without_select("koob[publisher_id]", :with => { :id => "book_publisher_id" })
+        end
       end
 
       context "with_option" do
+        it "should find options" do
+          rendered.should have_form("/books", :post) do
+            with_select("book[publisher_id]") do
+              with_option(nil)
+              with_option("The Pragmatic Bookshelf", :selected => true)
+              with_option(/sitepoint/,2)
+              self.should_receive(:have_tag).with('option', :with => { :value => '3' }, :text => "O'Reilly")
+              with_option("O'Reilly", 3, :selected => false)
+            end
+          end
+        end
 
-	it "should find options" do
-	  rendered.should have_form("/books", :post) do
-	    with_select("book[publisher_id]") do
-	      with_option(nil)
-	      with_option("The Pragmatic Bookshelf", :selected => true)
-	      with_option(/sitepoint/,2)
-
-	      self.should_receive(:have_tag).with('option', :with => { :value => '3' }, :text => "O'Reilly")
-	      with_option("O'Reilly", 3, :selected => false)
-	    end
-	  end
-	end
-
-	it "should not find options" do
-	  rendered.should have_form("/books", :post) do
-	    with_select("book[publisher_id]") do
-	      without_option("blah blah")
-	      without_option("O'Reilly", 3, :selected => true)
-	      without_option("O'Reilly", 100500)
-	    end
-	  end
-	end
-
+        it "should not find options" do
+          rendered.should have_form("/books", :post) do
+            with_select("book[publisher_id]") do
+              without_option("blah blah")
+              without_option("O'Reilly", 3, :selected => true)
+              without_option("O'Reilly", 100500)
+            end
+          end
+        end
       end
-
     end
 
     context "with_hidden_field" do
@@ -390,9 +378,9 @@ HTML
 
     context "with_submit" do
       it "should find submit" do
-      rendered.should have_form("/books", :post) do
-        with_submit("Create Book")
-      end
+        rendered.should have_form("/books", :post) do
+          with_submit("Create Book")
+        end
       end
 
       it "should not find submit" do
@@ -401,6 +389,5 @@ HTML
         end
       end
     end
-
   end
 end
