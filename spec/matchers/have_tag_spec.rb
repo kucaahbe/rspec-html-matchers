@@ -2,20 +2,7 @@ require 'spec_helper'
 
 describe 'have_tag' do
   context "through css selector" do
-
-    let(:rendered) do
-      <<HTML
-<div class="class-one class-two">
-  some content
-  <div id="div">some other div</div>
-  <p class="paragraph">la<strong>lala</strong></p>
-</div>
-<form id="some_form">
-  <input id="search" type="text" />
-  <input type="submit" value="Save" />
-</form>
-HTML
-    end
+    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/search_and_submit.html") }
 
     it "should find tags" do
       rendered.should have_tag('div')
@@ -107,13 +94,7 @@ HTML
   end
 
   context "by count" do
-    let(:rendered) do
-      <<HTML
-<p>tag one</p>
-<p>tag two</p>
-<p>tag three</p>
-HTML
-    end
+    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/paragraphs.html") }
 
     it "should find tags" do
       rendered.should have_tag('p', :count => 3)
@@ -210,21 +191,12 @@ HTML
   end
 
   context "with content specified" do
-    let(:rendered) do
-      <<HTML
-<div>sample text</div>
-<span>sample with 'single' quotes</span>
-<span>sample with 'single' and "double" quotes</span>
-<p>one </p>
-<p> two</p>
-<p> three </p>
-HTML
-    end
+    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/quotes.html") }
 
     it "should find tags" do
-      rendered.should have_tag('div',  :text => 'sample text'                )
-      rendered.should have_tag('p',    :text => 'one '                       )
-      rendered.should have_tag('div',  :text => /SAMPLE/i                    )
+      rendered.should have_tag('div',  :text => 'sample text')
+      rendered.should have_tag('p',    :text => 'one')
+      rendered.should have_tag('div',  :text => /SAMPLE/i)
       rendered.should have_tag('span', :text => "sample with 'single' quotes")
       rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
     end
@@ -258,32 +230,7 @@ HTML
   end
 
   context "mixed matching" do
-    let(:rendered) do
-      <<HTML
-<table>
-  <tr>
-    <td>user_1</td>
-    <td id="other-special">user_2</td>
-    <td>user_3</td>
-  </tr>
-  <tr>
-    <td>a</td>
-    <td id="special">a</td>
-    <td>a</td>
-  </tr>
-</table>
-
-<div class="one">text</div>
-<div class="one">text</div>
-<div class="one">text</div>
-<div class="one">text bla</div>
-<div class="one">content bla</div>
-<div class="one">content</div>
-<div class="two">content bla</div>
-<div class="two">content</div>
-<div class="two">text</div>
-HTML
-    end
+    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/special.html") }
 
     it "should find tags by count and exact content" do
       rendered.should have_tag("td", :text => 'a', :count => 3)
@@ -324,25 +271,7 @@ HTML
   end
 
   context "nested matching:" do
-    let(:ordered_list) do
-      ordered_list =<<OL
-    <ol class="menu">
-      <li>list item 1</li>
-      <li>list item 2</li>
-      <li>list item 3</li>
-    </ol>
-OL
-    end
-
-    let(:rendered) do
-      <<HTML
-<html>
-  <body>
-#{ordered_list}
-  </body>
-</html>
-HTML
-    end
+    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/ordered_lits.html") }
 
     it "should find tags" do
       rendered.should have_tag('ol') {
