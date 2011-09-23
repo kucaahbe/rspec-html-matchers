@@ -399,6 +399,28 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options)
     end
 
+    def with_button text, value=nil, options={}
+      options[:with] ||= {}
+      if value.is_a?(Hash)
+        options.merge!(value)
+        value=nil
+      end
+      options[:with].merge!(:value => value.to_s) if value
+      options.merge!(:text => text) if text
+      @__current_scope_for_nokogiri_matcher.should have_tag('button', options)
+    end
+
+    def without_button text, value=nil, options={}
+      options[:with] ||= {}
+      if value.is_a?(Hash)
+        options.merge!(value)
+        value=nil
+      end
+      options[:with].merge!(:value => value.to_s) if value
+      options.merge!(:text => text) if text
+      @__current_scope_for_nokogiri_matcher.should_not have_tag('button', options)
+    end
+
     def with_submit value
       options = { :with => { :type => 'submit', :value => value } }
       should_have_input(options)
