@@ -189,6 +189,21 @@ HTML
           end
         end
       end
+
+      context "with_button" do
+        it "should find button" do
+          rendered.should have_form("/books", :post) do
+            self.should_receive(:have_tag).with('button', :with => {}, :text => "Cancel Book")
+            with_button("Cancel Book")
+          end
+        end
+
+        it "should not find button" do
+          rendered.should have_form("/books", :post) do
+            without_button("Cancel Book")
+          end
+        end
+      end
     end
 
     context "with_hidden_field" do
