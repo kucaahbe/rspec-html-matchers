@@ -1,0 +1,139 @@
+<form action="/books" class="formtastic book" id="new_book" method="post">
+  <div style="margin:0;padding:0;display:inline">
+    <input name="authenticity_token" type="hidden" value="718WaH76RAbIVhDlnOidgew62ikn8IUCOyWLEqjw1GE=" />
+  </div>
+
+  <fieldset class="inputs">
+    <ol>
+      <li class="select required" id="book_publisher_input">
+        <label for="book_publisher_id">
+           Publisher<abbr title="required">*</abbr>
+        </label>
+        <select id="book_publisher_id" name="book[publisher_id]">
+          <option value=""></option>
+          <option value="1" selected="selected">The Pragmatic Bookshelf</option>
+          <option value="2">sitepoint</option>
+          <option value="3">O'Reilly</option>
+        </select>
+      </li>
+
+      <li class="string required" id="book_title_input">
+      <label for="book_title">
+        Title<abbr title="required">*</abbr>
+      </label>
+        <input id="book_title" maxlength="255" name="book[title]" size="50" type="text" />
+      </li>
+
+      <li class="string required" id="book_author_input">
+      <label for="book_author">
+        Author<abbr title="required">*</abbr>
+      </label>
+        <input id="book_author" maxlength="255" name="book[author]" size="50" type="text" value="Authorname" />
+      </li>
+
+      <li class="email optional" id="user_email_input">
+      <label for="user_email">
+        E-mail address:
+      </label>
+        <input id="user_email" name="user[email]" size="30" type="email" value="email@example.com" />
+      </li>
+
+      <li class="email_confirmation optional" id="user_email_confirmation_input">
+      <label for="user_email_confirmation">
+        E-mail address confirmation:
+      </label>
+        <input id="user_email_confirmation" name="user[email_confirmation]" size="30" type="email" />
+      </li>
+
+      <li class="url optional" id="user_url_input">
+      <label for="user_url">
+        E-mail address:
+      </label>
+        <input id="user_url" name="user[url]" size="30" type="url" value="http://user.com" />
+      </li>
+
+      <li class="password optional" id="user_password_input">
+      <label for="user_password">
+        Password:
+      </label>
+        <input id="user_password" name="user[password]" size="30" type="password" />
+      </li>
+
+      <li class="file optional" id="form_file_input">
+      <label for="form_file">
+        File
+      </label>
+        <input id="form_file" name="form[file]" type="file" />
+      </li>
+
+      <li class="text required" id="book_description_input">
+      <label for="book_description">
+        Description<abbr title="required">*</abbr>
+      </label>
+        <textarea cols="40" id="book_description" name="book[description]" rows="20"></textarea>
+      </li>
+
+      <li class="boolean required" id="book_still_in_print_input">
+        <label for="book_still_in_print">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="book[still_in_print]" type="hidden" value="0" />
+        <input id="book_still_in_print" name="book[still_in_print]" type="checkbox" value="1" />
+      </li>
+      <li class="number required">
+        <label for="book_number">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="number" type="number" />
+        <input name="number_defined" type="number" value="3" />
+      </li>
+
+      <li class="range required">
+        <label for="range">
+          Still in print<abbr title="required">*</abbr>
+        </label>
+        <input name="range1" type="range" min="1" max="3" />
+        <input name="range2" type="range" min="1" max="3" value="2" />
+      </li>
+
+      <li class="date required">
+      <label for="date">
+	  Something<abbr title="required">*</abbr>
+      </label>
+	  <input name="book_date" type="date" />
+	  <input name="book_month" type="month" value="5" />
+	  <input name="book_week" type="week" />
+	  <input name="book_time" type="time" />
+	  <input name="book_datetime" type="datetime" />
+	  <input name="book_datetime_local" type="datetime-local" />
+      </li>
+
+      <li class="radio required" id="form_name_input">
+        <fieldset>
+          <legend class="label">
+            <label>Name<abbr title="required">*</abbr></label>
+          </legend>
+          <ol>
+            <li class="name_true">
+              <label for="form_name_true">
+                <input id="form_name_true" name="form[name]" type="radio" value="true" /> Yes
+              </label>
+            </li>
+            <li class="name_false">
+            <label for="form_name_false">
+              <input id="form_name_false" name="form[name]" type="radio" value="false" /> No</label>
+            </li>
+          </ol>
+        </fieldset>
+      </li>
+    </ol>
+  </fieldset>
+
+  <fieldset class="buttons">
+    <ol>
+      <li class="commit">
+        <input class="create" id="book_submit" name="commit" type="submit" value="Create Book" />
+      </li>
+    </ol>
+  </fieldset>
+</form>
