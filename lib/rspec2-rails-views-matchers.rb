@@ -297,6 +297,24 @@ module RSpec
       should_not_have_input(options)
     end
 
+    DATE_FIELD_TYPES = %w( date month week time datetime datetime-local )
+
+    def with_date_field date_field_type, name=nil, options={}
+      date_field_type = date_field_type.to_s
+      raise "unknown type `#{date_field_type}` for date picker" unless DATE_FIELD_TYPES.include?(date_field_type)
+      options = { :with => { :type => date_field_type.to_s }.merge(options.delete(:with)||{}) }
+      options[:with].merge!(:name => name.to_s) if name
+      should_have_input(options)
+    end
+
+    def without_date_field date_field_type, name=nil, options={}
+      date_field_type = date_field_type.to_s
+      raise "unknown type `#{date_field_type}` for date picker" unless DATE_FIELD_TYPES.include?(date_field_type)
+      options = { :with => { :type => date_field_type.to_s }.merge(options.delete(:with)||{}) }
+      options[:with].merge!(:name => name.to_s) if name
+      should_not_have_input(options)
+    end
+
     def with_password_field name
       options = { :with => { :name => name, :type => 'password' } }
       should_have_input(options)

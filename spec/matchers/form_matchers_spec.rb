@@ -103,6 +103,18 @@ describe "have_form" do
 	  <input name="range2" type="range" min="1" max="3" value="2" />
       </li>
 
+      <li class="date required">
+      <label for="date">
+	  Something<abbr title="required">*</abbr>
+      </label>
+	  <input name="book_date" type="date" />
+	  <input name="book_month" type="month" value="5" />
+	  <input name="book_week" type="week" />
+	  <input name="book_time" type="time" />
+	  <input name="book_datetime" type="datetime" />
+	  <input name="book_datetime_local" type="datetime-local" />
+      </li>
+
       <li class="radio required" id="form_name_input">
         <fieldset>
 	<legend class="label">
@@ -312,6 +324,40 @@ HTML
           without_range_field('range1', 1, 5)
           without_range_field('range2', 1, 3, :with => { :value => 5 } )
         end
+      end
+    end
+
+    context "with_date_field" do
+      it "should find date field" do
+        rendered.should have_form("/books", :post) do
+          with_date_field(:date)
+          with_date_field(:date, 'book_date')
+          with_date_field(:month, 'book_month', :with => { :value => 5 })
+          with_date_field(:week,'book_week')
+          with_date_field(:time, 'book_time')
+          with_date_field(:datetime, 'book_datetime')
+          with_date_field('datetime-local', 'book_datetime_local')
+        end
+      end
+
+      it "should not find date field" do
+        rendered.should have_form("/books", :post) do
+          without_date_field(:date, 'book_something')
+          without_date_field(:month, 'book_month', :with => { :value => 100500 })
+        end
+      end
+
+      it "should raise exception if wrong date field type specified" do
+        expect do
+          rendered.should have_form("/books", :post) do
+            without_date_field(:unknown, 'book_something')
+          end
+        end.to raise_error('unknown type `unknown` for date picker')
+        expect do
+          rendered.should have_form("/books", :post) do
+            with_date_field(:unknown, 'book_something')
+          end
+        end.to raise_error('unknown type `unknown` for date picker')
       end
     end
 
