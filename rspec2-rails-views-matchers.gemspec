@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
   s.homepage    = "http://github.com/kucaahbe/rspec2-rails-views-matchers"
-  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec-2}
+  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 2.x.x}
   s.description = <<DESC
-#{s.summary}. Does not depend on assert_select matcher, provide useful error messages.
+#{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
 
   s.rubyforge_project = "rspec2-rails-views-matchers"
