@@ -30,111 +30,111 @@ module RSpec
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
 
-	if attrs = @options.delete(:with)
-	  if classes=attrs.delete(:class)
-	    classes = case classes
-		      when Array
-			classes.join('.')
-		      when String
-			classes.gsub("\s",'.')
-		      end
-	    @tag << '.'+classes
-	  end
-	  html_attrs_string=''
-	  attrs.each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}='#{v.to_s}']} }
-	  @tag << html_attrs_string
-	end
+        if attrs = @options.delete(:with)
+          if classes=attrs.delete(:class)
+            classes = case classes
+                      when Array
+                        classes.join('.')
+                      when String
+                        classes.gsub("\s",'.')
+                      end
+            @tag << '.'+classes
+          end
+          html_attrs_string=''
+          attrs.each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}='#{v.to_s}']} }
+          @tag << html_attrs_string
+        end
 
         validate_options!
       end
 
       def matches? document, &block
-	@block = block if block
+        @block = block if block
 
-	case document
-	when String
-	  @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
-	  @document = document
-	else
-	  @parent_scope = document.current_scope
-	  @current_scope = document.parent_scope.css(@tag)
-	  @document = @parent_scope.to_html
-	end
+        case document
+        when String
+          @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
+          @document = document
+        else
+          @parent_scope = document.current_scope
+          @current_scope = document.parent_scope.css(@tag)
+          @document = @parent_scope.to_html
+        end
 
-	if tag_presents? and content_right? and count_right?
-	  @current_scope = @parent_scope
-	  @block.call if @block
-	  true
-	else
-	  false
-	end
+        if tag_presents? and content_right? and count_right?
+          @current_scope = @parent_scope
+          @block.call if @block
+          true
+        else
+          false
+        end
       end
 
       private
 
       def tag_presents?
-	if @current_scope.first
-	  @count = @current_scope.count
+        if @current_scope.first
+          @count = @current_scope.count
           @negative_failure_message = TAG_FOUND_MSG % [@document, @tag, @count]
-	  true
-	else
-	  @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
-	  false
-	end
+          true
+        else
+          @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
+          false
+        end
       end
 
       def count_right?
-	case @options[:count]
-	when Integer
-	  ((@negative_failure_message=RIGHT_COUNT_MSG % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
-	when Range
-	  ((@negative_failure_message=RIGHT_BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
-	when nil
-	  if @options[:maximum]
-	    ((@negative_failure_message=RIGHT_AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
-	  elsif @options[:minimum]
-	    ((@negative_failure_message=RIGHT_AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
-	  else
-	    true
-	  end
-	end
+        case @options[:count]
+        when Integer
+          ((@negative_failure_message=RIGHT_COUNT_MSG % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
+        when Range
+          ((@negative_failure_message=RIGHT_BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
+        when nil
+          if @options[:maximum]
+            ((@negative_failure_message=RIGHT_AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
+          elsif @options[:minimum]
+            ((@negative_failure_message=RIGHT_AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
+          else
+            true
+          end
+        end
       end
 
       def content_right?
-	return true unless @options[:text]
+        return true unless @options[:text]
 
-	case text=@options[:text]
-	when Regexp
-	  new_scope = @current_scope.css(":regexp('#{text}')",Class.new {
-	    def regexp node_set, text
-	      node_set.find_all { |node| node.content =~ Regexp.new(text) }
-	    end
-	  }.new)
-	  unless new_scope.empty?
-	    @count = new_scope.count
+        case text=@options[:text]
+        when Regexp
+          new_scope = @current_scope.css(":regexp('#{text}')",Class.new {
+            def regexp node_set, text
+              node_set.find_all { |node| node.content =~ Regexp.new(text) }
+            end
+          }.new)
+          unless new_scope.empty?
+            @count = new_scope.count
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
-	    true
-	  else
-	    @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
-	    false
-	  end
-	else
-    css_param = text.gsub(/'/) { %q{\000027} }
-    new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
-	    def content node_set, text
-        match_text = text.gsub(/\\000027/, "'")
-	      node_set.find_all { |node| node.content == match_text }
-	    end
-	  }.new)
-	  unless new_scope.empty?
-	    @count = new_scope.count
+            true
+          else
+            @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
+            false
+          end
+        else
+          css_param = text.gsub(/'/) { %q{\000027} }
+          new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
+            def content node_set, text
+              match_text = text.gsub(/\\000027/, "'")
+              node_set.find_all { |node| node.content == match_text }
+            end
+          }.new)
+          unless new_scope.empty?
+            @count = new_scope.count
             @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
-	    true
-	  else
-	    @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]
-	    false
-	  end
-	end
+            true
+          else
+            @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]
+            false
+          end
+        end
       end
 
       protected
@@ -394,13 +394,13 @@ module RSpec
     def with_option text, value=nil, options={}
       options[:with] ||= {}
       if value.is_a?(Hash)
-	options.merge!(value)
-	value=nil
+        options.merge!(value)
+        value=nil
       end
       tag='option'
       options[:with].merge!(:value => value.to_s) if value
       if options[:selected]
-	options[:with].merge!(:selected => "selected")
+        options[:with].merge!(:selected => "selected")
       end
       options.delete(:selected)
       options.merge!(:text => text) if text
@@ -410,13 +410,13 @@ module RSpec
     def without_option text, value=nil, options={}
       options[:with] ||= {}
       if value.is_a?(Hash)
-	options.merge!(value)
-	value=nil
+        options.merge!(value)
+        value=nil
       end
       tag='option'
       options[:with].merge!(:value => value.to_s) if value
       if options[:selected]
-	options[:with].merge!(:selected => "selected")
+        options[:with].merge!(:selected => "selected")
       end
       options.delete(:selected)
       options.merge!(:text => text) if text
