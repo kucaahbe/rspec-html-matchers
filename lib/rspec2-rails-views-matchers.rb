@@ -9,23 +9,23 @@ module RSpec
       attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
 
-      TAG_NOT_FOUND_MSG    = %Q|expected following:\n%s\nto have at least 1 element matching "%s", found 0.|
-      TAG_FOUND_MSG        = %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|
-      WRONG_COUNT_MSG      = %Q|expected following:\n%s\nto have %s element(s) matching "%s", found %s.|
-      RIGHT_COUNT_MSG      = %Q|expected following:\n%s\nto NOT have %s element(s) matching "%s", but found.|
-      BETWEEN_COUNT_MSG    = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
-      RIGHT_BETWEEN_COUNT_MSG = %Q|expected following:\n%s\nto NOT have at least %s and at most %s element(s) matching "%s", but found %s.|
-      AT_MOST_MSG          = %Q|expected following:\n%s\nto have at most %s element(s) matching "%s", found %s.|
-      RIGHT_AT_MOST_MSG    = %Q|expected following:\n%s\nto NOT have at most %s element(s) matching "%s", but found %s.|
-      AT_LEAST_MSG         = %Q|expected following:\n%s\nto have at least %s element(s) matching "%s", found %s.|
-      RIGHT_AT_LEAST_MSG   = %Q|expected following:\n%s\nto NOT have at least %s element(s) matching "%s", but found %s.|
-      REGEXP_NOT_FOUND_MSG = %Q|%s regexp expected within "%s" in following template:\n%s|
-      REGEXP_FOUND_MSG     = %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|
-      TEXT_NOT_FOUND_MSG   = %Q|"%s" expected within "%s" in following template:\n%s|
-      TEXT_FOUND_MSG       = %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|
-      WRONG_COUNT_ERROR_MSG= %Q|:count with :minimum or :maximum has no sence!|
-      MIN_MAX_ERROR_MSG    = %Q|:minimum shold be less than :maximum!|
-      BAD_RANGE_ERROR_MSG  = %Q|Your :count range(%s) has no sence!|
+      TAG_NOT_FOUND_MSG        = %Q|expected following:\n%s\nto have at least 1 element matching "%s", found 0.|
+      TAG_FOUND_MSG            = %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|
+      WRONG_COUNT_MSG          = %Q|expected following:\n%s\nto have %s element(s) matching "%s", found %s.|
+      RIGHT_COUNT_MSG          = %Q|expected following:\n%s\nto NOT have %s element(s) matching "%s", but found.|
+      BETWEEN_COUNT_MSG        = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
+      RIGHT_BETWEEN_COUNT_MSG  = %Q|expected following:\n%s\nto NOT have at least %s and at most %s element(s) matching "%s", but found %s.|
+      AT_MOST_MSG              = %Q|expected following:\n%s\nto have at most %s element(s) matching "%s", found %s.|
+      RIGHT_AT_MOST_MSG        = %Q|expected following:\n%s\nto NOT have at most %s element(s) matching "%s", but found %s.|
+      AT_LEAST_MSG             = %Q|expected following:\n%s\nto have at least %s element(s) matching "%s", found %s.|
+      RIGHT_AT_LEAST_MSG       = %Q|expected following:\n%s\nto NOT have at least %s element(s) matching "%s", but found %s.|
+      REGEXP_NOT_FOUND_MSG     = %Q|%s regexp expected within "%s" in following template:\n%s|
+      REGEXP_FOUND_MSG         = %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|
+      TEXT_NOT_FOUND_MSG       = %Q|"%s" expected within "%s" in following template:\n%s|
+      TEXT_FOUND_MSG           = %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|
+      WRONG_COUNT_ERROR_MSG    = %Q|:count with :minimum or :maximum has no sence!|
+      MIN_MAX_ERROR_MSG        = %Q|:minimum shold be less than :maximum!|
+      BAD_RANGE_ERROR_MSG      = %Q|Your :count range(%s) has no sence!|
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
