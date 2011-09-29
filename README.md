@@ -27,20 +27,31 @@ Instructions for [installing nokogiri here.](http://nokogiri.org/tutorials/insta
 Usage
 -----
 
-some examples:
+simple example:
 
-    rendered.should have_tag('form',:with => {:action => user_path, :method => 'post'}) do
+    view=<<-HTML
+    <h1>Simple Form</h1>
+
+    <form action="/users" method="post">
+    <p>
+      <input type="email" name="user[email]" />
+    </p>
+    <p>
+      <input type="submit" id="special_submit" />
+    </p>
+    </form>
+    HTML
+    view.should have_tag('form',:with => {:action => '/users', :method => 'post'}) do
       with_tag "input", :with => { :name => "user[email]",    :type => 'email' }
       with_tag "input#special_submit", :count => 1
       without_tag "h1", :text => 'unneeded tag'
       without_tag "p",  :text => /content/i
     end
 
-List of all defined matchers ("form" matchers)
------------------------------------------------------
+Also included special matchers for form inputs:
+-----------------------------------------------
 
 - [have\_form](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_form)
-- [have\_tag](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:have_tag)
 - [with\_checkbox](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_checkbox)
 - [with\_email\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_email_field)
 - [with\_file\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_file_field)
@@ -56,8 +67,6 @@ List of all defined matchers ("form" matchers)
 - [with\_number\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_number_field)
 - [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_range_field)
 - [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_date_field)
-- [with\_search\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_search_field)
-- [with\_color\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_color_field)
 
 and of course you can use <strong>without_</strong>matchers(see documentation).
 
@@ -81,6 +90,7 @@ Contributors
 
 - [Kelly Felkins](http://github.com/kellyfelkins)
 - [Ryan Wilcox](http://github.com/rwilcox)
+- [Simon Schoeters](https://github.com/cimm)
 
 License
 =======
