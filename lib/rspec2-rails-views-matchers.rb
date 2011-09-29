@@ -45,6 +45,8 @@ module RSpec
 	  @tag << html_attrs_string
 	end
 
+        raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) or @options[:count].is_a?(Integer)
+
         [:min, :minimum, :max, :maximum].each do |key|
           raise WRONG_COUNT_ERROR_MSG if @options.has_key?(key) and @options.has_key?(:count)
         end
@@ -118,9 +120,6 @@ module RSpec
 	  else
 	    true
 	  end
-	else
-	  @failure_message = 'wrong count specified'
-	  false
 	end
       end
 

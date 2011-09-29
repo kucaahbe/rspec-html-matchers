@@ -177,6 +177,7 @@ describe 'have_tag' do
     end
 
     it "should raise error when wrong params specified" do
+      expect { rendered.should have_tag('div', :count => 'string') }.should raise_error(/wrong :count/)
       wrong_params_error_msg_1 = ':count with :minimum or :maximum has no sence!'
       expect { rendered.should have_tag('div', :count => 2, :minimum => 1) }.should raise_error(wrong_params_error_msg_1)
       expect { rendered.should have_tag('div', :count => 2, :min     => 1) }.should raise_error(wrong_params_error_msg_1)
