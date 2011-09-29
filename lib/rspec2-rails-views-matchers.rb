@@ -45,30 +45,7 @@ module RSpec
 	  @tag << html_attrs_string
 	end
 
-        raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) or @options[:count].is_a?(Integer)
-
-        [:min, :minimum, :max, :maximum].each do |key|
-          raise WRONG_COUNT_ERROR_MSG if @options.has_key?(key) and @options.has_key?(:count)
-        end
-
-        begin
-          raise MIN_MAX_ERROR_MSG if @options[:minimum] > @options[:maximum]
-        rescue NoMethodError # nil > 4
-        rescue ArgumentError # 2 < nil
-        end
-
-        begin
-          begin
-            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
-          rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z'
-            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
-          end
-        rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
-          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
-        end
-
-	@options[:minimum] ||= @options.delete(:min)
-	@options[:maximum] ||= @options.delete(:max)
+        validate_options!
       end
 
       def matches? document, &block
@@ -159,6 +136,36 @@ module RSpec
 	  end
 	end
       end
+
+      protected
+
+      def validate_options!
+        raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) or @options[:count].is_a?(Integer)
+
+        [:min, :minimum, :max, :maximum].each do |key|
+          raise WRONG_COUNT_ERROR_MSG if @options.has_key?(key) and @options.has_key?(:count)
+        end
+
+        begin
+          raise MIN_MAX_ERROR_MSG if @options[:minimum] > @options[:maximum]
+        rescue NoMethodError # nil > 4
+        rescue ArgumentError # 2 < nil
+        end
+
+        begin
+          begin
+            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
+          rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z'
+            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+          end
+        rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
+          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+        end
+
+        @options[:minimum] ||= @options.delete(:min)
+        @options[:maximum] ||= @options.delete(:max)
+      end
+
     end
 
     # have_tag matcher
