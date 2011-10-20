@@ -25,5 +25,7 @@ DESC
 
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'cucumber'
+  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'sinatra'
   s.add_development_dependency 'rake'
 end
