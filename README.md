@@ -7,10 +7,10 @@ Why?
 ===
 
 * you need to test some complex views
-* and you want to use rspec2
+* and you want to use RSpec2
 * and assert\_select seems is something strange to you
 * have_tag in [rspec-rails](http://github.com/rspec/rspec-rails) are deprecated now
-* you need user-firendly output in error messages
+* you need a user-firendly output in your error messages
 
 Being true
 ==========
@@ -18,20 +18,21 @@ Being true
 Install
 -------
 
-add to your Gemfile(in group :test :) ):
+Add to your Gemfile (in the :test group :) ):
 
-    gem 'rspec2-rails-views-matchers'
+    group :test do
+      gem 'rspec2-rails-views-matchers'
+    end
 
-Instructions for [installing nokogiri here.](http://nokogiri.org/tutorials/installing_nokogiri.html)
+Instructions for [installing Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
 
-simple example:
+Simple example:
 
     view=<<-HTML
     <h1>Simple Form</h1>
-
     <form action="/users" method="post">
     <p>
       <input type="email" name="user[email]" />
@@ -41,8 +42,9 @@ simple example:
     </p>
     </form>
     HTML
-    view.should have_tag('form',:with => {:action => '/users', :method => 'post'}) do
-      with_tag "input", :with => { :name => "user[email]",    :type => 'email' }
+    
+    view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
+      with_tag "input", :with => { :name => "user[email]", :type => 'email' }
       with_tag "input#special_submit", :count => 1
       without_tag "h1", :text => 'unneeded tag'
       without_tag "p",  :text => /content/i
@@ -59,6 +61,7 @@ Also included special matchers for form inputs:
 - [with\_option](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_option)
 - [with\_password_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_password_field)
 - [with\_radio\_button](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_radio_button)
+- [with\_button](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_button)
 - [with\_select](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_select)
 - [with\_submit](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_submit)
 - [with\_text\_area](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_text_area)
@@ -68,22 +71,22 @@ Also included special matchers for form inputs:
 - [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_range_field)
 - [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers:with_date_field)
 
-and of course you can use <strong>without_</strong>matchers(see documentation).
+and of course you can use the `without_` matchers (see the documentation).
 
 More info
 ---------
 
-You can find [on RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers), take a look at {RSpec::Matchers#have\_tag have\_tag} method.
+You can find more on [RubyDoc](http://rubydoc.info/github/kucaahbe/rspec2-rails-views-matchers/master/RSpec/Matchers), take a look at {RSpec::Matchers#have\_tag have\_tag} method.
 
 Also, please read {file:CHANGELOG.md CHANGELOG}, it might be helpful.
 
 Contribution
 ============
 
-1. fork
-2. add tests for feature
-3. write implementation
-4. send pull request
+1. Fork the repository
+2. Add tests for your feature
+3. Write the code
+4. Send a pull request
 
 Contributors
 ============
@@ -92,7 +95,13 @@ Contributors
 - [Ryan Wilcox](http://github.com/rwilcox)
 - [Simon Schoeters](https://github.com/cimm)
 
-License
-=======
+MIT Licensed
+============
 
-This gem is released under the MIT license.
+Copyright (c) 2011 Dmitry Mjakotny
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
