@@ -212,6 +212,7 @@ describe 'have_tag' do
     it "should invoke #to_s method for :text" do
       expect {
         rendered.should_not have_tag('p', :text => 100500 )
+        rendered.should have_tag('p', :text => 315 )
       }.to_not raise_exception
     end
 
