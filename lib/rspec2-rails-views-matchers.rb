@@ -164,6 +164,8 @@ module RSpec
 
         @options[:minimum] ||= @options.delete(:min)
         @options[:maximum] ||= @options.delete(:max)
+
+        @options[:text] = @options[:text].to_s if @options.has_key?(:text) && !@options[:text].is_a?(Regexp)
       end
 
     end
