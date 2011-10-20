@@ -50,6 +50,12 @@ Simple example:
       without_tag "p",  :text => /content/i
     end
 
+usage with capybara and cucumber:
+
+    page.should have_tag( ... )
+
+where `page` is an instance of Capybara::Session
+
 Also included special matchers for form inputs:
 -----------------------------------------------
 
