@@ -51,6 +51,8 @@ module RSpec
       def matches? document, &block
         @block = block if block
 
+        document = document.html if defined?(Capybara) && document.is_a?(Capybara::Session)
+
         case document
         when String
           @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
