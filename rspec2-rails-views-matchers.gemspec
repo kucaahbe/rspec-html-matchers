@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "rspec2-rails-views-matchers"
-  s.version     = '0.2.0'
+  s.version     = '0.2.1'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
