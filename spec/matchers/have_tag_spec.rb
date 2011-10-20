@@ -209,6 +209,12 @@ describe 'have_tag' do
       rendered.should_not have_tag('strong', :text => /text does not present/)
     end
 
+    it "should invoke #to_s method for :text" do
+      expect {
+        rendered.should_not have_tag('p', :text => 100500 )
+      }.to_not raise_exception
+    end
+
     it "should not find tags and display appropriate message" do
       # TODO make diffable,maybe...
       expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.should raise_spec_error(
