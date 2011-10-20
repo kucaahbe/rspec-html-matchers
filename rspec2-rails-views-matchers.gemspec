@@ -24,5 +24,6 @@ DESC
   s.add_dependency 'nokogiri', '>= 1.4.4'
 
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'cucumber'
   s.add_development_dependency 'rake'
 end
