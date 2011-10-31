@@ -200,6 +200,9 @@ describe 'have_tag' do
       rendered.should have_tag('div',  :text => /SAMPLE/i)
       rendered.should have_tag('span', :text => "sample with 'single' quotes")
       rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
+
+      rendered.should have_tag('p',    :text => 'content with ignored spaces around')
+      rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
     end
 
     it "should not find tags" do
@@ -207,6 +210,9 @@ describe 'have_tag' do
       rendered.should_not have_tag('strong', :text => 'text does not present')
       rendered.should_not have_tag('p',      :text => /text does not present/)
       rendered.should_not have_tag('strong', :text => /text does not present/)
+
+      rendered.should_not have_tag('p',      :text => 'content without ignored spaces around')
+      rendered.should_not have_tag('pre',    :text => "1. bla\n2. bla")
     end
 
     it "should invoke #to_s method for :text" do
