@@ -4,12 +4,22 @@ Changelog
 unreleased(TODO)
 ----------------
 
+* improve documentation(look at changelog and code!)
 * add description
 * add :without to have\_tag?
 * ?make possible constructions like:
 
       rendered.should have(3).tags('div').with(:class => 'some-class').and_content(/some content/)
 
+0.2.2
+-----
+
+* leading and trailing whitespaces are ignored in tags where they should be ignored(#11, and again thanks to [Simon Schoeters](http://github.com/cimm))
+
+0.2.1
+-----
+
+* make possible use non-string as :text option(#10, thanks for idea to [Simon Schoeters](http://github.com/cimm))
 
 0.2.0
 -----
