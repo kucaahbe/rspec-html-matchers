@@ -207,6 +207,9 @@ module RSpec
     #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
     #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
     def have_tag tag, options={}, &block
+      if options.kind_of? String
+        options = { :text => options }
+      end
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
