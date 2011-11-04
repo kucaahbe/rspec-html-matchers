@@ -205,6 +205,10 @@ describe 'have_tag' do
       rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
     end
 
+    it "should map a string argument to :text => string" do
+      rendered.should have_tag('div',  'sample text')
+    end
+
     it "should not find tags" do
       rendered.should_not have_tag('p',      :text => 'text does not present')
       rendered.should_not have_tag('strong', :text => 'text does not present')
