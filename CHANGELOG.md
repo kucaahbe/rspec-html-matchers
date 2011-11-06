@@ -15,6 +15,8 @@ unreleased(TODO)
 -----
 
 * leading and trailing whitespaces are ignored in tags where they should be ignored(#11, and again thanks to [Simon Schoeters](http://github.com/cimm))
+* whitespaces ignoring as browser does in :text matching
+* have_tag backwards compability(thanks to [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng), #12)
 
 0.2.1
 -----
