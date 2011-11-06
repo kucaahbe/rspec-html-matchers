@@ -27,7 +27,7 @@ module RSpec
       MIN_MAX_ERROR_MSG        = %Q|:minimum shold be less than :maximum!|
       BAD_RANGE_ERROR_MSG      = %Q|Your :count range(%s) has no sence!|
 
-      PRESERVE_WHITESPACE_TAGS = %w( pre )
+      PRESERVE_WHITESPACE_TAGS = %w( pre textarea )
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
@@ -125,7 +125,17 @@ module RSpec
           new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
             def content node_set, text
               match_text = text.gsub(/\\000027/, "'")
-              node_set.find_all { |node| (PRESERVE_WHITESPACE_TAGS.include?(node.name) ? node.content : node.content.strip) == match_text }
+              node_set.find_all do |node|
+                actual_content = if PRESERVE_WHITESPACE_TAGS.include?(node.name)
+                                node.content
+                              else
+                                node.content.strip.squeeze(' ')
+                              end
+                # remove non-braking spaces:
+                actual_content.gsub!("\u00a0", ' ')
+                actual_content.gsub!("\302\240", ' ')
+                actual_content == match_text
+              end
             end
           }.new)
           unless new_scope.empty?
