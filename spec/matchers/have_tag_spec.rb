@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'have_tag' do
   context "through css selector" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/search_and_submit.html") }
+    let(:rendered) { asset('search_and_submit') }
 
     it "should find tags" do
       rendered.should have_tag('div')
@@ -94,7 +94,7 @@ describe 'have_tag' do
   end
 
   context "by count" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/paragraphs.html") }
+    let(:rendered) { asset('paragraphs') }
 
     it "should find tags" do
       rendered.should have_tag('p', :count => 3)
@@ -192,7 +192,7 @@ describe 'have_tag' do
   end
 
   context "with content specified" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/quotes.html") }
+    let(:rendered) { asset('quotes') }
 
     it "should find tags" do
       rendered.should have_tag('div',  :text => 'sample text')
@@ -248,7 +248,7 @@ describe 'have_tag' do
   end
 
   context "mixed matching" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/special.html") }
+    let(:rendered) { asset('special') }
 
     it "should find tags by count and exact content" do
       rendered.should have_tag("td", :text => 'a', :count => 3)
@@ -289,7 +289,7 @@ describe 'have_tag' do
   end
 
   context "nested matching:" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/ordered_list.html") }
+    let(:rendered) { asset('ordered_list') }
 
     it "should find tags" do
       rendered.should have_tag('ol') {
