@@ -94,6 +94,8 @@ Contributors
 - [Kelly Felkins](http://github.com/kellyfelkins)
 - [Ryan Wilcox](http://github.com/rwilcox)
 - [Simon Schoeters](https://github.com/cimm)
+- [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng)
+- [Szymon Przybył](https://github.com/apocalyptiq)
 
 MIT Licensed
 ============
