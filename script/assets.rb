@@ -25,6 +25,7 @@ class Asset
   def content
     @content ||= IO.read(@path)
     puts @content
+    return @content
   end
   alias_method :c, :content
 end
