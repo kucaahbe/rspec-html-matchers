@@ -56,11 +56,11 @@ module RSpec
         case document
         when String
           @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
-          @document = document
+          @document     = document
         else
-          @parent_scope = document.current_scope
+          @parent_scope  = document.current_scope
           @current_scope = document.parent_scope.css(@tag)
-          @document = @parent_scope.to_html
+          @document      = @parent_scope.to_html
         end
 
         if tag_presents? and content_right? and count_right?
@@ -80,7 +80,7 @@ module RSpec
           @negative_failure_message = TAG_FOUND_MSG % [@document, @tag, @count]
           true
         else
-          @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
+          @failure_message          = TAG_NOT_FOUND_MSG % [@document, @tag]
           false
         end
       end
@@ -117,7 +117,7 @@ module RSpec
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
             true
           else
-            @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
+            @failure_message          = REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
             false
           end
         else
@@ -143,7 +143,7 @@ module RSpec
             @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
             true
           else
-            @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]
+            @failure_message          = TEXT_NOT_FOUND_MSG % [text,@tag,@document]
             false
           end
         end
