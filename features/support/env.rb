@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'capybara/cucumber'
-require 'rspec2-rails-views-matchers'
+require 'rspec-html-matchers'
 
 $ASSETS_DIR = File.join(Dir.pwd,'assets')
 $INDEX_HTML = File.join($ASSETS_DIR,'index.html')
