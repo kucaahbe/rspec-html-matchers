@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'nokogiri'
+require File.join(File.dirname(__FILE__),'assets.rb')
+require 'irb'
+
+IRB.start

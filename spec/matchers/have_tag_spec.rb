@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'have_tag' do
   context "through css selector" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/search_and_submit.html") }
+    let(:rendered) { asset('search_and_submit') }
 
     it "should find tags" do
       rendered.should have_tag('div')
@@ -94,7 +94,7 @@ describe 'have_tag' do
   end
 
   context "by count" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/paragraphs.html") }
+    let(:rendered) { asset('paragraphs') }
 
     it "should find tags" do
       rendered.should have_tag('p', :count => 3)
@@ -192,7 +192,7 @@ describe 'have_tag' do
   end
 
   context "with content specified" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/quotes.html") }
+    let(:rendered) { asset('quotes') }
 
     it "should find tags" do
       rendered.should have_tag('div',  :text => 'sample text')
@@ -200,6 +200,16 @@ describe 'have_tag' do
       rendered.should have_tag('div',  :text => /SAMPLE/i)
       rendered.should have_tag('span', :text => "sample with 'single' quotes")
       rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
+
+      rendered.should have_tag('p',    :text => 'content with ignored spaces around')
+      rendered.should have_tag('p',    :text => 'content with ignored spaces in')
+      rendered.should have_tag('p',    :text => 'content with nbsp')
+      rendered.should have_tag('p',    :text => 'content with nbsp  and  spaces   around')
+      rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
+    end
+
+    it "should map a string argument to :text => string" do
+      rendered.should have_tag('div',  'sample text')
     end
 
     it "should not find tags" do
@@ -207,6 +217,13 @@ describe 'have_tag' do
       rendered.should_not have_tag('strong', :text => 'text does not present')
       rendered.should_not have_tag('p',      :text => /text does not present/)
       rendered.should_not have_tag('strong', :text => /text does not present/)
+
+      rendered.should_not have_tag('p',      :text => 'content with ignoredspaces around')
+      rendered.should_not have_tag('p',      :text => 'content with ignored  spaces around')
+      rendered.should_not have_tag('p',      :text => 'content withignored spaces in')
+      rendered.should_not have_tag('p',      :text => 'contentwith nbsp')
+      rendered.should_not have_tag('p',      :text => 'content with nbsp  and  spaces  around')
+      rendered.should_not have_tag('pre',    :text => "1. bla\n2. bla")
     end
 
     it "should invoke #to_s method for :text" do
@@ -238,7 +255,7 @@ describe 'have_tag' do
   end
 
   context "mixed matching" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/special.html") }
+    let(:rendered) { asset('special') }
 
     it "should find tags by count and exact content" do
       rendered.should have_tag("td", :text => 'a', :count => 3)
@@ -279,7 +296,7 @@ describe 'have_tag' do
   end
 
   context "nested matching:" do
-    let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/ordered_list.html") }
+    let(:rendered) { asset('ordered_list') }
 
     it "should find tags" do
       rendered.should have_tag('ol') {

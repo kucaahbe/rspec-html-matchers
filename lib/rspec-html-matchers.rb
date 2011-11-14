@@ -27,6 +27,8 @@ module RSpec
       MIN_MAX_ERROR_MSG        = %Q|:minimum shold be less than :maximum!|
       BAD_RANGE_ERROR_MSG      = %Q|Your :count range(%s) has no sence!|
 
+      PRESERVE_WHITESPACE_TAGS = %w( pre textarea )
+
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
 
@@ -56,11 +58,11 @@ module RSpec
         case document
         when String
           @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
-          @document = document
+          @document     = document
         else
-          @parent_scope = document.current_scope
+          @parent_scope  = document.current_scope
           @current_scope = document.parent_scope.css(@tag)
-          @document = @parent_scope.to_html
+          @document      = @parent_scope.to_html
         end
 
         if tag_presents? and content_right? and count_right?
@@ -80,7 +82,7 @@ module RSpec
           @negative_failure_message = TAG_FOUND_MSG % [@document, @tag, @count]
           true
         else
-          @failure_message = TAG_NOT_FOUND_MSG % [@document, @tag]
+          @failure_message          = TAG_NOT_FOUND_MSG % [@document, @tag]
           false
         end
       end
@@ -117,7 +119,7 @@ module RSpec
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
             true
           else
-            @failure_message=REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
+            @failure_message          = REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
             false
           end
         else
@@ -125,7 +127,17 @@ module RSpec
           new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
             def content node_set, text
               match_text = text.gsub(/\\000027/, "'")
-              node_set.find_all { |node| node.content == match_text }
+              node_set.find_all do |node|
+                actual_content = if PRESERVE_WHITESPACE_TAGS.include?(node.name)
+                                node.content
+                              else
+                                node.content.strip.squeeze(' ')
+                              end
+                # remove non-braking spaces:
+                actual_content.gsub!("\u00a0", ' ')
+                actual_content.gsub!("\302\240", ' ')
+                actual_content == match_text
+              end
             end
           }.new)
           unless new_scope.empty?
@@ -133,7 +145,7 @@ module RSpec
             @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
             true
           else
-            @failure_message=TEXT_NOT_FOUND_MSG % [text,@tag,@document]
+            @failure_message          = TEXT_NOT_FOUND_MSG % [text,@tag,@document]
             false
           end
         end
@@ -207,6 +219,9 @@ module RSpec
     #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
     #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
     def have_tag tag, options={}, &block
+      if options.kind_of? String
+        options = { :text => options }
+      end
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
