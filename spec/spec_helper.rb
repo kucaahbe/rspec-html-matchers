@@ -6,7 +6,7 @@ if defined?(SimpleCov)
   end
 end
 
-require 'rspec2-rails-views-matchers'
+require 'rspec-html-matchers'
 
 # Requires supporting files with custom matchers and macros, etc,
 # # in ./support/ and its subdirectories.
