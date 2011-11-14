@@ -21,7 +21,7 @@ Install
 Add to your Gemfile (in the :test group :) ):
 
     group :test do
-      gem 'rspec2-rails-views-matchers'
+      gem 'rspec-html-matchers'
     end
 
 Instructions for [installing Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html).
