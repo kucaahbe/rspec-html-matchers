@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["kucaahbe"]
   s.email       = ["kucaahbe@ukr.net"]
-  s.homepage    = "http://github.com/kucaahbe/rspec2-rails-views-matchers"
-  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 2.x.x}
+  s.homepage    = "http://github.com/kucaahbe/rspec-html-matchers"
+  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 2.x.x (renamed to rspec-html-matchers)}
   s.description = <<DESC
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
