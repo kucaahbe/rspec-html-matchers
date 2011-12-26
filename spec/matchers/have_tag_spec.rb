@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 describe 'have_tag' do
@@ -210,6 +211,11 @@ describe 'have_tag' do
 
     it "should map a string argument to :text => string" do
       rendered.should have_tag('div',  'sample text')
+    end
+
+    it "should find with unicode text specified" do
+      expect { rendered.should have_tag('a', :text => "học") }.to_not raise_exception(Encoding::CompatibilityError) if RUBY_VERSION =~ /^1\.9/
+      rendered.should have_tag('a', :text => "học")
     end
 
     it "should not find tags" do
