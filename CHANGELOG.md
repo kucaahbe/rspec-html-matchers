@@ -8,6 +8,11 @@ unreleased(TODO)
 * add description
 * add :without to have\_tag?
 
+0.2.3
+-----
+
+* fix for unicode text matching (issue #13)
+
 0.2.2
 -----
 
