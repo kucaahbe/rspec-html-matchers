@@ -71,10 +71,10 @@ Examples with more description:
 '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
   with_tag('strong')
 end
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty') do
   with_tag('strong')
 end
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty') do
   with_tag('strong')
 end
 ```
@@ -83,10 +83,10 @@ end
 
 ```ruby
 # all of this are equivalent:
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
 ```
 
 Also included special matchers for form inputs:
