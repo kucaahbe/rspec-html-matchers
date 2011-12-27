@@ -20,9 +20,11 @@ Install
 
 Add to your Gemfile (in the :test group :) ):
 
-    group :test do
-      gem 'rspec-html-matchers'
-    end
+```ruby
+group :test do
+  gem 'rspec-html-matchers'
+end
+```
 
 Instructions for [installing Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
@@ -50,6 +52,41 @@ view.should have_tag('form', :with => { :action => '/users', :method => 'post' }
   without_tag "h1", :text => 'unneeded tag'
   without_tag "p",  :text => /content/i
 end
+```
+
+Examples with more description:
+
+* tag matching (matches one or more tags):
+
+```ruby
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
+
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
+# or
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
+  with_tag('strong')
+end
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty')
+  with_tag('strong')
+end
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty')
+  with_tag('strong')
+end
+```
+
+* special case: classes matching:
+
+```ruby
+# all of this are equivalent:
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
 ```
 
 Also included special matchers for form inputs:
