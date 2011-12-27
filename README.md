@@ -31,24 +31,26 @@ Usage
 
 Simple example:
 
-    view=<<-HTML
-    <h1>Simple Form</h1>
-    <form action="/users" method="post">
-    <p>
-      <input type="email" name="user[email]" />
-    </p>
-    <p>
-      <input type="submit" id="special_submit" />
-    </p>
-    </form>
-    HTML
-    
-    view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
-      with_tag "input", :with => { :name => "user[email]", :type => 'email' }
-      with_tag "input#special_submit", :count => 1
-      without_tag "h1", :text => 'unneeded tag'
-      without_tag "p",  :text => /content/i
-    end
+```ruby
+view=<<-HTML
+<h1>Simple Form</h1>
+<form action="/users" method="post">
+<p>
+  <input type="email" name="user[email]" />
+</p>
+<p>
+  <input type="submit" id="special_submit" />
+</p>
+</form>
+HTML
+
+view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
+  with_tag "input", :with => { :name => "user[email]", :type => 'email' }
+  with_tag "input#special_submit", :count => 1
+  without_tag "h1", :text => 'unneeded tag'
+  without_tag "p",  :text => /content/i
+end
+```
 
 Also included special matchers for form inputs:
 -----------------------------------------------
