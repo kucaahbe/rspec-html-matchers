@@ -1,8 +1,15 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 describe 'have_tag' do
   context "through css selector" do
     let(:rendered) { asset('search_and_submit') }
+
+    it "should have right description" do
+      have_tag('div').description.should == 'have at least 1 element matching "div"'
+      have_tag('div.class').description.should == 'have at least 1 element matching "div.class"'
+      have_tag('div#id').description.should == 'have at least 1 element matching "div#id"'
+    end
 
     it "should find tags" do
       rendered.should have_tag('div')
@@ -95,6 +102,10 @@ describe 'have_tag' do
 
   context "by count" do
     let(:rendered) { asset('paragraphs') }
+
+    it "should have right description" do
+      have_tag('div', :count => 100500).description.should == 'have 100500 element(s) matching "div"'
+    end
 
     it "should find tags" do
       rendered.should have_tag('p', :count => 3)
@@ -210,6 +221,11 @@ describe 'have_tag' do
 
     it "should map a string argument to :text => string" do
       rendered.should have_tag('div',  'sample text')
+    end
+
+    it "should find with unicode text specified" do
+      expect { rendered.should have_tag('a', :text => "học") }.to_not raise_exception(Encoding::CompatibilityError) if RUBY_VERSION =~ /^1\.9/
+      rendered.should have_tag('a', :text => "học")
     end
 
     it "should not find tags" do

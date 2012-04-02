@@ -5,15 +5,24 @@ unreleased(TODO)
 ----------------
 
 * improve documentation(look at changelog and code!)
-* add description
-* add :without to have\_tag?
+* add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
+
+0.2.4
+-----
+
+* added simple #description method for "it { should have_tag }" cases
+
+0.2.3
+-----
+
+* fix for unicode text matching (issue #13)
 
 0.2.2
 -----
 
 * leading and trailing whitespaces are ignored in tags where they should be ignored(#11, and again thanks to [Simon Schoeters](http://github.com/cimm))
 * whitespaces ignoring as browser does in :text matching
-* have_tag backwards compability(thanks to [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng), #12)
+* have_tag backwards compability(thanks to [Felix Tjandrawibawa](https://github.com/cemeng), #12)
 
 0.2.1
 -----

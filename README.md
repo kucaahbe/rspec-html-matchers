@@ -20,9 +20,11 @@ Install
 
 Add to your Gemfile (in the :test group :) ):
 
-    group :test do
-      gem 'rspec-html-matchers'
-    end
+```ruby
+group :test do
+  gem 'rspec-html-matchers'
+end
+```
 
 Instructions for [installing Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
@@ -31,24 +33,61 @@ Usage
 
 Simple example:
 
-    view=<<-HTML
-    <h1>Simple Form</h1>
-    <form action="/users" method="post">
-    <p>
-      <input type="email" name="user[email]" />
-    </p>
-    <p>
-      <input type="submit" id="special_submit" />
-    </p>
-    </form>
-    HTML
-    
-    view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
-      with_tag "input", :with => { :name => "user[email]", :type => 'email' }
-      with_tag "input#special_submit", :count => 1
-      without_tag "h1", :text => 'unneeded tag'
-      without_tag "p",  :text => /content/i
-    end
+```ruby
+view=<<-HTML
+<h1>Simple Form</h1>
+<form action="/users" method="post">
+<p>
+  <input type="email" name="user[email]" />
+</p>
+<p>
+  <input type="submit" id="special_submit" />
+</p>
+</form>
+HTML
+
+view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
+  with_tag "input", :with => { :name => "user[email]", :type => 'email' }
+  with_tag "input#special_submit", :count => 1
+  without_tag "h1", :text => 'unneeded tag'
+  without_tag "p",  :text => /content/i
+end
+```
+
+Examples with more description:
+
+* tag matching (matches one or more tags):
+
+```ruby
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
+
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
+# or
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
+  with_tag('strong')
+end
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty') do
+  with_tag('strong')
+end
+'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty') do
+  with_tag('strong')
+end
+```
+
+* special case: classes matching:
+
+```ruby
+# all of this are equivalent:
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
+'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
+```
 
 usage with capybara and cucumber:
 
@@ -106,7 +145,7 @@ Contributors
 MIT Licensed
 ============
 
-Copyright (c) 2011 Dmitry Mjakotny
+Copyright (c) 2011-2012 Dmitrij Mjakotnyi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
