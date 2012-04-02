@@ -7,6 +7,11 @@ unreleased(TODO)
 * improve documentation(look at changelog and code!)
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
 
+0.3.4
+-----
+
+* capybara support
+
 0.2.4
 -----
 
