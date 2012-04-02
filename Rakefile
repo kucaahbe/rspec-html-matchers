@@ -5,7 +5,7 @@ Bundler::GemHelper.install_tasks
 
 gemspec = eval(File.read(Dir["*.gemspec"].first))
 
-task :default => :spec
+task :default => [:spec, :cucumber]
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts='--tag ~wip'
