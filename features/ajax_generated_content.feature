@@ -1,6 +1,6 @@
 Feature: Javascript generated content
 
-  Scenario: test
+  Scenario: Test with js
     Given I have following template:
     """
     <!DOCTYPE html>
@@ -12,11 +12,8 @@ Feature: Javascript generated content
       <body>
         <h1>Hello World!</h1>
 
-        <script src="/jquery.js" type="text/javascript"></script>
         <script type="text/javascript">
-        $(function() {
-          $('h1').after('<p>Hello Another World!</p>');
-        });
+          document.write('<p>Hello Another World!</p>');
         </script>
       </body>
     </html>
