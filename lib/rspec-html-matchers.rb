@@ -243,7 +243,7 @@ module RSpec
     def have_form action_url, method, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
-      tag = 'form'; tag += '#'+id if id
+      tag = 'form'; tag << '#'+id if id
       options[:with].merge!(:action => action_url)
       options[:with].merge!(:method => method.to_s)
       have_tag tag, options, &block
@@ -396,7 +396,7 @@ module RSpec
     def with_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
-      tag='select'; tag += '#'+id if id
+      tag='select'; tag << '#'+id if id
       options[:with].merge!(:name => name)
       @__current_scope_for_nokogiri_matcher.should have_tag(tag, options, &block)
     end
@@ -404,7 +404,7 @@ module RSpec
     def without_select name, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
-      tag='select'; tag += '#'+id if id
+      tag='select'; tag << '#'+id if id
       options[:with].merge!(:name => name)
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
     end
