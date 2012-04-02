@@ -5,8 +5,12 @@ unreleased(TODO)
 ----------------
 
 * improve documentation(look at changelog and code!)
-* add description
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
+
+0.2.4
+-----
+
+* added simple #description method for "it { should have_tag }" cases
 
 0.2.3
 -----

@@ -10,9 +10,11 @@ module RSpec
       attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
 
-      TAG_NOT_FOUND_MSG        = %Q|expected following:\n%s\nto have at least 1 element matching "%s", found 0.|
+      TAG_FOUND_DESC           = %Q|have at least 1 element matching "%s"|
+      TAG_NOT_FOUND_MSG        = %Q|expected following:\n%s\nto #{TAG_FOUND_DESC}, found 0.|
       TAG_FOUND_MSG            = %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|
-      WRONG_COUNT_MSG          = %Q|expected following:\n%s\nto have %s element(s) matching "%s", found %s.|
+      COUNT_DESC               = %Q|have %s element(s) matching "%s"|
+      WRONG_COUNT_MSG          = %Q|expected following:\n%s\nto #{COUNT_DESC}, found %s.|
       RIGHT_COUNT_MSG          = %Q|expected following:\n%s\nto NOT have %s element(s) matching "%s", but found.|
       BETWEEN_COUNT_MSG        = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
       RIGHT_BETWEEN_COUNT_MSG  = %Q|expected following:\n%s\nto NOT have at least %s and at most %s element(s) matching "%s", but found %s.|
@@ -70,6 +72,15 @@ module RSpec
           true
         else
           false
+        end
+      end
+
+      def description
+        # TODO should it be more complicated?
+        if @options.has_key?(:count)
+          COUNT_DESC % [@options[:count],@tag]
+        else
+          TAG_FOUND_DESC % @tag
         end
       end
 
