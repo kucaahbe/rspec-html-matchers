@@ -9,6 +9,11 @@ class SimpleApp < Sinatra::Base
   set :public_folder, $ASSETS_DIR
 end
 
+unless ENV.has_key? 'TRAVIS'
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, :browser => (ENV['BROWSER'] || :chrome))
+  end
+end
 Capybara.default_driver = :selenium
 Capybara.app = SimpleApp
 
