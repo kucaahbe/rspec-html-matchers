@@ -7,6 +7,11 @@ unreleased(TODO)
 * improve documentation(look at changelog and code!)
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
 
+0.3.5
+-----
+
+* Fix for content matching regexps with single and double quotes (#14 thanks to watsonbox)
+
 0.3.4
 -----
 
