@@ -211,6 +211,7 @@ describe 'have_tag' do
       rendered.should have_tag('div',  :text => /SAMPLE/i)
       rendered.should have_tag('span', :text => "sample with 'single' quotes")
       rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
+      rendered.should have_tag('span', :text => /sample with 'single' and "double" quotes/)
 
       rendered.should have_tag('p',    :text => 'content with ignored spaces around')
       rendered.should have_tag('p',    :text => 'content with ignored spaces in')
@@ -267,7 +268,6 @@ describe 'have_tag' do
         %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
       )
     end
-
   end
 
   context "mixed matching" do

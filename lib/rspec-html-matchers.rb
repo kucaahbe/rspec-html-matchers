@@ -121,11 +121,15 @@ module RSpec
 
         case text=@options[:text]
         when Regexp
-          new_scope = @current_scope.css(":regexp('#{text}')",Class.new {
-            def regexp node_set, text
-              node_set.find_all { |node| node.content =~ Regexp.new(text) }
+          new_scope = @current_scope.css(":regexp()",Class.new {
+            def initialize(regex)
+              @regex = regex
             end
-          }.new)
+
+            def regexp node_set
+              node_set.find_all { |node| node.content =~ @regex }
+            end
+          }.new(text))
           unless new_scope.empty?
             @count = new_scope.count
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
