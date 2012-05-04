@@ -2,7 +2,10 @@ pkg/*
 *.gem
 .bundle
 .rvmrc
+.rbenv-*
 Gemfile.lock
+# logs
+chromedriver.log
 # documentation:
 html
 doc
