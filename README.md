@@ -141,6 +141,7 @@ Contributors
 - [Simon Schoeters](https://github.com/cimm)
 - [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng)
 - [Szymon Przybył](https://github.com/apocalyptiq)
+- [Howard Wilson][https://github.com/watsonbox]
 
 MIT Licensed
 ============
