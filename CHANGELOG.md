@@ -4,8 +4,13 @@ Changelog
 unreleased(TODO)
 ----------------
 
-* improve documentation(look at changelog and code!)
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
+
+0.4.0(TODO)
+-----------
+
+* order matching
+* improve documentation(look at changelog and code!)
 
 0.3.5
 -----
