@@ -1,40 +1,38 @@
-Test views, be true! :) [![Build Status](http://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
-=======================
+rspec-html-matchers
+===================
 
-[![Mikhalok](https://github.com/kucaahbe/rspec-html-matchers/raw/master/assets/mikhalok.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
+[RSpec 2](https://www.relishapp.com/rspec) matchers for testing your html.
 
-Why?
-===
+[![Build Status](http://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
 
-* you need to test some complex views
-* and you want to use RSpec2
-* and assert\_select seems is something strange to you
-* have_tag in [rspec-rails](http://github.com/rspec/rspec-rails) are deprecated now
-* you need a user-firendly output in your error messages
+Goals
+-----
 
-Being true
-==========
+* for testing **complicated** html output, for simple matching consider use:
+  * [assert_select](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
+  * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
+  * [matchers provided by capybara](http://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
+* syntax is similar to [have_tag](http://old.rspec.info/rails/writing/views.html) matcher from old-school rspec-rails, but with own syntactic sugar
+* developer-firendly output in error messages
+* built on top of [nokogiri](nokogiri.org)
 
 Install
 -------
 
-Add to your Gemfile (in the :test group :) ):
+Add to your Gemfile in the `:test` group:
 
 ```ruby
-group :test do
   gem 'rspec-html-matchers'
-end
-```
 
-Instructions for [installing Nokogiri](http://nokogiri.org/tutorials/installing_nokogiri.html).
+```
+as this hem requires **nokogiri** here [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
 
 Simple example:
 
-```ruby
-view=<<-HTML
+```html
 <h1>Simple Form</h1>
 <form action="/users" method="post">
 <p>
@@ -44,8 +42,9 @@ view=<<-HTML
   <input type="submit" id="special_submit" />
 </p>
 </form>
-HTML
+```
 
+```ruby
 view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
   with_tag "input", :with => { :name => "user[email]", :type => 'email' }
   with_tag "input#special_submit", :count => 1
