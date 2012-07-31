@@ -1,7 +1,7 @@
 Test views, be true! :) [![Build Status](http://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
 =======================
 
-[![Mikhalok](https://github.com/kucaahbe/rspec-html-matchers/raw/master/mikhalok.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
+[![Mikhalok](https://github.com/kucaahbe/rspec-html-matchers/raw/master/assets/mikhalok.jpg)](http://www.myspace.com/lyapis "Lyapis Trubetskoy ska-punk band")
 
 Why?
 ===
