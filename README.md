@@ -12,9 +12,11 @@ Goals
   * [assert_select](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
   * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
   * [matchers provided by capybara](http://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
-* syntax is similar to [have_tag](http://old.rspec.info/rails/writing/views.html) matcher from old-school rspec-rails, but with own syntactic sugar
 * developer-firendly output in error messages
 * built on top of [nokogiri](nokogiri.org)
+* has support for [capybara](https://github.com/jnicklas/capybara), see below
+* syntax is similar to [have_tag](http://old.rspec.info/rails/writing/views.html) matcher from old-school rspec-rails, but with own syntactic sugar
+* framework agnostic, as input should be String(or capybara's page, see below)
 
 Install
 -------
@@ -22,15 +24,16 @@ Install
 Add to your Gemfile in the `:test` group:
 
 ```ruby
-  gem 'rspec-html-matchers'
+gem 'rspec-html-matchers'
 
 ```
+
 as this hem requires **nokogiri** here [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
 
-Simple example:
+so perharps your code produces following output:
 
 ```html
 <h1>Simple Form</h1>
@@ -44,8 +47,10 @@ Simple example:
 </form>
 ```
 
+so you test it with following:
+
 ```ruby
-view.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
+rendered.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
   with_tag "input", :with => { :name => "user[email]", :type => 'email' }
   with_tag "input#special_submit", :count => 1
   without_tag "h1", :text => 'unneeded tag'
@@ -53,20 +58,24 @@ view.should have_tag('form', :with => { :action => '/users', :method => 'post' }
 end
 ```
 
-Examples with more description:
+Example about should be self-descriptive, but if not refer to [have_tag](http://rdoc.info/github/kucaahbe/rspec-html-matchers/RSpec/Matchers:have_tag) documentation
 
-* tag matching (matches one or more tags):
+Input could be any html string. Let's take a look at these examples:
+
+* matching tags by css:
+
 
 ```ruby
+# simple examples:
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
-
+# more complicated examples:
 '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
 '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
 '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
-# or
+# or you can use another syntax for examples above
 '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
   with_tag('strong')
 end
@@ -78,7 +87,7 @@ end
 end
 ```
 
-* special case: classes matching:
+* special case for classes matching:
 
 ```ruby
 # all of this are equivalent:
@@ -88,32 +97,33 @@ end
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
 ```
 
-usage with capybara and cucumber:
+* usage with capybara and cucumber:
 
-    page.should have_tag( ... )
+```ruby
+page.should have_tag( ... )
+```
 
 where `page` is an instance of Capybara::Session
 
-Also included special matchers for form inputs:
------------------------------------------------
+* also included shorthand matchers for form inputs:
 
-- [have\_form](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:have_form)
-- [with\_checkbox](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_checkbox)
-- [with\_email\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_email_field)
-- [with\_file\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_file_field)
-- [with\_hidden\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_hidden_field)
-- [with\_option](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_option)
-- [with\_password_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_password_field)
-- [with\_radio\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_radio_button)
-- [with\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_button)
-- [with\_select](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_select)
-- [with\_submit](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_submit)
-- [with\_text\_area](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_area)
-- [with\_text\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_field)
-- [with\_url\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_url_field)
-- [with\_number\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_number_field)
-- [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_range_field)
-- [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_date_field)
+  - [have\_form](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:have_form)
+  - [with\_checkbox](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_checkbox)
+  - [with\_email\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_email_field)
+  - [with\_file\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_file_field)
+  - [with\_hidden\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_hidden_field)
+  - [with\_option](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_option)
+  - [with\_password_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_password_field)
+  - [with\_radio\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_radio_button)
+  - [with\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_button)
+  - [with\_select](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_select)
+  - [with\_submit](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_submit)
+  - [with\_text\_area](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_area)
+  - [with\_text\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_field)
+  - [with\_url\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_url_field)
+  - [with\_number\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_number_field)
+  - [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_range_field)
+  - [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_date_field)
 
 and of course you can use the `without_` matchers (see the documentation).
 
@@ -130,7 +140,8 @@ Contribution
 1. Fork the repository
 2. Add tests for your feature
 3. Write the code
-4. Send a pull request
+4. Add documentation for your contribution
+5. Send a pull request
 
 Contributors
 ============
