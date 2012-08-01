@@ -235,9 +235,8 @@ module RSpec
     #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
     #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
     def have_tag tag, options={}, &block
-      if options.kind_of? String
-        options = { :text => options }
-      end
+      # for backwards compatibility with rpecs have tag:
+      options = { :text => options } if options.kind_of? String
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
@@ -267,62 +266,52 @@ module RSpec
     end
 
     def with_hidden_field name, value=nil
-      options = { :with => { :name => name, :type => 'hidden' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('hidden',name,value)
       should_have_input(options)
     end
 
     def without_hidden_field name, value=nil
-      options = { :with => { :name => name, :type => 'hidden' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('hidden',name,value)
       should_not_have_input(options)
     end
 
     def with_text_field name, value=nil
-      options = { :with => { :name => name, :type => 'text' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('text',name,value)
       should_have_input(options)
     end
 
     def without_text_field name, value=nil
-      options = { :with => { :name => name, :type => 'text' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('text',name,value)
       should_not_have_input(options)
     end
 
     def with_email_field name, value=nil
-      options = { :with => { :name => name, :type => 'email' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('email',name,value)
       should_have_input(options)
     end
 
     def without_email_field name, value=nil
-      options = { :with => { :name => name, :type => 'email' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('email',name,value)
       should_not_have_input(options)
     end
 
     def with_url_field name, value=nil
-      options = { :with => { :name => name, :type => 'url' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('url',name,value)
       should_have_input(options)
     end
 
     def without_url_field name, value=nil
-      options = { :with => { :name => name, :type => 'url' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('url',name,value)
       should_not_have_input(options)
     end
 
     def with_number_field name, value=nil
-      options = { :with => { :name => name, :type => 'number' } }
-      options[:with].merge!(:value => value.to_s) if value
+      options = form_tag_options('number',name,value)
       should_have_input(options)
     end
 
     def without_number_field name, value=nil
-      options = { :with => { :name => name, :type => 'number' } }
-      options[:with].merge!(:value => value.to_s) if value
+      options = form_tag_options('number',name,value)
       should_not_have_input(options)
     end
 
@@ -356,23 +345,23 @@ module RSpec
       should_not_have_input(options)
     end
 
-    def with_password_field name
-      options = { :with => { :name => name, :type => 'password' } }
+    def with_password_field name, value=nil
+      options = form_tag_options('password',name,value)
       should_have_input(options)
     end
 
-    def without_password_field name
-      options = { :with => { :name => name, :type => 'password' } }
+    def without_password_field name, value=nil
+      options = form_tag_options('password',name,value)
       should_not_have_input(options)
     end
 
-    def with_file_field name
-      options = { :with => { :name => name, :type => 'file' } }
+    def with_file_field name, value=nil
+      options = form_tag_options('file',name,value)
       should_have_input(options)
     end
 
-    def without_file_field name
-      options = { :with => { :name => name, :type => 'file' } }
+    def without_file_field name, value=nil
+      options = form_tag_options('file',name,value)
       should_not_have_input(options)
     end
 
@@ -387,26 +376,22 @@ module RSpec
     end
 
     def with_checkbox name, value=nil
-      options = { :with => { :name => name, :type => 'checkbox' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('checkbox',name,value)
       should_have_input(options)
     end
 
     def without_checkbox name, value=nil
-      options = { :with => { :name => name, :type => 'checkbox' } }
-      options[:with].merge!(:value => value) if value
+      options = form_tag_options('checkbox',name,value)
       should_not_have_input(options)
     end
 
     def with_radio_button name, value
-      options = { :with => { :name => name, :type => 'radio' } }
-      options[:with].merge!(:value => value)
+      options = form_tag_options('radio',name,value)
       should_have_input(options)
     end
 
     def without_radio_button name, value
-      options = { :with => { :name => name, :type => 'radio' } }
-      options[:with].merge!(:value => value)
+      options = form_tag_options('radio',name,value)
       should_not_have_input(options)
     end
 
@@ -498,6 +483,14 @@ module RSpec
 
     def should_not_have_input(options)
       @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+    end
+
+    # form_tag in method name name mean smth. like input, submit, tags that should appear in a form
+    def form_tag_options form_tag_type, form_tag_name, form_tag_value=nil
+      options = { :with => { :name => form_tag_name, :type => form_tag_type } }
+      # .to_s if value is a digit or smth. else, see issue#10
+      options[:with].merge!(:value => form_tag_value.to_s) if form_tag_value
+      return options
     end
 
   end
