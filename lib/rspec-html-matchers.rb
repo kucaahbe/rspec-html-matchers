@@ -200,20 +200,20 @@ module RSpec
 
     end
 
-    # have_tag matcher
+    # tag assertion, this is the core of functionality, other matchers are shortcuts to this matcher
     #
-    # @yield block where you should put with_tag
+    # @yield block where you should put with_tag, without_tag and/or other matchers
     #
-    # @param [String] tag     css selector for tag you want to match
+    # @param [String] tag     css selector for tag you want to match, e.g. 'div', 'section#my', 'article.red'
     # @param [Hash]   options options hash(see below)
-    # @option options [Hash]   :with  hash with other attributes, within this, key :class have special meaning, you may specify it as array of expected classes or string of classes separated by spaces, order does not matter
-    # @option options [Fixnum] :count count of matched tags(DO NOT USE :count with :minimum(:min) or :maximum(:max)*)
-    # @option options [Range]  :count count of matched tags should be between range minimum and maximum values
+    # @option options [Hash]   :with  hash with html attributes, within this, *:class* option have special meaning, you may specify it as array of expected classes or string of classes separated by spaces, order does not matter
+    # @option options [Fixnum] :count for tag count matching(*ATTENTION:* do not use :count with :minimum(:min) or :maximum(:max))
+    # @option options [Range]  :count not strict tag count matching, count of tags should be in specified range
     # @option options [Fixnum] :minimum minimum count of elements to match
     # @option options [Fixnum] :min same as :minimum
     # @option options [Fixnum] :maximum maximum count of elements to match
     # @option options [Fixnum] :max same as :maximum
-    #
+    # @option options [String/Regexp] :text to match tag content, could be either String or Regexp
     #
     # @example
     #   rendered.should have_tag('div')
@@ -221,7 +221,7 @@ module RSpec
     #   rendered.should have_tag('div#footer')
     #   rendered.should have_tag('input#email', :with => { :name => 'user[email]', :type => 'email' } )
     #   rendered.should have_tag('div', :count => 3)            # matches exactly 3 'div' tags
-    #   rendered.should have_tag('div', :count => 3..7)         # something like have_tag('div', :minimum => 3, :maximum => 7)
+    #   rendered.should have_tag('div', :count => 3..7)         # shortcut for have_tag('div', :minimum => 3, :maximum => 7)
     #   rendered.should have_tag('div', :minimum => 3)          # matches more(or equal) than 3 'div' tags
     #   rendered.should have_tag('div', :maximum => 3)          # matches less(or equal) than 3 'div' tags
     #   rendered.should have_tag('p', :text => 'some content')  # will match "<p>some content</p>"
@@ -241,7 +241,7 @@ module RSpec
     end
 
     # with_tag matcher
-    # @yield
+    # @yield block where you should put other with_tag or without_tag
     # @see #have_tag
     # @note this should be used within block of have_tag matcher
     def with_tag tag, options={}, &block
@@ -249,13 +249,19 @@ module RSpec
     end
 
     # without_tag matcher
-    # @yield
+    # @yield block where you should put other with_tag or without_tag
     # @see #have_tag
     # @note this should be used within block of have_tag matcher
     def without_tag tag, options={}, &block
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
     end
 
+    # form assertion
+    #
+    # it is a shortcut to
+    #   have_tag 'form', :with => { :action => action_url, :method => method ... }
+    # @yield block with with_<field>, see below
+    # @see #have_tag
     def have_form action_url, method, options={}, &block
       options[:with] ||= {}
       id = options[:with].delete(:id)
@@ -264,6 +270,8 @@ module RSpec
       options[:with].merge!(:method => method.to_s)
       have_tag tag, options, &block
     end
+
+    #TODO fix code duplications
 
     def with_hidden_field name, value=nil
       options = form_tag_options('hidden',name,value)
@@ -365,12 +373,14 @@ module RSpec
       should_not_have_input(options)
     end
 
-    def with_text_area name
+    def with_text_area name#TODO, text=nil
+      #options = form_tag_options('text',name,value)
       options = { :with => { :name => name } }
       @__current_scope_for_nokogiri_matcher.should have_tag('textarea', options)
     end
 
-    def without_text_area name
+    def without_text_area name#TODO, text=nil
+      #options = form_tag_options('text',name,value)
       options = { :with => { :name => name } }
       @__current_scope_for_nokogiri_matcher.should_not have_tag('textarea', options)
     end
@@ -467,10 +477,12 @@ module RSpec
 
     def with_submit value
       options = { :with => { :type => 'submit', :value => value } }
+      #options = form_tag_options('text',name,value)
       should_have_input(options)
     end
 
     def without_submit value
+      #options = form_tag_options('text',name,value)
       options = { :with => { :type => 'submit', :value => value } }
       should_not_have_input(options)
     end
