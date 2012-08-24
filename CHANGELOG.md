@@ -6,12 +6,14 @@ unreleased(TODO)
 
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
 * with_tag should raise error when used outside have_tag
+* add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
+* inteligent check comments
 
 0.4.0(TODO)
 -----------
 
 * order matching
-* improve documentation(look at changelog and code!)
+* improve documentation, add more usage examples (look at changelog and code!)
 
 0.3.5
 -----
