@@ -7,7 +7,8 @@ unreleased(TODO)
 * add :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
 * with_tag should raise error when used outside have_tag
 * add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
-* inteligent check comments
+* inteligent check comments(make sure it is not searching inside comments)
+* shouldn't show all markup in error message if it is too big
 
 0.4.0(TODO)
 -----------
