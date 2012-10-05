@@ -8,10 +8,27 @@ end
 
 require 'rspec-html-matchers'
 
-# Requires supporting files with custom matchers and macros, etc,
-# # in ./support/ and its subdirectories.
-Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
+SPEC_DIR = File.dirname(__FILE__)
+
+module AssetHelpers
+
+  def asset name
+    let :rendered do
+      IO.read File.join(SPEC_DIR,"assets/#{name}.html")
+    end
+  end
+
+end
+
+module CustomHelpers
+
+  def raise_spec_error msg
+    raise_error RSpec::Expectations::ExpectationNotMetError, msg
+  end
+
+end
 
 RSpec.configure do |config|
-  config.include Helpers
+  config.extend  AssetHelpers
+  config.include CustomHelpers
 end

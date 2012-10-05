@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe 'have_tag' do
   context "through css selector" do
-    let(:rendered) { asset('search_and_submit') }
+    asset 'search_and_submit'
 
     it "should have right description" do
       have_tag('div').description.should == 'have at least 1 element matching "div"'
@@ -101,7 +101,7 @@ describe 'have_tag' do
   end
 
   context "by count" do
-    let(:rendered) { asset('paragraphs') }
+    asset 'paragraphs'
 
     it "should have right description" do
       have_tag('div', :count => 100500).description.should == 'have 100500 element(s) matching "div"'
@@ -203,7 +203,7 @@ describe 'have_tag' do
   end
 
   context "with content specified" do
-    let(:rendered) { asset('quotes') }
+    asset 'quotes'
 
     it "should find tags" do
       rendered.should have_tag('div',  :text => 'sample text')
@@ -271,7 +271,7 @@ describe 'have_tag' do
   end
 
   context "mixed matching" do
-    let(:rendered) { asset('special') }
+    asset 'special'
 
     it "should find tags by count and exact content" do
       rendered.should have_tag("td", :text => 'a', :count => 3)
@@ -312,7 +312,7 @@ describe 'have_tag' do
   end
 
   context "nested matching:" do
-    let(:rendered) { asset('ordered_list') }
+    asset 'ordered_list'
 
     it "should find tags" do
       rendered.should have_tag('ol') {

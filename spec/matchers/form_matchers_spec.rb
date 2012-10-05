@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "have_form" do
-  let(:rendered) { IO.read(File.dirname(__FILE__)+"/../../assets/form.html") }
+  asset 'form'
 
   context "without &block" do
     it "should find form" do

@@ -2,7 +2,7 @@ require 'sinatra/base'
 require 'capybara/cucumber'
 require 'rspec-html-matchers'
 
-$ASSETS_DIR = File.join(Dir.pwd,'assets')
+$ASSETS_DIR = File.expand_path('../../../spec/assets',__FILE__)
 $INDEX_HTML = File.join($ASSETS_DIR,'index.html')
 
 class SimpleApp < Sinatra::Base
