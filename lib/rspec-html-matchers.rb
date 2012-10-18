@@ -157,7 +157,7 @@ module RSpec
 
         case text=@options[:text]
         when Regexp
-          new_scope = @current_scope.css(":regexp()",NokogiriRegexpHelper.new(text))
+          new_scope = @current_scope.css(':regexp()',NokogiriRegexpHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
@@ -167,7 +167,7 @@ module RSpec
             false
           end
         else
-          new_scope = @current_scope.css(":content()",NokogiriTextHelper.new(text))
+          new_scope = @current_scope.css(':content()',NokogiriTextHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
             @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
