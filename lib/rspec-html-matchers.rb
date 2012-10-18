@@ -6,6 +6,42 @@ module RSpec
 
     # @api
     # @private
+    # for nokogiri regexp matching
+    class NokogiriRegexpHelper
+      def initialize(regex)
+        @regex = regex
+      end
+
+      def regexp node_set
+        node_set.find_all { |node| node.content =~ @regex }
+      end
+    end
+
+    # @api
+    # @private
+    class NokogiriTextHelper
+      def initialize text
+        @text = text
+      end
+
+      def content node_set
+        match_text = @text.gsub(/\\000027/, "'")
+        node_set.find_all do |node|
+          actual_content = if NokogiriMatcher::PRESERVE_WHITESPACE_TAGS.include?(node.name)
+                             node.content
+                           else
+                             node.content.strip.squeeze(' ')
+                           end
+          # remove non-braking spaces:
+          actual_content.gsub!("\u00a0", ' ')
+          actual_content.gsub!("\302\240", ' ')
+          actual_content == match_text
+        end
+      end
+    end
+
+    # @api
+    # @private
     class NokogiriMatcher
       attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
@@ -68,7 +104,7 @@ module RSpec
           @document      = @parent_scope.to_html
         end
 
-        if tag_presents? and content_right? and count_right?
+        if tag_presents? and text_right? and count_right?
           @current_scope = @parent_scope
           @block.call if @block
           true
@@ -116,20 +152,12 @@ module RSpec
         end
       end
 
-      def content_right?
+      def text_right?
         return true unless @options[:text]
 
         case text=@options[:text]
         when Regexp
-          new_scope = @current_scope.css(":regexp()",Class.new {
-            def initialize(regex)
-              @regex = regex
-            end
-
-            def regexp node_set
-              node_set.find_all { |node| node.content =~ @regex }
-            end
-          }.new(text))
+          new_scope = @current_scope.css(":regexp()",NokogiriRegexpHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
             @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
@@ -139,23 +167,7 @@ module RSpec
             false
           end
         else
-          css_param = text.gsub(/'/) { %q{\000027} }
-          new_scope = @current_scope.css(":content('#{css_param}')",Class.new {
-            def content node_set, text
-              match_text = text.gsub(/\\000027/, "'")
-              node_set.find_all do |node|
-                actual_content = if PRESERVE_WHITESPACE_TAGS.include?(node.name)
-                                node.content
-                              else
-                                node.content.strip.squeeze(' ')
-                              end
-                # remove non-braking spaces:
-                actual_content.gsub!("\u00a0", ' ')
-                actual_content.gsub!("\302\240", ' ')
-                actual_content == match_text
-              end
-            end
-          }.new)
+          new_scope = @current_scope.css(":content()",NokogiriTextHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
             @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
