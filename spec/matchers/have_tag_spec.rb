@@ -202,7 +202,7 @@ describe 'have_tag' do
     end
   end
 
-  context "with content specified" do
+  context "with :text specified (strict text matching)" do
     asset 'quotes'
 
     it "should find tags" do

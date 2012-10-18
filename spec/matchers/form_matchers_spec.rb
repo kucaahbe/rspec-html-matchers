@@ -5,7 +5,8 @@ describe "have_form" do
 
   context "without &block" do
     it "should find form" do
-      rendered.should have_form("/books", :post)
+      rendered.should have_form("/books", :post) # just to make sure it just works
+      # params checking:
       self.should_receive(:have_tag).with("form#new_book", :with => { :method => "post", :action => "/books", :class => %w(book formtastic) })
       rendered.should have_form("/books", "post", :with => { :id => "new_book", :class => %w(book formtastic) })
     end
