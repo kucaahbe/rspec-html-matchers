@@ -29,9 +29,13 @@ module RSpec
         node_set.find_all do |node|
           actual_content = node.content
           # remove non-breaking spaces:
-          actual_content.gsub!(/\u00a0/, ' ')
-          # not sure but this is the same as above:
-          #actual_content.gsub!("\302\240", ' ')
+          case RUBY_VERSION
+          when /^1\.9/
+            actual_content.gsub!(/\u00a0/, ' ')
+          when /^1\.8/
+            actual_content.gsub!("\302\240", ' ')
+          end
+
           actual_content == match_text
         end
       end
