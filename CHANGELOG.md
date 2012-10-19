@@ -10,11 +10,19 @@ unreleased(TODO)
 * inteligent check comments(make sure it is not searching inside comments)
 * shouldn't show all markup in error message if it is too big
 
-0.4.0(TODO)
+0.5.0(TODO)
 -----------
 
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
+
+0.4.0
+-----
+
+* adding have_tag('p', :content => 'bla bla') TODO document me
+
+adding with_text
+adding with_content
 
 0.3.5
 -----

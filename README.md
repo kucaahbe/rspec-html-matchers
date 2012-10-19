@@ -25,10 +25,9 @@ Add to your Gemfile in the `:test` group:
 
 ```ruby
 gem 'rspec-html-matchers'
-
 ```
 
-as this hem requires **nokogiri** here [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
+as this gem requires **nokogiri**, here [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
@@ -97,6 +96,29 @@ end
 '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
 ```
 
+* content matching:
+
+```ruby
+'<p> Some content&nbsphere</p>'.should have_tag('p', :text => ' Some content here')
+# or
+'<p> Some content&nbsphere</p>'.should have_tag('p') do
+  with_text ' Some content here'
+end
+
+'<p> Some content&nbsphere</p>'.should have_tag('p', :text => /Some content here/)
+# or
+'<p> Some content&nbsphere</p>'.should have_tag('p') do
+  with_text /Some content here/
+end
+
+# mymock.text == 'Some content here'
+'<p> Some content&nbsphere</p>'.should have_tag('p', :content => mymock.text)
+# or
+'<p> Some content&nbsphere</p>'.should have_tag('p') do
+  with_content mymock.text
+end
+```
+
 * usage with capybara and cucumber:
 
 ```ruby
@@ -130,9 +152,9 @@ and of course you can use the `without_` matchers (see the documentation).
 More info
 ---------
 
-You can find more on [RubyDoc](http://rubydoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers), take a look at {RSpec::Matchers#have\_tag have\_tag} method.
+You can find more on [RubyDoc](http://rubydoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers), take a look at [have_tag](http://rdoc.info/github/kucaahbe/rspec-html-matchers/RSpec/Matchers#have_tag-instance_method) method.
 
-Also, please read {file:CHANGELOG.md CHANGELOG}, it might be helpful.
+Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/master/CHANGELOG.md), it might be helpful.
 
 Contribution
 ============
