@@ -251,6 +251,12 @@ module RSpec
       @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
     end
 
+    def with_text text
+      #raise if block_given?
+      tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
+      @__current_scope_for_nokogiri_matcher.should have_tag(tag, :text => text)
+    end
+
     # with_tag matcher
     # @yield block where you should put other with_tag or without_tag
     # @see #have_tag

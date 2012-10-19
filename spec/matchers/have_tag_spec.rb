@@ -205,62 +205,104 @@ describe 'have_tag' do
   context "with :text specified" do
     asset 'quotes'
 
-    it "should find tags" do
-      rendered.should have_tag('div',  :text => 'sample text')
-      rendered.should have_tag('p',    :text => 'one')
-      rendered.should have_tag('div',  :text => /SAMPLE/i)
-      rendered.should have_tag('span', :text => "sample with 'single' quotes")
-      rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
-      rendered.should have_tag('span', :text => /sample with 'single' and "double" quotes/)
+    context 'using standard syntax' do
 
-      rendered.should have_tag('p',    :text => 'content with nbsp')
-      rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
+      it "should find tags" do
+        rendered.should have_tag('div',  :text => 'sample text')
+        rendered.should have_tag('p',    :text => 'one')
+        rendered.should have_tag('div',  :text => /SAMPLE/i)
+        rendered.should have_tag('span', :text => "sample with 'single' quotes")
+        rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
+        rendered.should have_tag('span', :text => /sample with 'single' and "double" quotes/)
+
+        rendered.should have_tag('p',    :text => 'content with nbsp')
+        rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
+      end
+
+      it "should map a string argument to :text => string" do
+        rendered.should have_tag('div',  'sample text')
+      end
+
+      it "should find with unicode text specified" do
+        expect { rendered.should have_tag('a', :text => "học") }.to_not raise_exception(Encoding::CompatibilityError) if RUBY_VERSION =~ /^1\.9/
+          rendered.should have_tag('a', :text => "học")
+      end
+
+      it "should not find tags" do
+        rendered.should_not have_tag('p',      :text => 'text does not present')
+        rendered.should_not have_tag('strong', :text => 'text does not present')
+        rendered.should_not have_tag('p',      :text => /text does not present/)
+        rendered.should_not have_tag('strong', :text => /text does not present/)
+
+        rendered.should_not have_tag('p',      :text => 'contentwith nbsp')
+        rendered.should_not have_tag('pre',    :text => "1. bla\n2. bla")
+      end
+
+      it "should invoke #to_s method for :text" do
+        expect {
+          rendered.should_not have_tag('p', :text => 100500 )
+          rendered.should have_tag('p', :text => 315 )
+        }.to_not raise_exception
+      end
+
+      it "should not find tags and display appropriate message" do
+        # TODO make diffable,maybe...
+        expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.to raise_spec_error(
+          %Q{"SAMPLE text" expected within "div" in following template:\n#{rendered}}
+        )
+        expect { rendered.should have_tag('div', :text => /SAMPLE tekzt/i) }.to raise_spec_error(
+          %Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
+        )
+      end
+
+      it "should find unexpected tags and display appropriate message" do
+        expect { rendered.should_not have_tag('div', :text => 'sample text') }.to raise_spec_error(
+          %Q{"sample text" unexpected within "div" in following template:\n#{rendered}\nbut was found.}
+        )
+        expect { rendered.should_not have_tag('div', :text => /SAMPLE text/i) }.to raise_spec_error(
+          %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
+        )
+      end
+
     end
 
-    it "should map a string argument to :text => string" do
-      rendered.should have_tag('div',  'sample text')
+    context 'using alternative syntax' do
+      it "should find tags" do
+        rendered.should have_tag('div') do
+          with_text 'sample text'
+        end
+
+        rendered.should have_tag('p') do
+          with_text 'one'
+        end
+
+        rendered.should have_tag('div') do
+          with_text /SAMPLE/i
+        end
+
+        rendered.should have_tag('span') do
+          with_text "sample with 'single' quotes"
+        end
+
+        rendered.should have_tag('span') do
+          with_text %Q{sample with 'single' and "double" quotes}
+        end
+
+        rendered.should have_tag('span') do
+          with_text /sample with 'single' and "double" quotes/
+        end
+
+
+        rendered.should have_tag('p') do
+          with_text 'content with nbsp'
+        end
+
+        rendered.should have_tag('pre') do
+          with_text " 1. bla   \n 2. bla "
+        end
+      end
     end
 
-    it "should find with unicode text specified" do
-      expect { rendered.should have_tag('a', :text => "học") }.to_not raise_exception(Encoding::CompatibilityError) if RUBY_VERSION =~ /^1\.9/
-      rendered.should have_tag('a', :text => "học")
-    end
-
-    it "should not find tags" do
-      rendered.should_not have_tag('p',      :text => 'text does not present')
-      rendered.should_not have_tag('strong', :text => 'text does not present')
-      rendered.should_not have_tag('p',      :text => /text does not present/)
-      rendered.should_not have_tag('strong', :text => /text does not present/)
-
-      rendered.should_not have_tag('p',      :text => 'contentwith nbsp')
-      rendered.should_not have_tag('pre',    :text => "1. bla\n2. bla")
-    end
-
-    it "should invoke #to_s method for :text" do
-      expect {
-        rendered.should_not have_tag('p', :text => 100500 )
-        rendered.should have_tag('p', :text => 315 )
-      }.to_not raise_exception
-    end
-
-    it "should not find tags and display appropriate message" do
-      # TODO make diffable,maybe...
-      expect { rendered.should have_tag('div', :text => 'SAMPLE text') }.to raise_spec_error(
-        %Q{"SAMPLE text" expected within "div" in following template:\n#{rendered}}
-      )
-      expect { rendered.should have_tag('div', :text => /SAMPLE tekzt/i) }.to raise_spec_error(
-        %Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
-      )
-    end
-
-    it "should find unexpected tags and display appropriate message" do
-      expect { rendered.should_not have_tag('div', :text => 'sample text') }.to raise_spec_error(
-        %Q{"sample text" unexpected within "div" in following template:\n#{rendered}\nbut was found.}
-      )
-      expect { rendered.should_not have_tag('div', :text => /SAMPLE text/i) }.to raise_spec_error(
-        %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
-      )
-    end
   end
 
   context "mixed matching" do
