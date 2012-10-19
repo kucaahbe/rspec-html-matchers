@@ -27,14 +27,11 @@ module RSpec
       def content node_set
         match_text = @text.gsub(/\\000027/, "'")
         node_set.find_all do |node|
-          actual_content = if NokogiriMatcher::PRESERVE_WHITESPACE_TAGS.include?(node.name)
-                             node.content
-                           else
-                             node.content.strip.squeeze(' ')
-                           end
-          # remove non-braking spaces:
-          actual_content.gsub!("\u00a0", ' ')
-          actual_content.gsub!("\302\240", ' ')
+          actual_content = node.content
+          # remove non-breaking spaces:
+          actual_content.gsub!(/\u00a0/, ' ')
+          # not sure but this is the same as above:
+          #actual_content.gsub!("\302\240", ' ')
           actual_content == match_text
         end
       end
@@ -65,8 +62,6 @@ module RSpec
       WRONG_COUNT_ERROR_MSG    = %Q|:count with :minimum or :maximum has no sence!|
       MIN_MAX_ERROR_MSG        = %Q|:minimum shold be less than :maximum!|
       BAD_RANGE_ERROR_MSG      = %Q|Your :count range(%s) has no sence!|
-
-      PRESERVE_WHITESPACE_TAGS = %w( pre textarea )
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block

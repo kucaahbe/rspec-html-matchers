@@ -202,7 +202,7 @@ describe 'have_tag' do
     end
   end
 
-  context "with :text specified (strict text matching)" do
+  context "with :text specified" do
     asset 'quotes'
 
     it "should find tags" do
@@ -213,10 +213,7 @@ describe 'have_tag' do
       rendered.should have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
       rendered.should have_tag('span', :text => /sample with 'single' and "double" quotes/)
 
-      rendered.should have_tag('p',    :text => 'content with ignored spaces around')
-      rendered.should have_tag('p',    :text => 'content with ignored spaces in')
       rendered.should have_tag('p',    :text => 'content with nbsp')
-      rendered.should have_tag('p',    :text => 'content with nbsp  and  spaces   around')
       rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
     end
 
@@ -235,11 +232,7 @@ describe 'have_tag' do
       rendered.should_not have_tag('p',      :text => /text does not present/)
       rendered.should_not have_tag('strong', :text => /text does not present/)
 
-      rendered.should_not have_tag('p',      :text => 'content with ignoredspaces around')
-      rendered.should_not have_tag('p',      :text => 'content with ignored  spaces around')
-      rendered.should_not have_tag('p',      :text => 'content withignored spaces in')
       rendered.should_not have_tag('p',      :text => 'contentwith nbsp')
-      rendered.should_not have_tag('p',      :text => 'content with nbsp  and  spaces  around')
       rendered.should_not have_tag('pre',    :text => "1. bla\n2. bla")
     end
 
