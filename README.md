@@ -63,67 +63,66 @@ Input could be any html string. Let's take a look at these examples:
 
 * matching tags by css:
 
-
-```ruby
-# simple examples:
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
-# more complicated examples:
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
-# or you can use another syntax for examples above
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
-  with_tag('strong')
-end
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty') do
-  with_tag('strong')
-end
-'<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty') do
-  with_tag('strong')
-end
-```
+  ```ruby
+  # simple examples:
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
+  # more complicated examples:
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
+  # or you can use another syntax for examples above
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
+    with_tag('strong')
+  end
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty') do
+    with_tag('strong')
+  end
+  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty') do
+    with_tag('strong')
+  end
+  ```
 
 * special case for classes matching:
 
-```ruby
-# all of this are equivalent:
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
-'<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
-```
+  ```ruby
+  # all of this are equivalent:
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
+  ```
 
 * content matching:
 
-```ruby
-'<p> Some content&nbsphere</p>'.should have_tag('p', :text => ' Some content here')
-# or
-'<p> Some content&nbsphere</p>'.should have_tag('p') do
-  with_text ' Some content here'
-end
+  ```ruby
+  '<p> Some content&nbsphere</p>'.should have_tag('p', :text => ' Some content here')
+  # or
+  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+    with_text ' Some content here'
+  end
 
-'<p> Some content&nbsphere</p>'.should have_tag('p', :text => /Some content here/)
-# or
-'<p> Some content&nbsphere</p>'.should have_tag('p') do
-  with_text /Some content here/
-end
+  '<p> Some content&nbsphere</p>'.should have_tag('p', :text => /Some content here/)
+  # or
+  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+    with_text /Some content here/
+  end
 
-# mymock.text == 'Some content here'
-'<p> Some content&nbsphere</p>'.should have_tag('p', :content => mymock.text)
-# or
-'<p> Some content&nbsphere</p>'.should have_tag('p') do
-  with_content mymock.text
-end
-```
+  # mymock.text == 'Some content here'
+  '<p> Some content&nbsphere</p>'.should have_tag('p', :content => mymock.text)
+  # or
+  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+    with_content mymock.text
+  end
+  ```
 
 * usage with capybara and cucumber:
 
-```ruby
-page.should have_tag( ... )
-```
+  ```ruby
+  page.should have_tag( ... )
+  ```
 
 where `page` is an instance of Capybara::Session
 
