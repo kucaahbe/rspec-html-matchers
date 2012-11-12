@@ -301,6 +301,29 @@ describe 'have_tag' do
           with_text " 1. bla   \n 2. bla "
         end
       end
+
+      it "should not find tags" do
+        rendered.should have_tag('p') do
+          but_without_text 'text does not present'
+          without_text 'text does not present'
+        end
+
+        rendered.should have_tag('p') do
+          but_without_text /text does not present/
+          without_text /text does not present/
+        end
+
+        rendered.should have_tag('p') do
+          but_without_text 'contentwith nbsp'
+          without_text 'contentwith nbsp'
+        end
+
+        rendered.should have_tag('pre') do
+          but_without_text "1. bla\n2. bla"
+          without_text "1. bla\n2. bla"
+        end
+      end
+
     end
 
   end

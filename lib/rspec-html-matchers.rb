@@ -257,6 +257,13 @@ module RSpec
       @__current_scope_for_nokogiri_matcher.should have_tag(tag, :text => text)
     end
 
+    def without_text text
+      #raise if block_given?
+      tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
+      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, :text => text)
+    end
+    alias :but_without_text :without_text
+
     # with_tag matcher
     # @yield block where you should put other with_tag or without_tag
     # @see #have_tag
