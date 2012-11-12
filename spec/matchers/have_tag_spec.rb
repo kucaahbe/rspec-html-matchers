@@ -324,6 +324,40 @@ describe 'have_tag' do
         end
       end
 
+      it "should not find tags and display appropriate message" do
+        expect {
+          rendered.should have_tag('div') do
+            with_text 'SAMPLE text'
+          end
+        }.to raise_spec_error(
+          %Q{"SAMPLE text" expected within "div" in following template:\n<div>sample text</div>}
+        )
+        expect {
+          rendered.should have_tag('div') do
+            with_text /SAMPLE tekzt/i
+          end
+        }.to raise_spec_error(
+          %Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n<div>sample text</div>}
+        )
+      end
+
+      it "should find unexpected tags and display appropriate message" do
+        expect {
+          rendered.should have_tag('div') do
+            without_text 'sample text'
+          end
+        }.to raise_spec_error(
+          %Q{"sample text" unexpected within "div" in following template:\n<div>sample text</div>\nbut was found.}
+        )
+        expect {
+          rendered.should have_tag('div') do
+            without_text /SAMPLE text/i
+          end
+        }.to raise_spec_error(
+          %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n<div>sample text</div>\nbut was found.}
+        )
+      end
+
     end
 
   end
