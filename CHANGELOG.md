@@ -19,10 +19,11 @@ unreleased(TODO)
 0.4.0
 -----
 
-* adding have_tag('p', :content => 'bla bla') TODO document me
-
-adding with_text
-adding with_content
+* added with_text matcher
+* some code refactoring, but a lot of refactoring left for future
+* rewritten README, added more usage examples
+* removed dealing with whitespaces (#11), too much magic for usage (#16)
+* some attempt to improve documentation
 
 0.3.5
 -----
