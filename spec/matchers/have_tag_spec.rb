@@ -266,7 +266,41 @@ describe 'have_tag' do
 
     end
 
-    context 'using alternative syntax' do
+    context 'using alternative syntax(with_text/without_text)' do
+
+      it "should raise exception when used outside any other tag matcher" do
+        expect { with_text 'sample text' }.to    raise_error(StandardError,/inside "have_tag"/)
+        expect { without_text 'sample text' }.to raise_error(StandardError,/inside "have_tag"/)
+      end
+
+      it "should raise exception when used with block" do
+        expect {
+          rendered.should have_tag('div') do
+            with_text 'sample text' do
+              puts 'bla'
+            end
+          end
+        }.to raise_error(ArgumentError,/does not accept block/)
+        expect {
+          rendered.should have_tag('div') do
+            with_text 'sample text', proc { puts 'bla' }
+          end
+        }.to raise_error(ArgumentError)
+
+        expect {
+          rendered.should have_tag('div') do
+            without_text 'sample text' do
+              puts 'bla'
+            end
+          end
+        }.to raise_error(ArgumentError,/does not accept block/)
+        expect {
+          rendered.should have_tag('div') do
+            without_text 'sample text', proc { puts 'bla' }
+          end
+        }.to raise_error(ArgumentError)
+      end
+
       it "should find tags" do
         rendered.should have_tag('div') do
           with_text 'sample text'

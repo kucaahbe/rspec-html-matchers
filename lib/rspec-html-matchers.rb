@@ -252,13 +252,15 @@ module RSpec
     end
 
     def with_text text
-      #raise if block_given?
+      raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
+      raise ArgumentError, 'this matcher does not accept block' if block_given?
       tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
       @__current_scope_for_nokogiri_matcher.should have_tag(tag, :text => text)
     end
 
     def without_text text
-      #raise if block_given?
+      raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
+      raise ArgumentError, 'this matcher does not accept block' if block_given?
       tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
       @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, :text => text)
     end
