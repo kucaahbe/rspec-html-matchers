@@ -4,8 +4,10 @@ pkg/*
 # ruby version management
 .rvmrc
 .rbenv-*
+.ruby-version
 # common stuff
-.bundle
+bin/
+.bundle/
 Gemfile.lock
 # logs
 chromedriver.log

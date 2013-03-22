@@ -16,6 +16,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.4.1
+-----
+
+* ruby 2.0.0 support
+
 0.4.0
 -----
 

@@ -30,7 +30,8 @@ module RSpec
           actual_content = node.content
           # remove non-breaking spaces:
           case RUBY_VERSION
-          when /^1\.9/
+          # 1.9.x 2.x.x rubies
+          when /^(1\.9|2)/
             actual_content.gsub!(/\u00a0/, ' ')
           when /^1\.8/
             actual_content.gsub!("\302\240", ' ')
