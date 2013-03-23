@@ -3,7 +3,7 @@ rspec-html-matchers
 
 [RSpec 2](https://www.relishapp.com/rspec) matchers for testing your html.
 
-[![Build Status](http://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
+[![Build Status](https://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
 
 Goals
 -----
