@@ -98,10 +98,13 @@ module RSpec
         when String
           @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
           @document     = document
-        else
+        when self.class
           @parent_scope  = document.current_scope
           @current_scope = document.parent_scope.css(@tag)
           @document      = @parent_scope.to_html
+        else
+          @parent_scope = @current_scope = document.search(@tag)
+          @document = document
         end
 
         if tag_presents? and text_right? and count_right?

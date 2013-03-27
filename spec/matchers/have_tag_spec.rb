@@ -485,4 +485,10 @@ describe 'have_tag' do
       }.to raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:\n#{ordered_list_regexp}/)
     end
   end
+
+  context "xml document" do
+    subject(:xml) { Nokogiri::XML('<root><node/></root>') }
+    it('should match root') { should have_tag('root') }
+    its('root') { should have_tag('node') }
+  end
 end
