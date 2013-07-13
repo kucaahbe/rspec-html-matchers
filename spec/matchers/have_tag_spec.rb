@@ -98,6 +98,22 @@ describe 'have_tag' do
 
     end
 
+    context "with additional HTML attributes (:without option)" do
+      asset 'single_element'
+
+      it "should find tags that have classes specified via array (or string)" do
+        rendered.should_not have_tag('div', :without => { :class => %w(foo bar) })
+        rendered.should_not have_tag('div', :without => { :class => 'foo bar' })
+        rendered.should_not have_tag('div', :without => { :class => 'foo' })
+        rendered.should_not have_tag('div', :without => { :class => 'bar' })
+      end
+
+      it "should not find tags that have classes specified via array (or string)" do
+        rendered.should have_tag('div', :without => { :class => %w(foo baz) })
+        rendered.should have_tag('div', :without => { :class => 'foo baz' })
+        rendered.should have_tag('div', :without => { :class => 'baz' })
+      end
+    end
   end
 
   context "by count" do

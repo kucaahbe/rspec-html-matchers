@@ -95,6 +95,16 @@ Input could be any html string. Let's take a look at these examples:
   '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
   ```
 
+  The same works with `:without`:
+
+  ```ruby
+  # all of this are equivalent:
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => 'qwe rty' })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => 'rty qwe' })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => ['rty', 'qwe'] })
+  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => ['qwe', 'rty'] })
+  ```
+
 * content matching:
 
   ```ruby

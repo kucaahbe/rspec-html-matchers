@@ -71,19 +71,21 @@ module RSpec
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
 
-        if attrs = @options.delete(:with)
-          if classes=attrs.delete(:class)
-            classes = case classes
-                      when Array
-                        classes.join('.')
-                      when String
-                        classes.gsub("\s",'.')
-                      end
-            @tag << '.'+classes
+        if with_attrs = @options.delete(:with)
+          if classes = with_attrs.delete(:class)
+            @tag << '.' + classes_to_selector(classes)
           end
-          html_attrs_string=''
-          attrs.each_pair { |k,v| html_attrs_string << %Q{[#{k.to_s}='#{v.to_s}']} }
-          @tag << html_attrs_string
+          selector = with_attrs.inject('') do |html_attrs_string, (k, v)|
+            html_attrs_string << "[#{k}='#{v}']"
+            html_attrs_string
+          end
+          @tag << selector
+        end
+
+        if without_attrs = @options.delete(:without)
+          if classes = without_attrs.delete(:class)
+            @tag << ":not(.#{classes_to_selector(classes)})"
+          end
         end
 
         validate_options!
@@ -123,6 +125,15 @@ module RSpec
       end
 
       private
+
+      def classes_to_selector(classes)
+        case classes
+        when Array
+          classes.join('.')
+        when String
+          classes.gsub(/\s+/, '.')
+        end
+      end
 
       def tag_presents?
         if @current_scope.first
