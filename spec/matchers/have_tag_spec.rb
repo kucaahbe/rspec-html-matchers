@@ -240,7 +240,7 @@ describe 'have_tag' do
       end
 
       it "should find with unicode text specified" do
-        expect { rendered.should have_tag('a', :text => "học") }.to_not raise_exception(Encoding::CompatibilityError) if RUBY_VERSION =~ /^1\.9/
+        expect { rendered.should have_tag('a', :text => "học") }.not_to raise_error
           rendered.should have_tag('a', :text => "học")
       end
 
