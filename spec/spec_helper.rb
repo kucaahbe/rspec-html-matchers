@@ -8,14 +8,19 @@ end
 
 require 'rspec-html-matchers'
 
-SPEC_DIR = File.dirname(__FILE__)
-
 module AssetHelpers
 
+  ASSETS = File.expand_path('../fixtures/%s.html',__FILE__)
+
   def asset name
-    let :rendered do
-      IO.read File.join(SPEC_DIR,"assets/#{name}.html")
-    end
+    asset_content = fixtures[name] ||= IO.read(ASSETS%name)
+    let(:rendered) { asset_content }
+  end
+
+  private
+
+  def fixtures
+    @assets ||= {}
   end
 
 end
