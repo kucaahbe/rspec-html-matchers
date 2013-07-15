@@ -32,4 +32,5 @@ DESC
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '>= 2.11.0' # in order to use new expect().to syntax
   s.add_development_dependency 'travis-lint'
+  s.add_development_dependency 'ruby-debug'
 end
