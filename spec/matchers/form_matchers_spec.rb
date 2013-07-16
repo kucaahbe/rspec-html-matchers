@@ -7,7 +7,7 @@ describe "have_form" do
     it "should find form" do
       # sanity check
       expect(rendered).to have_form("/books", :post)
-      expect(rendered).to have_form("/books", "post", :with => { :id => "new_book", :class => %w(book formtastic) })
+      expect(rendered).to have_form("/books", "post", with: { id: "new_book", class: %w(book formtastic) })
     end
 
     it "should not find form" do
@@ -20,15 +20,15 @@ describe "have_form" do
     context "with_select" do
       it "should find select" do
         expect(rendered).to have_form("/books", :post) do
-          with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
-          with_select("book[publisher_id]", :with => { :id => "book_publisher_id" })
+          with_select("book[publisher_id]", with: { id: "book_publisher_id" })
+          with_select("book[publisher_id]", with: { id: "book_publisher_id" })
         end
       end
 
       it "should not find select" do
         expect(rendered).to have_form("/books", :post) do
-          without_select("book[publisher_id]", :with => { :id => "other_id" })
-          without_select("koob[publisher_id]", :with => { :id => "book_publisher_id" })
+          without_select("book[publisher_id]", with: { id: "other_id" })
+          without_select("koob[publisher_id]", with: { id: "book_publisher_id" })
         end
       end
 
@@ -37,9 +37,9 @@ describe "have_form" do
           expect(rendered).to have_form("/books", :post) do
             with_select("book[publisher_id]") do
               with_option(nil)
-              with_option("The Pragmatic Bookshelf", :selected => true)
+              with_option("The Pragmatic Bookshelf", selected: true)
               with_option(/sitepoint/,2)
-              with_option("O'Reilly", 3, :selected => false)
+              with_option("O'Reilly", 3, selected: false)
             end
           end
         end
@@ -48,7 +48,7 @@ describe "have_form" do
           expect(rendered).to have_form("/books", :post) do
             with_select("book[publisher_id]") do
               without_option("blah blah")
-              without_option("O'Reilly", 3, :selected => true)
+              without_option("O'Reilly", 3, selected: true)
               without_option("O'Reilly", 100500)
             end
           end
@@ -163,8 +163,8 @@ describe "have_form" do
         expect(rendered).to have_form("/books", :post) do
           with_range_field('range1', 1, 3)
           with_range_field('range1','1','3')
-          with_range_field('range2', 1, 3, :with => { :value => 2 } )
-          with_range_field('range2', 1, 3, :with => { :value => '2' } )
+          with_range_field('range2', 1, 3, with: { value: 2 } )
+          with_range_field('range2', 1, 3, with: { value: '2' } )
         end
       end
 
@@ -172,7 +172,7 @@ describe "have_form" do
         expect(rendered).to have_form("/books", :post) do
           without_range_field('number')
           without_range_field('range1', 1, 5)
-          without_range_field('range2', 1, 3, :with => { :value => 5 } )
+          without_range_field('range2', 1, 3, with: { value: 5 } )
         end
       end
     end
@@ -182,7 +182,7 @@ describe "have_form" do
         expect(rendered).to have_form("/books", :post) do
           with_date_field(:date)
           with_date_field(:date, 'book_date')
-          with_date_field(:month, 'book_month', :with => { :value => 5 })
+          with_date_field(:month, 'book_month', with: { value: 5 })
           with_date_field(:week,'book_week')
           with_date_field(:time, 'book_time')
           with_date_field(:datetime, 'book_datetime')
@@ -193,7 +193,7 @@ describe "have_form" do
       it "should not find date field" do
         expect(rendered).to have_form("/books", :post) do
           without_date_field(:date, 'book_something')
-          without_date_field(:month, 'book_month', :with => { :value => 100500 })
+          without_date_field(:month, 'book_month', with: { value: 100500 })
         end
       end
 
