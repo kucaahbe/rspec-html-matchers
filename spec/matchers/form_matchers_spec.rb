@@ -64,7 +64,7 @@ describe "have_form" do
 
         it "should not find button" do
           expect(rendered).to have_form("/books", :post) do
-            without_button("Cancel Book")
+            without_button("Create Book")
           end
         end
       end
