@@ -391,6 +391,7 @@ module RSpec
       should_not_have_input(options)
     end
 
+    # TODO add ability to explicitly say that value should be empty
     def with_password_field name, value=nil
       options = form_tag_options('password',name,value)
       should_have_input(options)
