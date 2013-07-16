@@ -8,11 +8,11 @@ unreleased(TODO)
 * add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
 * inteligent check comments(make sure it is not searching inside comments)
 * shouldn't show all markup in error message if it is too big
-
-0.5.0(TODO)
------------
-
 * order matching
+
+0.5.0
+-----
+
 * improve documentation, add more usage examples (look at changelog and code!)
 * added :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
 
