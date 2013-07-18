@@ -14,7 +14,11 @@ unreleased(TODO)
 -----
 
 * improve documentation, add more usage examples (look at changelog and code!)
-* added :without to have\_tag? like have_tag('div', :without => { :class => 'test' })
+
+0.4.2
+-----
+
+* added :without to have\_tag? like have_tag('div', :without => { :class => 'test' }) NOTE: currently only classes supported
 
 0.4.1
 -----

@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.4.1'
+  s.version     = '0.4.2'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
   s.email       = ['kucaahbe@ukr.net']
