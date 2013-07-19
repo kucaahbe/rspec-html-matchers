@@ -3,10 +3,11 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.4.2'
+  s.version     = '0.4.3'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
   s.email       = ['kucaahbe@ukr.net']
+  s.license     = 'MIT'
   s.homepage    = 'http://github.com/kucaahbe/rspec-html-matchers'
   s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 2.x.x}
   s.description = <<DESC
