@@ -94,7 +94,7 @@ module RSpec
       def matches? document, &block
         @block = block if block
 
-        document = document.html if defined?(Capybara) && document.is_a?(Capybara::Session)
+        document = document.html if defined?(Capybara::Session) && document.is_a?(Capybara::Session)
 
         case document
         when String
