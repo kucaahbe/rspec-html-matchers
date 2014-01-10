@@ -235,10 +235,6 @@ describe 'have_tag' do
         rendered.should have_tag('pre',  :text => " 1. bla   \n 2. bla ")
       end
 
-      it "should map a string argument to :text => string" do
-        rendered.should have_tag('div',  'sample text')
-      end
-
       it "should find with unicode text specified" do
         expect { rendered.should have_tag('a', :text => "học") }.not_to raise_error
           rendered.should have_tag('a', :text => "học")
@@ -501,4 +497,28 @@ describe 'have_tag' do
       }.to raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:\n#{ordered_list_regexp}/)
     end
   end
+
+  context "backwards compatibility for unnamed arguments" do
+    asset 'quotes'
+
+    context "string as second argument" do
+
+      it "should map a string argument to :text => string" do
+        rendered.should have_tag('div',  'sample text')
+      end
+
+    end
+
+    context "Regexp as second argument" do
+
+      it "should match against a valid Regexp" do
+        rendered.should have_tag('div',  /sample\s/)
+      end
+
+      it "should not match against an invalid Regexp" do
+        rendered.should_not have_tag('div',  /not matching/)
+      end
+    end
+  end
+
 end
