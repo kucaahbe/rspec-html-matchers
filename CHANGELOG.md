@@ -9,11 +9,17 @@ unreleased(TODO)
 * inteligent check comments(make sure it is not searching inside comments)
 * shouldn't show all markup in error message if it is too big
 * order matching
+* improve documentation, add more usage examples (look at changelog and code!)
 
-0.5.0
+0.4.4
 -----
 
-* improve documentation, add more usage examples (look at changelog and code!)
+* options for have_tag now support Regexp (thanks to [Ian C. Anderson](http://github.com/iancanderson))
+
+0.4.3
+-----
+
+* added license to gemspec
 
 0.4.2
 -----

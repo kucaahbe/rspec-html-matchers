@@ -159,6 +159,17 @@ where `page` is an instance of Capybara::Session
 
 and of course you can use the `without_` matchers (see the documentation).
 
+### rspec 1 partial backwards compatibility:
+
+you can match:
+
+```ruby
+response.should have_tag('div', 'expected content')
+response.should have_tag('div', /regexp matching expected content/)
+```
+
+[RSpec 1 `have_tag` documentation](http://old.rspec.info/rails/writing/views.html)
+
 More info
 ---------
 
