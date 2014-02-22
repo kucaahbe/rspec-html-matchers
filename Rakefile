@@ -11,9 +11,7 @@ task :gemspec do
   gemspec.validate && puts('gemspec valid')
 end
 
-RSpec::Core::RakeTask.new(:spec) do |t|
-  t.rspec_opts='--tag ~wip'
-end
+RSpec::Core::RakeTask.new(:spec)
 
 namespace :spec do
   RSpec::Core::RakeTask.new(:wip) do |t|

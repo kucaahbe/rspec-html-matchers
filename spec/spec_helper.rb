@@ -34,6 +34,10 @@ module CustomHelpers
 end
 
 RSpec.configure do |config|
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+
+  config.filter_run_excluding wip: true
+
   config.extend  AssetHelpers
   config.include CustomHelpers
 end
