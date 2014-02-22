@@ -239,24 +239,24 @@ module RSpec
     # @option options [String/Regexp] :text to match tag content, could be either String or Regexp
     #
     # @example
-    #   rendered.should have_tag('div')
-    #   rendered.should have_tag('h1.header')
-    #   rendered.should have_tag('div#footer')
-    #   rendered.should have_tag('input#email', :with => { :name => 'user[email]', :type => 'email' } )
-    #   rendered.should have_tag('div', :count => 3)            # matches exactly 3 'div' tags
-    #   rendered.should have_tag('div', :count => 3..7)         # shortcut for have_tag('div', :minimum => 3, :maximum => 7)
-    #   rendered.should have_tag('div', :minimum => 3)          # matches more(or equal) than 3 'div' tags
-    #   rendered.should have_tag('div', :maximum => 3)          # matches less(or equal) than 3 'div' tags
-    #   rendered.should have_tag('p', :text => 'some content')  # will match "<p>some content</p>"
-    #   rendered.should have_tag('p', :text => /some content/i) # will match "<p>sOme cOntEnt</p>"
-    #   rendered.should have_tag('textarea', :with => {:name => 'user[description]'}, :text => "I like pie")
-    #   "<html>
+    #   expect(rendered).to have_tag('div')
+    #   expect(rendered).to have_tag('h1.header')
+    #   expect(rendered).to have_tag('div#footer')
+    #   expect(rendered).to have_tag('input#email', :with => { :name => 'user[email]', :type => 'email' } )
+    #   expect(rendered).to have_tag('div', :count => 3)            # matches exactly 3 'div' tags
+    #   expect(rendered).to have_tag('div', :count => 3..7)         # shortcut for have_tag('div', :minimum => 3, :maximum => 7)
+    #   expect(rendered).to have_tag('div', :minimum => 3)          # matches more(or equal) than 3 'div' tags
+    #   expect(rendered).to have_tag('div', :maximum => 3)          # matches less(or equal) than 3 'div' tags
+    #   expect(rendered).to have_tag('p', :text => 'some content')  # will match "<p>some content</p>"
+    #   expect(rendered).to have_tag('p', :text => /some content/i) # will match "<p>sOme cOntEnt</p>"
+    #   expect(rendered).to have_tag('textarea', :with => {:name => 'user[description]'}, :text => "I like pie")
+    #   expect("<html>
     #     <body>
     #       <h1>some html document</h1>
     #     </body>
-    #    </html>".should have_tag('body') { with_tag('h1', :text => 'some html document') }
-    #   '<div class="one two">'.should have_tag('div', :with => { :class => ['two', 'one'] })
-    #   '<div class="one two">'.should have_tag('div', :with => { :class => 'two one' })
+    #    </html>").to have_tag('body') { with_tag('h1', :text => 'some html document') }
+    #   expect('<div class="one two">').to have_tag('div', :with => { :class => ['two', 'one'] })
+    #   expect('<div class="one two">').to have_tag('div', :with => { :class => 'two one' })
     def have_tag tag, options={}, &block
       # for backwards compatibility with rpecs have tag:
       options = { :text => options } if options.kind_of?(String) || options.kind_of?(Regexp)
@@ -267,14 +267,14 @@ module RSpec
       raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
       raise ArgumentError, 'this matcher does not accept block' if block_given?
       tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
-      @__current_scope_for_nokogiri_matcher.should have_tag(tag, :text => text)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, :text => text)
     end
 
     def without_text text
       raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
       raise ArgumentError, 'this matcher does not accept block' if block_given?
       tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
-      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, :text => text)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, :text => text)
     end
     alias :but_without_text :without_text
 
@@ -283,7 +283,7 @@ module RSpec
     # @see #have_tag
     # @note this should be used within block of have_tag matcher
     def with_tag tag, options={}, &block
-      @__current_scope_for_nokogiri_matcher.should have_tag(tag, options, &block)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
     end
 
     # without_tag matcher
@@ -291,7 +291,7 @@ module RSpec
     # @see #have_tag
     # @note this should be used within block of have_tag matcher
     def without_tag tag, options={}, &block
-      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)
     end
 
     # form assertion
@@ -415,13 +415,13 @@ module RSpec
     def with_text_area name#TODO, text=nil
       #options = form_tag_options('text',name,value)
       options = { :with => { :name => name } }
-      @__current_scope_for_nokogiri_matcher.should have_tag('textarea', options)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('textarea', options)
     end
 
     def without_text_area name#TODO, text=nil
       #options = form_tag_options('text',name,value)
       options = { :with => { :name => name } }
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('textarea', options)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('textarea', options)
     end
 
     def with_checkbox name, value=nil
@@ -449,7 +449,7 @@ module RSpec
       id = options[:with].delete(:id)
       tag='select'; tag << '#'+id if id
       options[:with].merge!(:name => name)
-      @__current_scope_for_nokogiri_matcher.should have_tag(tag, options, &block)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
     end
 
     def without_select name, options={}, &block
@@ -457,7 +457,7 @@ module RSpec
       id = options[:with].delete(:id)
       tag='select'; tag << '#'+id if id
       options[:with].merge!(:name => name)
-      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options, &block)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)
     end
 
     def with_option text, value=nil, options={}
@@ -473,7 +473,7 @@ module RSpec
       end
       options.delete(:selected)
       options.merge!(:text => text) if text
-      @__current_scope_for_nokogiri_matcher.should have_tag(tag, options)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options)
     end
 
     def without_option text, value=nil, options={}
@@ -489,7 +489,7 @@ module RSpec
       end
       options.delete(:selected)
       options.merge!(:text => text) if text
-      @__current_scope_for_nokogiri_matcher.should_not have_tag(tag, options)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options)
     end
 
     def with_button text, value=nil, options={}
@@ -500,7 +500,7 @@ module RSpec
       end
       options[:with].merge!(:value => value.to_s) if value
       options.merge!(:text => text) if text
-      @__current_scope_for_nokogiri_matcher.should have_tag('button', options)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('button', options)
     end
 
     def without_button text, value=nil, options={}
@@ -511,7 +511,7 @@ module RSpec
       end
       options[:with].merge!(:value => value.to_s) if value
       options.merge!(:text => text) if text
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('button', options)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('button', options)
     end
 
     def with_submit value
@@ -529,11 +529,11 @@ module RSpec
     private
 
     def should_have_input(options)
-      @__current_scope_for_nokogiri_matcher.should have_tag('input', options)
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('input', options)
     end
 
     def should_not_have_input(options)
-      @__current_scope_for_nokogiri_matcher.should_not have_tag('input', options)
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('input', options)
     end
 
     # form_tag in method name name mean smth. like input, submit, tags that should appear in a form

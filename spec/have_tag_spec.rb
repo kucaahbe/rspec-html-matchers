@@ -586,7 +586,7 @@ describe 'have_tag' do
     context "string as second argument" do
 
       it "should map a string argument to :text => string" do
-        rendered.should have_tag('div',  'sample text')
+        expect(rendered).to have_tag('div',  'sample text')
       end
 
     end
@@ -594,11 +594,11 @@ describe 'have_tag' do
     context "Regexp as second argument" do
 
       it "should match against a valid Regexp" do
-        rendered.should have_tag('div',  /sample\s/)
+        expect(rendered).to have_tag('div',  /sample\s/)
       end
 
       it "should not match against an invalid Regexp" do
-        rendered.should_not have_tag('div',  /not matching/)
+        expect(rendered).to_not have_tag('div',  /not matching/)
       end
     end
   end
