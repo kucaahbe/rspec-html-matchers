@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.4.4'
+  s.version     = '0.5.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
   s.email       = ['kucaahbe@ukr.net']
@@ -21,6 +21,7 @@ DESC
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  # since 2.11.0 introduced new expect().to syntax
   s.add_runtime_dependency 'rspec',    '~> 2', '>= 2.11.0'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 

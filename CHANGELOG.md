@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.5.0
+-----
+
+* new "expect" syntax support
+
 0.4.4
 -----
 
