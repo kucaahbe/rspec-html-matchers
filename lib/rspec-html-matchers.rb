@@ -102,7 +102,13 @@ module RSpec
           @document     = document
         else
           @parent_scope  = document.current_scope
-          @current_scope = document.parent_scope.css(@tag)
+          @current_scope = begin
+                             document.parent_scope.css(@tag)
+                             # on jruby this produce exception if css was not found:
+                             # undefined method `decorate' for nil:NilClass
+                           rescue NoMethodError
+                             Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
+                           end
           @document      = @parent_scope.to_html
         end
 

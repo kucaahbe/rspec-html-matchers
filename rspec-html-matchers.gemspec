@@ -32,5 +32,5 @@ DESC
   s.add_development_dependency 'sinatra'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'travis-lint'
-  s.add_development_dependency 'debugger'
+  s.add_development_dependency 'debugger' if RUBY_ENGINE=='ruby'
 end
