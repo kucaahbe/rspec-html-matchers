@@ -6,10 +6,11 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.0
-matrix:
-  allow_failures:
-    - jruby-19mode
-    - rbx-2.2.2
+  - jruby-19mode
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk7
 branches:
   only:
     - master
