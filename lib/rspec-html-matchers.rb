@@ -20,24 +20,17 @@ module RSpec
     # @api
     # @private
     class NokogiriTextHelper
+      NON_BREAKING_SPACE = "\u00a0"
+
       def initialize text
         @text = text
       end
 
       def content node_set
-        match_text = @text.gsub(/\\000027/, "'")
         node_set.find_all do |node|
-          actual_content = node.content
-          # remove non-breaking spaces:
-          case RUBY_VERSION
-          # 1.9.x 2.x.x rubies
-          when /^(1\.9|2)/
-            actual_content.gsub!(/\u00a0/, ' ')
-          when /^1\.8/
-            actual_content.gsub!("\302\240", ' ')
-          end
+          actual_content = node.content.gsub(NON_BREAKING_SPACE, ' ')
 
-          actual_content == match_text
+          actual_content == @text
         end
       end
     end
