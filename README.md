@@ -50,7 +50,7 @@ so perharps your code produces following output:
 so you test it with following:
 
 ```ruby
-rendered.should have_tag('form', :with => { :action => '/users', :method => 'post' }) do
+expect(rendered).to have_tag('form', :with => { :action => '/users', :method => 'post' }) do
   with_tag "input", :with => { :name => "user[email]", :type => 'email' }
   with_tag "input#special_submit", :count => 1
   without_tag "h1", :text => 'unneeded tag'
@@ -66,22 +66,22 @@ Input could be any html string. Let's take a look at these examples:
 
   ```ruby
   # simple examples:
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p')
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag(:p)
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p#qwerty')
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p.qwe.rty')
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p')
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag(:p)
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p#qwerty')
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p.qwe.rty')
   # more complicated examples:
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p strong')
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty strong')
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty strong')
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p strong')
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p#qwerty strong')
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p.qwe.rty strong')
   # or you can use another syntax for examples above
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p') do
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p') do
     with_tag('strong')
   end
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p#qwerty') do
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p#qwerty') do
     with_tag('strong')
   end
-  '<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>'.should have_tag('p.qwe.rty') do
+  expect('<p class="qwe rty" id="qwerty"><strong>Para</strong>graph</p>').to have_tag('p.qwe.rty') do
     with_tag('strong')
   end
   ```
@@ -90,41 +90,41 @@ Input could be any html string. Let's take a look at these examples:
 
   ```ruby
   # all of this are equivalent:
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'qwe rty' })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => 'rty qwe' })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['rty', 'qwe'] })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :with => { :class => ['qwe', 'rty'] })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :with => { :class => 'qwe rty' })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :with => { :class => 'rty qwe' })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :with => { :class => ['rty', 'qwe'] })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :with => { :class => ['qwe', 'rty'] })
   ```
 
   The same works with `:without`:
 
   ```ruby
   # all of this are equivalent:
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => 'qwe rty' })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => 'rty qwe' })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => ['rty', 'qwe'] })
-  '<p class="qwe rty" id="qwerty">Paragraph</p>'.should have_tag('p', :without => { :class => ['qwe', 'rty'] })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :without => { :class => 'qwe rty' })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :without => { :class => 'rty qwe' })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :without => { :class => ['rty', 'qwe'] })
+  expect('<p class="qwe rty" id="qwerty">Paragraph</p>').to have_tag('p', :without => { :class => ['qwe', 'rty'] })
   ```
 
 * content matching:
 
   ```ruby
-  '<p> Some content&nbsphere</p>'.should have_tag('p', :text => ' Some content here')
+  expect('<p> Some content&nbsphere</p>').to have_tag('p', :text => ' Some content here')
   # or
-  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+  expect('<p> Some content&nbsphere</p>').to have_tag('p') do
     with_text ' Some content here'
   end
 
-  '<p> Some content&nbsphere</p>'.should have_tag('p', :text => /Some content here/)
+  expect('<p> Some content&nbsphere</p>').to have_tag('p', :text => /Some content here/)
   # or
-  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+  expect('<p> Some content&nbsphere</p>').to have_tag('p') do
     with_text /Some content here/
   end
 
   # mymock.text == 'Some content here'
-  '<p> Some content&nbsphere</p>'.should have_tag('p', :content => mymock.text)
+  expect('<p> Some content&nbsphere</p>').to have_tag('p', :content => mymock.text)
   # or
-  '<p> Some content&nbsphere</p>'.should have_tag('p') do
+  expect('<p> Some content&nbsphere</p>').to have_tag('p') do
     with_content mymock.text
   end
   ```
@@ -132,7 +132,7 @@ Input could be any html string. Let's take a look at these examples:
 * usage with capybara and cucumber:
 
   ```ruby
-  page.should have_tag( ... )
+  expect(page).to have_tag( ... )
   ```
 
 where `page` is an instance of Capybara::Session
@@ -164,8 +164,8 @@ and of course you can use the `without_` matchers (see the documentation).
 you can match:
 
 ```ruby
-response.should have_tag('div', 'expected content')
-response.should have_tag('div', /regexp matching expected content/)
+expect(response).to have_tag('div', 'expected content')
+expect(response).to have_tag('div', /regexp matching expected content/)
 ```
 
 [RSpec 1 `have_tag` documentation](http://old.rspec.info/rails/writing/views.html)
