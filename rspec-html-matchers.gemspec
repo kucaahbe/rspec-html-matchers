@@ -22,10 +22,10 @@ POST_INST
 
   s.rubyforge_project = 'rspec-html-matchers'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.files            = Dir.glob('lib/**/*.rb')
+  s.test_files       = Dir.glob('{spec,features}/**/*')
+  s.require_path     = 'lib'
+  s.extra_rdoc_files = ['README.md','CHANGELOG.md']
 
   # since 2.11.0 introduced new expect().to syntax
   s.add_runtime_dependency 'rspec',    '~> 2', '>= 2.11.0'
