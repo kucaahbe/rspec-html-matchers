@@ -8,9 +8,18 @@ rvm:
   - 2.1.0
   - jruby-19mode
 jdk:
-  - openjdk6
   - openjdk7
   - oraclejdk7
+matrix:
+  exclude:
+    - rvm: 1.9.3
+      jdk: openjdk7
+
+    - rvm: 2.0.0
+      jdk: openjdk7
+
+    - rvm: 2.1.0
+      jdk: openjdk7
 branches:
   only:
     - master
