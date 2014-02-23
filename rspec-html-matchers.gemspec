@@ -31,12 +31,14 @@ POST_INST
   s.add_runtime_dependency 'rspec',    '~> 2', '>= 2.11.0'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'cucumber'
-  s.add_development_dependency 'capybara'
-  s.add_development_dependency 'selenium-webdriver'
-  s.add_development_dependency 'sinatra'
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'travis-lint'
-  s.add_development_dependency 'debugger' if RUBY_ENGINE=='ruby'
+  s.add_development_dependency 'simplecov',          '~> 0'
+  s.add_development_dependency 'cucumber',           '~> 1'
+  s.add_development_dependency 'capybara',           '~> 2'
+  s.add_development_dependency 'selenium-webdriver', '~> 2'
+  s.add_development_dependency 'sinatra',            '~> 1'
+  s.add_development_dependency 'rake',               '~> 10'
+  s.add_development_dependency 'travis-lint',        '~> 1'
+  if RUBY_ENGINE=='ruby'
+    s.add_development_dependency 'debugger',         '~> 1'
+  end
 end
