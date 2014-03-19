@@ -4,6 +4,7 @@ require 'rspec/expectations'
 if defined?(SimpleCov)
   SimpleCov.start do
     add_group 'Main', '/lib/'
+    add_filter "/spec/"
   end
 end
 
