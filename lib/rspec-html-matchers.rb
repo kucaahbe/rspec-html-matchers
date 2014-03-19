@@ -41,25 +41,38 @@ module RSpec
       attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
 
-      TAG_FOUND_DESC           = %Q|have at least 1 element matching "%s"|
-      TAG_NOT_FOUND_MSG        = %Q|expected following:\n%s\nto #{TAG_FOUND_DESC}, found 0.|
-      TAG_FOUND_MSG            = %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|
-      COUNT_DESC               = %Q|have %s element(s) matching "%s"|
-      WRONG_COUNT_MSG          = %Q|expected following:\n%s\nto #{COUNT_DESC}, found %s.|
-      RIGHT_COUNT_MSG          = %Q|expected following:\n%s\nto NOT have %s element(s) matching "%s", but found.|
-      BETWEEN_COUNT_MSG        = %Q|expected following:\n%s\nto have at least %s and at most %s element(s) matching "%s", found %s.|
-      RIGHT_BETWEEN_COUNT_MSG  = %Q|expected following:\n%s\nto NOT have at least %s and at most %s element(s) matching "%s", but found %s.|
-      AT_MOST_MSG              = %Q|expected following:\n%s\nto have at most %s element(s) matching "%s", found %s.|
-      RIGHT_AT_MOST_MSG        = %Q|expected following:\n%s\nto NOT have at most %s element(s) matching "%s", but found %s.|
-      AT_LEAST_MSG             = %Q|expected following:\n%s\nto have at least %s element(s) matching "%s", found %s.|
-      RIGHT_AT_LEAST_MSG       = %Q|expected following:\n%s\nto NOT have at least %s element(s) matching "%s", but found %s.|
-      REGEXP_NOT_FOUND_MSG     = %Q|%s regexp expected within "%s" in following template:\n%s|
-      REGEXP_FOUND_MSG         = %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|
-      TEXT_NOT_FOUND_MSG       = %Q|"%s" expected within "%s" in following template:\n%s|
-      TEXT_FOUND_MSG           = %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|
-      WRONG_COUNT_ERROR_MSG    = %Q|:count with :minimum or :maximum has no sence!|
-      MIN_MAX_ERROR_MSG        = %Q|:minimum shold be less than :maximum!|
-      BAD_RANGE_ERROR_MSG      = %Q|Your :count range(%s) has no sence!|
+      DESCRIPTIONS = {
+        :have_at_least_1 => %Q|have at least 1 element matching "%s"|,
+        :have_n          => %Q|have %i element(s) matching "%s"|
+      }
+
+      MESSAGES = {
+        :expected_tag         => %Q|expected following:\n%s\nto #{DESCRIPTIONS[:have_at_least_1]}, found 0.|,
+        :unexpected_tag       => %Q|expected following:\n%s\nto NOT have element matching "%s", found %s.|,
+
+        :expected_count       => %Q|expected following:\n%s\nto #{DESCRIPTIONS[:have_n]}, found %s.|,
+        :unexpected_count     => %Q|expected following:\n%s\nto NOT have %i element(s) matching "%s", but found.|,
+
+        :expected_btw_count   => %Q|expected following:\n%s\nto have at least %i and at most %i element(s) matching "%s", found %i.|,
+        :unexpected_btw_count => %Q|expected following:\n%s\nto NOT have at least %i and at most %i element(s) matching "%s", but found %i.|,
+
+        :expected_at_most     => %Q|expected following:\n%s\nto have at most %i element(s) matching "%s", found %i.|,
+        :unexpected_at_most   => %Q|expected following:\n%s\nto NOT have at most %i element(s) matching "%s", but found %i.|,
+
+        :expected_at_least    => %Q|expected following:\n%s\nto have at least %i element(s) matching "%s", found %i.|,
+        :unexpected_at_least  => %Q|expected following:\n%s\nto NOT have at least %i element(s) matching "%s", but found %i.|,
+
+        :expected_regexp      => %Q|%s regexp expected within "%s" in following template:\n%s|,
+        :unexpected_regexp    => %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|,
+
+        :expected_text        => %Q|"%s" expected within "%s" in following template:\n%s|,
+        :unexpected_text      => %Q|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|,
+
+        :wrong_count_error    => %Q|:count with :minimum or :maximum has no sence!|,
+        :min_max_error        => %Q|:minimum should be less than :maximum!|,
+        :bad_range_error      => %Q|Your :count range(%s) has no sence!|,
+      }
+
 
       def initialize tag, options={}, &block
         @tag, @options, @block = tag.to_s, options, block
@@ -117,9 +130,9 @@ module RSpec
       def description
         # TODO should it be more complicated?
         if @options.has_key?(:count)
-          COUNT_DESC % [@options[:count],@tag]
+          DESCRIPTIONS[:have_n] % [@options[:count],@tag]
         else
-          TAG_FOUND_DESC % @tag
+          DESCRIPTIONS[:have_at_least_1] % @tag
         end
       end
 
@@ -137,10 +150,10 @@ module RSpec
       def tag_presents?
         if @current_scope.first
           @count = @current_scope.count
-          @negative_failure_message = TAG_FOUND_MSG % [@document, @tag, @count]
+          @negative_failure_message = MESSAGES[:unexpected_tag] % [@document, @tag, @count]
           true
         else
-          @failure_message          = TAG_NOT_FOUND_MSG % [@document, @tag]
+          @failure_message          = MESSAGES[:expected_tag] % [@document, @tag]
           false
         end
       end
@@ -148,14 +161,14 @@ module RSpec
       def count_right?
         case @options[:count]
         when Integer
-          ((@negative_failure_message=RIGHT_COUNT_MSG % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=WRONG_COUNT_MSG % [@document,@options[:count],@tag,@count]; false)
+          ((@negative_failure_message=MESSAGES[:unexpected_count] % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=MESSAGES[:expected_count] % [@document,@options[:count],@tag,@count]; false)
         when Range
-          ((@negative_failure_message=RIGHT_BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=BETWEEN_COUNT_MSG % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
+          ((@negative_failure_message=MESSAGES[:unexpected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=MESSAGES[:expected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
         when nil
           if @options[:maximum]
-            ((@negative_failure_message=RIGHT_AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=AT_MOST_MSG % [@document,@options[:maximum],@tag,@count]; false)
+            ((@negative_failure_message=MESSAGES[:unexpected_at_most] % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=MESSAGES[:expected_at_most] % [@document,@options[:maximum],@tag,@count]; false)
           elsif @options[:minimum]
-            ((@negative_failure_message=RIGHT_AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=AT_LEAST_MSG % [@document,@options[:minimum],@tag,@count]; false)
+            ((@negative_failure_message=MESSAGES[:unexpected_at_least] % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=MESSAGES[:expected_at_least] % [@document,@options[:minimum],@tag,@count]; false)
           else
             true
           end
@@ -170,20 +183,20 @@ module RSpec
           new_scope = @current_scope.css(':regexp()',NokogiriRegexpHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
-            @negative_failure_message = REGEXP_FOUND_MSG % [text.inspect,@tag,@document]
+            @negative_failure_message = MESSAGES[:unexpected_regexp] % [text.inspect,@tag,@document]
             true
           else
-            @failure_message          = REGEXP_NOT_FOUND_MSG % [text.inspect,@tag,@document]
+            @failure_message          = MESSAGES[:expected_regexp] % [text.inspect,@tag,@document]
             false
           end
         else
           new_scope = @current_scope.css(':content()',NokogiriTextHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
-            @negative_failure_message = TEXT_FOUND_MSG % [text,@tag,@document]
+            @negative_failure_message = MESSAGES[:unexpected_text] % [text,@tag,@document]
             true
           else
-            @failure_message          = TEXT_NOT_FOUND_MSG % [text,@tag,@document]
+            @failure_message          = MESSAGES[:expected_text] % [text,@tag,@document]
             false
           end
         end
@@ -195,23 +208,23 @@ module RSpec
         raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) or @options[:count].is_a?(Integer)
 
         [:min, :minimum, :max, :maximum].each do |key|
-          raise WRONG_COUNT_ERROR_MSG if @options.has_key?(key) and @options.has_key?(:count)
+          raise MESSAGES[:wrong_count_error] if @options.has_key?(key) and @options.has_key?(:count)
         end
 
         begin
-          raise MIN_MAX_ERROR_MSG if @options[:minimum] > @options[:maximum]
+          raise MESSAGES[:min_max_error] if @options[:minimum] > @options[:maximum]
         rescue NoMethodError # nil > 4
         rescue ArgumentError # 2 < nil
         end
 
         begin
           begin
-            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
+            raise MESSAGES[:bad_range_error] % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
           rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z'
-            raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+            raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
           end
         rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
-          raise BAD_RANGE_ERROR_MSG % [@options[:count].to_s]
+          raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
         end
 
         @options[:minimum] ||= @options.delete(:min)

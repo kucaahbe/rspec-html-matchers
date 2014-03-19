@@ -264,7 +264,7 @@ describe 'have_tag' do
         expect(rendered).to have_tag('div', :count => 2, :max     => 1)
       }.to raise_error(wrong_params_error_msg_1)
 
-      wrong_params_error_msg_2 = ':minimum shold be less than :maximum!'
+      wrong_params_error_msg_2 = ':minimum should be less than :maximum!'
 
       expect {
         expect(rendered).to have_tag('div', :minimum => 2, :maximum => 1)
