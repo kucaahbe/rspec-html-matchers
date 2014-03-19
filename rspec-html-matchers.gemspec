@@ -38,7 +38,7 @@ POST_INST
   s.add_development_dependency 'sinatra',            '~> 1'
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'travis-lint',        '~> 1'
-  if RUBY_ENGINE=='ruby'
+  if RUBY_ENGINE=='ruby' and RUBY_VERSION < '2.1.1'
     s.add_development_dependency 'debugger',         '~> 1'
   end
 end
