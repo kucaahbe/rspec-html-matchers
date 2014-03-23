@@ -559,6 +559,10 @@ module RSpec
   end
 end
 
-RSpec.configure do |config|
-  config.include(RSpec::HtmlMatchers)
+if defined? Cucumber
+  World RSpec::HtmlMatchers
+else
+  RSpec.configure do |config|
+    config.include(RSpec::HtmlMatchers)
+  end
 end
