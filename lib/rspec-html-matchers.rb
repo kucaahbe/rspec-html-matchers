@@ -2,7 +2,7 @@
 require 'nokogiri'
 
 module RSpec
-  module Matchers
+  module HtmlMatchers
 
     # @api
     # @private
@@ -37,7 +37,7 @@ module RSpec
 
     # @api
     # @private
-    class NokogiriMatcher
+    class HaveTag
       attr_reader :failure_message, :negative_failure_message
       attr_reader :parent_scope, :current_scope
 
@@ -272,7 +272,7 @@ module RSpec
     def have_tag tag, options={}, &block
       # for backwards compatibility with rpecs have tag:
       options = { :text => options } if options.kind_of?(String) || options.kind_of?(Regexp)
-      @__current_scope_for_nokogiri_matcher = NokogiriMatcher.new(tag, options, &block)
+      @__current_scope_for_nokogiri_matcher = HaveTag.new(tag, options, &block)
     end
 
     def with_text text
@@ -557,4 +557,8 @@ module RSpec
     end
 
   end
+end
+
+RSpec.configure do |config|
+  config.include(RSpec::HtmlMatchers)
 end
