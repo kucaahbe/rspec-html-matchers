@@ -1,19 +1,17 @@
 # gem packaging
-pkg/*
-*.gem
+/pkg/*
+/*.gem
 # ruby version management
-.rvmrc
-.rbenv-*
-.ruby-version
+/.rvmrc
+/.rbenv-*
+/.ruby-version
 # common stuff
-bin/
-.bundle/
-Gemfile.lock
-# logs
-chromedriver.log
+/bin/
+/.bundle/
+/Gemfile.lock
 # documentation and other trash
-html
-doc
-.yardoc
-coverage
+/html
+/doc
+/.yardoc
+/coverage
 /.rspec
