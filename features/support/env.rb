@@ -1,3 +1,6 @@
+# setup rspec matchers
+require 'rspec/expectations'
+World(RSpec::Matchers)
 require 'sinatra/base'
 require 'capybara/cucumber'
 require 'rspec-html-matchers'
