@@ -26,7 +26,7 @@ RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
     end
   end
 
-  failure_message_for_should do |block|
+  failure_message do |block|
     if actual_msg
 <<MSG
 expected RSpec::Expectations::ExpectationNotMetError with message:
