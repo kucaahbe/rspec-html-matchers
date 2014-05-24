@@ -38,7 +38,7 @@ module RSpec
     # @api
     # @private
     class HaveTag
-      attr_reader :failure_message, :negative_failure_message
+      attr_reader :failure_message, :failure_message_when_negated
       attr_reader :parent_scope, :current_scope
 
       DESCRIPTIONS = {
@@ -150,7 +150,7 @@ module RSpec
       def tag_presents?
         if @current_scope.first
           @count = @current_scope.count
-          @negative_failure_message = MESSAGES[:unexpected_tag] % [@document, @tag, @count]
+          @failure_message_when_negated = MESSAGES[:unexpected_tag] % [@document, @tag, @count]
           true
         else
           @failure_message          = MESSAGES[:expected_tag] % [@document, @tag]
@@ -161,14 +161,14 @@ module RSpec
       def count_right?
         case @options[:count]
         when Integer
-          ((@negative_failure_message=MESSAGES[:unexpected_count] % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=MESSAGES[:expected_count] % [@document,@options[:count],@tag,@count]; false)
+          ((@failure_message_when_negated=MESSAGES[:unexpected_count] % [@document,@count,@tag]) && @count == @options[:count]) || (@failure_message=MESSAGES[:expected_count] % [@document,@options[:count],@tag,@count]; false)
         when Range
-          ((@negative_failure_message=MESSAGES[:unexpected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=MESSAGES[:expected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
+          ((@failure_message_when_negated=MESSAGES[:unexpected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]) && @options[:count].member?(@count)) || (@failure_message=MESSAGES[:expected_btw_count] % [@document,@options[:count].min,@options[:count].max,@tag,@count]; false)
         when nil
           if @options[:maximum]
-            ((@negative_failure_message=MESSAGES[:unexpected_at_most] % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=MESSAGES[:expected_at_most] % [@document,@options[:maximum],@tag,@count]; false)
+            ((@failure_message_when_negated=MESSAGES[:unexpected_at_most] % [@document,@options[:maximum],@tag,@count]) && @count <= @options[:maximum]) || (@failure_message=MESSAGES[:expected_at_most] % [@document,@options[:maximum],@tag,@count]; false)
           elsif @options[:minimum]
-            ((@negative_failure_message=MESSAGES[:unexpected_at_least] % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=MESSAGES[:expected_at_least] % [@document,@options[:minimum],@tag,@count]; false)
+            ((@failure_message_when_negated=MESSAGES[:unexpected_at_least] % [@document,@options[:minimum],@tag,@count]) && @count >= @options[:minimum]) || (@failure_message=MESSAGES[:expected_at_least] % [@document,@options[:minimum],@tag,@count]; false)
           else
             true
           end
@@ -183,7 +183,7 @@ module RSpec
           new_scope = @current_scope.css(':regexp()',NokogiriRegexpHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
-            @negative_failure_message = MESSAGES[:unexpected_regexp] % [text.inspect,@tag,@document]
+            @failure_message_when_negated = MESSAGES[:unexpected_regexp] % [text.inspect,@tag,@document]
             true
           else
             @failure_message          = MESSAGES[:expected_regexp] % [text.inspect,@tag,@document]
@@ -193,7 +193,7 @@ module RSpec
           new_scope = @current_scope.css(':content()',NokogiriTextHelper.new(text))
           unless new_scope.empty?
             @count = new_scope.count
-            @negative_failure_message = MESSAGES[:unexpected_text] % [text,@tag,@document]
+            @failure_message_when_negated = MESSAGES[:unexpected_text] % [text,@tag,@document]
             true
           else
             @failure_message          = MESSAGES[:expected_text] % [text,@tag,@document]
