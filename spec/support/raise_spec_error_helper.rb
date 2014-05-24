@@ -26,6 +26,8 @@ RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
     end
   end
 
+  supports_block_expectations
+
   failure_message do |block|
     if actual_msg
 <<MSG
