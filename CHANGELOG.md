@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.6.0
+-----
+
+* introduced rspec 3.0.0 compatibility (thanks to [Tiago](https://github.com/TiagoCardoso1983))
+
 0.5.0
 -----
 
