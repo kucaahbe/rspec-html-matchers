@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.6.0'
+  s.version     = '0.6.1'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
   s.email       = ['kucaahbe@ukr.net']
@@ -28,7 +28,7 @@ POST_INST
   s.extra_rdoc_files = ['README.md','CHANGELOG.md']
 
   # since 2.11.0 introduced new expect().to syntax
-  s.add_runtime_dependency 'rspec',    '>= 3.0.0.rc1'
+  s.add_runtime_dependency 'rspec',    '~> 3'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
   s.add_development_dependency 'simplecov',          '~> 0'
