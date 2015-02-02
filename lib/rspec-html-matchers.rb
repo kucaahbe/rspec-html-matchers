@@ -560,9 +560,14 @@ module RSpec
   end
 end
 
-if defined? Cucumber
-  World RSpec::HtmlMatchers
-else
+
+begin
+  defined? Cucumber and World RSpec::HtmlMatchers
+rescue NoMethodError
+  # started rspec, but Cucumber is also a known constant
+end
+
+if defined? RSpec
   RSpec.configure do |config|
     config.include(RSpec::HtmlMatchers)
   end
