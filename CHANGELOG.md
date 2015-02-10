@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.7.0
+-----
+
+* new, explicit configuration, refer to README
+
 0.6.1
 -----
 
