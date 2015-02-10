@@ -16,8 +16,8 @@ DESC
 
   s.rubyforge_project = 'rspec-html-matchers'
 
-  s.files            = Dir.glob('lib/**/*.rb')
-  s.test_files       = Dir.glob('{spec,features}/**/*')
+  s.files            = Dir['lib/**/*.rb']
+  s.test_files       = Dir['{spec,features}/**/*.{rb,feature}']
   s.require_path     = 'lib'
   s.extra_rdoc_files = ['README.md','CHANGELOG.md']
 
