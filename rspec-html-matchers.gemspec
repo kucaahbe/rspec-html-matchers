@@ -13,12 +13,6 @@ Gem::Specification.new do |s|
   s.description = <<DESC
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
-  s.post_install_message = <<POST_INST
-Support for rspec "should" syntax removed,
-please use new "expect" syntax instead (see README on github for examples).
-
-More info on "expect" syntax: https://github.com/rspec/rspec-expectations#rspec-expectations--
-POST_INST
 
   s.rubyforge_project = 'rspec-html-matchers'
 
