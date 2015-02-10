@@ -15,6 +15,7 @@ unreleased(TODO)
 -----
 
 * new, explicit configuration, refer to README
+* added ruby 2.2.0 to CI
 
 0.6.1
 -----
