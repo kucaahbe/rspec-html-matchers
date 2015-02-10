@@ -11,6 +11,12 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.6.1
+-----
+
+* rspec 3 version update
+* added ruby 2.1.2 to CI
+
 0.6.0
 -----
 
