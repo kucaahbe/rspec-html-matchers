@@ -222,6 +222,7 @@ Contributors
 - [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng)
 - [Szymon Przybył](https://github.com/apocalyptiq)
 - [Manuel Meurer](https://github.com/manuelmeurer)
+- [Andreas Riemer](https://github.com/arfl)
 
 MIT Licensed
 ============
