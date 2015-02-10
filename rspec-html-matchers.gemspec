@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ['kucaahbe@ukr.net']
   s.license     = 'MIT'
   s.homepage    = 'http://github.com/kucaahbe/rspec-html-matchers'
-  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 2.x.x}
+  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 3}
   s.description = <<DESC
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
