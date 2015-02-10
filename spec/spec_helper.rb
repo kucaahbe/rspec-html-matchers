@@ -11,6 +11,8 @@ Dir[File.expand_path("../../spec/support/**/*.rb",__FILE__)].each { |f| require 
 
 RSpec.configure do |config|
 
+  config.include RSpecHtmlMatchers
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

@@ -5,6 +5,8 @@ require 'sinatra/base'
 require 'capybara/cucumber'
 require 'rspec-html-matchers'
 
+World RSpecHtmlMatchers
+
 $ASSETS_DIR = File.expand_path('../tmp',__FILE__)
 $INDEX_HTML = File.join($ASSETS_DIR,'index.html')
 
