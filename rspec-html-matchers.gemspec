@@ -22,7 +22,7 @@ DESC
   s.extra_rdoc_files = ['README.md','CHANGELOG.md']
 
   # since 2.11.0 introduced new expect().to syntax
-  s.add_runtime_dependency 'rspec',    '~> 3'
+  s.add_runtime_dependency 'rspec',    '~> 3.3.0'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
   s.add_development_dependency 'simplecov',          '~> 0'
