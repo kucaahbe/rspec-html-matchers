@@ -1,16 +1,15 @@
 if defined?(SimpleCov)
   SimpleCov.start do
     add_group 'Main', '/lib/'
-    add_filter "/spec/"
+    add_filter '/spec/'
   end
 end
 
 require 'rspec-html-matchers'
 
-Dir[File.expand_path("../../spec/support/**/*.rb",__FILE__)].each { |f| require f }
+Dir[File.expand_path('../../spec/support/**/*.rb', __FILE__)].each { |f| require f }
 
 RSpec.configure do |config|
-
   config.include RSpecHtmlMatchers
 
   config.expect_with :rspec do |c|

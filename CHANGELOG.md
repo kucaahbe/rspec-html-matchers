@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.7.1
+-----
+
+* become compatible with RSpec pre-release versions
+
 0.7.0
 -----
 
