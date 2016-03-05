@@ -275,6 +275,10 @@ module RSpecHtmlMatchers
     @__current_scope_for_nokogiri_matcher = HaveTag.new(tag, options, &block)
   end
 
+  def have_empty_tag tag, options={}
+    have_tag(tag, options.merge(text: ""))
+  end
+
   def with_text text
     raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
     raise ArgumentError, 'this matcher does not accept block' if block_given?
