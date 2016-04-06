@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # encoding: UTF-8
 require 'rspec'
 require 'nokogiri'
@@ -79,18 +80,18 @@ module RSpecHtmlMatchers
 
       if with_attrs = @options.delete(:with)
         if classes = with_attrs.delete(:class)
-          @tag << '.' + classes_to_selector(classes)
+          @tag += '.' + classes_to_selector(classes)
         end
         selector = with_attrs.inject('') do |html_attrs_string, (k, v)|
-          html_attrs_string << "[#{k}='#{v}']"
+          html_attrs_string += "[#{k}='#{v}']"
         html_attrs_string
         end
-        @tag << selector
+        @tag += selector
       end
 
       if without_attrs = @options.delete(:without)
         if classes = without_attrs.delete(:class)
-          @tag << ":not(.#{classes_to_selector(classes)})"
+          @tag += ":not(.#{classes_to_selector(classes)})"
         end
       end
 
@@ -319,7 +320,7 @@ module RSpecHtmlMatchers
   def have_form action_url, method, options={}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag = 'form'; tag << '#'+id if id
+    tag = 'form'; tag += '#'+id if id
     options[:with].merge!(:action => action_url)
     options[:with].merge!(:method => method.to_s)
     have_tag tag, options, &block
@@ -463,7 +464,7 @@ module RSpecHtmlMatchers
   def with_select name, options={}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag='select'; tag << '#'+id if id
+    tag='select'; tag += '#'+id if id
     options[:with].merge!(:name => name)
     expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
   end
@@ -471,7 +472,7 @@ module RSpecHtmlMatchers
   def without_select name, options={}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag='select'; tag << '#'+id if id
+    tag='select'; tag += '#'+id if id
     options[:with].merge!(:name => name)
     expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)
   end

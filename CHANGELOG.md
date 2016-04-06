@@ -4,6 +4,7 @@ Changelog
 unreleased(TODO)
 ----------------
 
+* add support for `frozen_string_literals`
 * with_tag should raise error when used outside have_tag
 * add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
 * inteligent check comments(make sure it is not searching inside comments)
