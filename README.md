@@ -14,9 +14,9 @@ Goals
   * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
   * [matchers provided by capybara](http://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
 * developer-firendly output in error messages
-* built on top of [nokogiri](nokogiri.org)
+* built on top of [nokogiri](http://www.nokogiri.org/)
 * has support for [capybara](https://github.com/jnicklas/capybara), see below
-* syntax is similar to [have_tag](http://old.rspec.info/rails/writing/views.html) matcher from old-school rspec-rails, but with own syntactic sugar
+* syntax is similar to have_tag matcher from rspec-rails 1.x, but with own syntactic sugar
 * framework agnostic, as input should be String(or capybara's page, see below)
 
 Install
@@ -85,7 +85,7 @@ expect(rendered).to have_tag('form', :with => { :action => '/users', :method => 
 end
 ```
 
-Example about should be self-descriptive, but if not refer to [have_tag](http://rdoc.info/github/kucaahbe/rspec-html-matchers/RSpec/Matchers:have_tag) documentation
+Example about should be self-descriptive, if not, please refer to [have_tag](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers%3Ahave_tag) documentation
 
 Input could be any html string. Let's take a look at these examples:
 
@@ -166,25 +166,26 @@ where `page` is an instance of Capybara::Session
 
 * also included shorthand matchers for form inputs:
 
-  - [have\_form](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:have_form)
-  - [with\_checkbox](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_checkbox)
-  - [with\_email\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_email_field)
-  - [with\_file\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_file_field)
-  - [with\_hidden\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_hidden_field)
-  - [with\_option](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_option)
-  - [with\_password_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_password_field)
-  - [with\_radio\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_radio_button)
-  - [with\_button](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_button)
-  - [with\_select](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_select)
-  - [with\_submit](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_submit)
-  - [with\_text\_area](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_area)
-  - [with\_text\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_text_field)
-  - [with\_url\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_url_field)
-  - [with\_number\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_number_field)
-  - [with\_range\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_range_field)
-  - [with\_date\_field](http://rdoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers:with_date_field)
+  - have\_form
+  - with\_checkbox
+  - with\_email\_field
+  - with\_file\_field
+  - with\_hidden\_field
+  - with\_option
+  - with\_password\_field
+  - with\_radio\_button
+  - with\_button
+  - with\_select
+  - with\_submit
+  - with\_text\_area
+  - with\_text\_field
+  - with\_url\_field
+  - with\_number\_field
+  - with\_range\_field
+  - with\_date\_field
 
-and of course you can use the `without_` matchers (see the documentation).
+and of course you can use the `without_` matchers,
+for more info take a look at [documentation](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
 
 ### rspec 1 partial backwards compatibility:
 
@@ -200,9 +201,9 @@ expect(response).to have_tag('div', /regexp matching expected content/)
 More info
 ---------
 
-You can find more on [RubyDoc](http://rubydoc.info/github/kucaahbe/rspec-html-matchers/master/RSpec/Matchers), take a look at [have_tag](http://rdoc.info/github/kucaahbe/rspec-html-matchers/RSpec/Matchers#have_tag-instance_method) method.
+You can find more on [documentation](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
 
-Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/master/CHANGELOG.md), it might be helpful.
+Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/master/CHANGELOG.md) and [issues](https://github.com/kucaahbe/rspec-html-matchers/issues), might be helpful.
 
 Contribution
 ============

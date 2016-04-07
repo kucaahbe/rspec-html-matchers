@@ -326,7 +326,7 @@ module RSpecHtmlMatchers
     have_tag tag, options, &block
   end
 
-  #TODO fix code duplications
+  #@TODO fix code duplications
 
   def with_hidden_field name, value=nil
     options = form_tag_options('hidden',name,value)
@@ -408,8 +408,8 @@ module RSpecHtmlMatchers
     should_not_have_input(options)
   end
 
-  # TODO add ability to explicitly say that value should be empty
   def with_password_field name, value=nil
+    # TODO add ability to explicitly say that value should be empty
     options = form_tag_options('password',name,value)
     should_have_input(options)
   end
@@ -429,13 +429,15 @@ module RSpecHtmlMatchers
     should_not_have_input(options)
   end
 
-  def with_text_area name#TODO, text=nil
+  def with_text_area name
+    # TODO, should be: with_text_area name, text=nil
     #options = form_tag_options('text',name,value)
     options = { :with => { :name => name } }
     expect(@__current_scope_for_nokogiri_matcher).to have_tag('textarea', options)
   end
 
-  def without_text_area name#TODO, text=nil
+  def without_text_area name
+    # TODO, should be: without_text_area name, text=nil
     #options = form_tag_options('text',name,value)
     options = { :with => { :name => name } }
     expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('textarea', options)

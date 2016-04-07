@@ -4,13 +4,18 @@ Changelog
 unreleased(TODO)
 ----------------
 
-* add support for `frozen_string_literals`
 * with_tag should raise error when used outside have_tag
 * add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
 * inteligent check comments(make sure it is not searching inside comments)
 * shouldn't show all markup in error message if it is too big
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
+
+0.7.2
+-----
+
+* add support for `frozen_string_literals`
+* fix for rdoc links and not only
 
 0.7.1
 -----
