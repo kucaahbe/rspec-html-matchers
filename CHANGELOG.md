@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.7.3
+-----
+
+* move license information into separate `LICENSE.md` file
+
 0.7.2
 -----
 
