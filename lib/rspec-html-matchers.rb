@@ -23,13 +23,15 @@ module RSpecHtmlMatchers
   class NokogiriTextHelper
     NON_BREAKING_SPACE = "\u00a0"
 
-    def initialize text
+    def initialize text, squeeze_text = false
       @text = text
+      @squeeze_text = squeeze_text
     end
 
     def content node_set
       node_set.find_all do |node|
         actual_content = node.content.gsub(NON_BREAKING_SPACE, ' ')
+        actual_content = node.content.strip.squeeze(' ') if @squeeze_text
 
         actual_content == @text
       end
@@ -191,7 +193,7 @@ module RSpecHtmlMatchers
           false
         end
       else
-        new_scope = @current_scope.css(':content()',NokogiriTextHelper.new(text))
+        new_scope = @current_scope.css(':content()', NokogiriTextHelper.new(text, @options[:squeeze_text]))
         unless new_scope.empty?
           @count = new_scope.count
           @failure_message_when_negated = MESSAGES[:unexpected_text] % [text,@tag,@document]
@@ -232,6 +234,11 @@ module RSpecHtmlMatchers
       @options[:maximum] ||= @options.delete(:max)
 
       @options[:text] = @options[:text].to_s if @options.has_key?(:text) && !@options[:text].is_a?(Regexp)
+
+      if @options.has_key?(:seen) && !@options[:seen].is_a?(Regexp)
+        @options[:text] = @options[:seen].to_s
+        @options[:squeeze_text] = true
+      end
     end
 
   end
