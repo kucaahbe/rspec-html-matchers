@@ -13,11 +13,11 @@ Goals
   * [assert_select](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
   * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
   * [matchers provided by capybara](http://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
-* developer-firendly output in error messages
+* developer-friendly output in error messages
 * built on top of [nokogiri](http://www.nokogiri.org/)
 * has support for [capybara](https://github.com/jnicklas/capybara), see below
-* syntax is similar to have_tag matcher from rspec-rails 1.x, but with own syntactic sugar
-* framework agnostic, as input should be String(or capybara's page, see below)
+* syntax is similar to `have_tag` matcher from rspec-rails 1.x, but with own syntactic sugar
+* framework agnostic, as input should be `String` (or capybara's page, see below)
 
 Install
 -------
@@ -28,7 +28,7 @@ Add to your Gemfile in the `:test` group:
 gem 'rspec-html-matchers'
 ```
 
-and somewhere in RSpec configuration:
+Include it in your RSpec configuration:
 
 ```ruby
 RSpec.configure do |config|
@@ -36,7 +36,7 @@ RSpec.configure do |config|
 end
 ```
 
-or just in you spec(s):
+or just in your spec(s):
 
 ```ruby
 describe "my view spec" do
@@ -55,12 +55,12 @@ Cucumber configuration:
 World RSpecHtmlMatchers
 ```
 
-as this gem requires **nokogiri**, here [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
+as this gem requires **nokogiri**, here are [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
 
-so perharps your code produces following output:
+so perhaps your code produces following output:
 
 ```html
 <h1>Simple Form</h1>
@@ -74,7 +74,7 @@ so perharps your code produces following output:
 </form>
 ```
 
-so you test it with following:
+so you test it with the following:
 
 ```ruby
 expect(rendered).to have_tag('form', :with => { :action => '/users', :method => 'post' }) do
@@ -85,9 +85,9 @@ expect(rendered).to have_tag('form', :with => { :action => '/users', :method => 
 end
 ```
 
-Example about should be self-descriptive, if not, please refer to [have_tag](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers%3Ahave_tag) documentation
+Example above should be self-descriptive, if not, please refer to the [`have_tag`](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers%3Ahave_tag) documentation
 
-Input could be any html string. Let's take a look at these examples:
+Input can be any html string. Let's take a look at these examples:
 
 * matching tags by css:
 
