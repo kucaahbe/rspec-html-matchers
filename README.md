@@ -198,6 +198,15 @@ expect(response).to have_tag('div', /regexp matching expected content/)
 
 [RSpec 1 `have_tag` documentation](http://old.rspec.info/rails/writing/views.html)
 
+Matching Tag Attributes
+-----------------------
+
+You can also match the content of attributes by using selectors. For example, to ensure an `img` tag has an `alt` attribute, you can match:
+
+```ruby
+expect(index).to have_tag("img[alt!='']")
+```
+
 More info
 ---------
 
