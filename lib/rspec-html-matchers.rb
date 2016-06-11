@@ -23,13 +23,15 @@ module RSpecHtmlMatchers
   class NokogiriTextHelper
     NON_BREAKING_SPACE = "\u00a0"
 
-    def initialize text
+    def initialize text, squeeze_text = false
       @text = text
+      @squeeze_text = squeeze_text
     end
 
     def content node_set
       node_set.find_all do |node|
         actual_content = node.content.gsub(NON_BREAKING_SPACE, ' ')
+        actual_content = node.content.strip.squeeze(' ') if @squeeze_text
 
         actual_content == @text
       end
@@ -96,6 +98,7 @@ module RSpecHtmlMatchers
       end
 
       validate_options!
+      set_options
     end
 
     def matches? document, &block
@@ -191,7 +194,7 @@ module RSpecHtmlMatchers
           false
         end
       else
-        new_scope = @current_scope.css(':content()',NokogiriTextHelper.new(text))
+        new_scope = @current_scope.css(':content()', NokogiriTextHelper.new(text, @options[:squeeze_text]))
         unless new_scope.empty?
           @count = new_scope.count
           @failure_message_when_negated = MESSAGES[:unexpected_text] % [text,@tag,@document]
@@ -206,32 +209,54 @@ module RSpecHtmlMatchers
     protected
 
     def validate_options!
+      validate_count_presence!
+      validate_count_when_set_min_max!
+      validate_count_when_set_range!
+    end
+
+    def validate_count_presence!
       raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) or @options[:count].is_a?(Integer)
 
       [:min, :minimum, :max, :maximum].each do |key|
         raise MESSAGES[:wrong_count_error] if @options.has_key?(key) and @options.has_key?(:count)
       end
+    end
 
+    def validate_count_when_set_min_max!
       begin
         raise MESSAGES[:min_max_error] if @options[:minimum] > @options[:maximum]
       rescue NoMethodError # nil > 4
       rescue ArgumentError # 2 < nil
       end
+    end
 
+    def validate_count_when_set_range!
       begin
         begin
-          raise MESSAGES[:bad_range_error] % [@options[:count].to_s] if @options[:count] && @options[:count].is_a?(Range) && (@options[:count].min.nil? or @options[:count].min < 0)
+          raise MESSAGES[:bad_range_error] % [@options[:count].to_s] if count_is_range_but_no_min?
         rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z'
           raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
         end
       rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
         raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
       end
+    end
 
+    def count_is_range_but_no_min?
+      @options[:count] && @options[:count].is_a?(Range) &&
+        (@options[:count].min.nil? or @options[:count].min < 0)
+    end
+
+    def set_options
       @options[:minimum] ||= @options.delete(:min)
       @options[:maximum] ||= @options.delete(:max)
 
       @options[:text] = @options[:text].to_s if @options.has_key?(:text) && !@options[:text].is_a?(Regexp)
+
+      if @options.has_key?(:seen) && !@options[:seen].is_a?(Regexp)
+        @options[:text] = @options[:seen].to_s
+        @options[:squeeze_text] = true
+      end
     end
 
   end

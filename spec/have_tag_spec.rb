@@ -278,7 +278,7 @@ describe 'have_tag' do
     end
   end
 
-  context "with :text specified" do
+  context "with :text/:seen specified" do
     asset 'quotes'
 
     context 'using standard syntax' do
@@ -290,6 +290,10 @@ describe 'have_tag' do
         expect(rendered).to have_tag('span', :text => "sample with 'single' quotes")
         expect(rendered).to have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
         expect(rendered).to have_tag('span', :text => /sample with 'single' and "double" quotes/)
+
+        expect(rendered).to have_tag('p',    :seen => 'content with ignored spaces around')
+        expect(rendered).to have_tag('p',    :seen => 'content with ignored spaces in')
+        expect(rendered).to have_tag('p',    :seen => 'content with nbsp  and  spaces   around')
 
         expect(rendered).to have_tag('p',    :text => 'content with nbsp')
         expect(rendered).to have_tag('pre',  :text => " 1. bla   \n 2. bla ")
@@ -308,8 +312,14 @@ describe 'have_tag' do
         expect(rendered).to_not have_tag('strong', :text => 'text does not present')
         expect(rendered).to_not have_tag('p',      :text => /text does not present/)
         expect(rendered).to_not have_tag('strong', :text => /text does not present/)
-
         expect(rendered).to_not have_tag('p',      :text => 'contentwith nbsp')
+
+        expect(rendered).to_not have_tag('p',      :seen => 'content with ignoredspaces around')
+        expect(rendered).to_not have_tag('p',      :seen => 'content with ignored  spaces around')
+        expect(rendered).to_not have_tag('p',      :seen => 'content withignored spaces in')
+        expect(rendered).to_not have_tag('p',      :seen => 'contentwith nbsp')
+        expect(rendered).to_not have_tag('p',      :seen => 'content with nbsp  and  spaces  around')
+
         expect(rendered).to_not have_tag('pre',    :text => "1. bla\n2. bla")
       end
 
