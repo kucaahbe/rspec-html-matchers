@@ -154,6 +154,14 @@ Input can be any html string. Let's take a look at these examples:
   expect('<p> Some content&nbsphere</p>').to have_tag('p') do
     with_content mymock.text
   end
+
+  # matching text content as it's seen by user:
+  rendered = <<HTML
+  <p>
+     content with ignored spaces around
+  </p>
+  HTML
+  expect(rendered).to have_tag('p', :seen => 'content with ignored spaces around')
   ```
 
 * usage with capybara and cucumber:
