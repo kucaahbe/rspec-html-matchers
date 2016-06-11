@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.8.0
+-----
+
+* "seen" text matching (thanks to [Alex Shi](https://github.com/hlcfan))
+
 0.7.3
 -----
 

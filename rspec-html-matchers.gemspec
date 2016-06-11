@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.7.3'
+  s.version     = '0.8.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
   s.email       = ['kucaahbe@ukr.net']
