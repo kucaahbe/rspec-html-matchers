@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 require 'spec_helper'
 
 describe 'have_tag' do
@@ -574,7 +574,7 @@ describe 'have_tag' do
     end
 
     it "should not find tags and display appropriate message" do
-      ordered_list_regexp = rendered[/<ol.*<\/ol>/m].gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
+      ordered_list_regexp = rendered[/<ol[^>]*>(.*)<\/ol>/m, 1].gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
 
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('div') }
@@ -587,6 +587,35 @@ describe 'have_tag' do
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('li', :text => /SAMPLE text/i) }
       }.to raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:\n#{ordered_list_regexp}/)
+    end
+  end
+
+  context "deep nesting" do
+    asset 'multiple_lists'
+
+    it "should allow deep nesting" do
+      expect(rendered).to have_tag('div') do
+        with_tag 'ul.numeric' do
+          with_tag 'li#one'
+        end
+      end
+    end
+
+    it "should clear context between nested tags" do
+      expect(rendered).to have_tag('div') do
+        with_tag 'ul.numeric'
+        with_tag 'ul.alpha'
+      end
+    end
+
+    it "should narrow context when deep nesting" do
+      expect do
+        expect(rendered).to have_tag('div') do
+          with_tag 'ul.numeric' do
+            with_tag 'li#aye'
+          end
+        end
+      end .to raise_spec_error(/at least 1 element matching "li#aye", found 0/)
     end
   end
 
