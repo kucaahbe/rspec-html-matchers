@@ -33,4 +33,5 @@ DESC
   if RUBY_ENGINE=='ruby' and RUBY_VERSION < '2.0.0'
     s.add_development_dependency 'debugger',         '~> 1'
   end
+  s.add_development_dependency 'pry'
 end
