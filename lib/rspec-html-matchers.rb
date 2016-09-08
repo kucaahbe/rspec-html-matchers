@@ -108,22 +108,20 @@ module RSpecHtmlMatchers
 
       case document
       when String
-        @parent_scope = @current_scope = Nokogiri::HTML(document).css(@tag)
+        @parent_scope = Nokogiri::HTML(document)
         @document     = document
       else
         @parent_scope  = document.current_scope
-        @current_scope = begin
-                           document.parent_scope.css(@tag)
-                           # on jruby this produce exception if css was not found:
-                           # undefined method `decorate' for nil:NilClass
-                         rescue NoMethodError
-                           Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
-                         end
         @document      = @parent_scope.to_html
       end
-
+      @current_scope = begin
+                         @parent_scope.css(@tag)
+                       # on jruby this produce exception if css was not found:
+                       # undefined method `decorate' for nil:NilClass
+                       rescue NoMethodError
+                         Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
+                       end
       if tag_presents? and text_right? and count_right?
-        @current_scope = @parent_scope
         @block.call if @block
         true
       else
