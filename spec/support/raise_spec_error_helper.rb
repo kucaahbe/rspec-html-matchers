@@ -38,7 +38,7 @@ got:
 #{actual_msg}
 
 Diff:
-#{RSpec::Expectations::Differ.new.diff_as_string(actual_msg,expected_exception_msg.to_s)}
+#{RSpec::Support::Differ.new.diff_as_string(actual_msg,expected_exception_msg.to_s)}
 MSG
     elsif catched_exception
       "expected RSpec::Expectations::ExpectationNotMetError, but was #{catched_exception.inspect}"
