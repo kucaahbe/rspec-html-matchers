@@ -11,6 +11,11 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.8.1
+-----
+
+* Rspec differ fix (thanks to [Misha Gorodnitzky](https://github.com/misaka))
+
 0.8.0
 -----
 
