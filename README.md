@@ -152,7 +152,7 @@ Input can be any html string. Let's take a look at these examples:
   expect('<p> Some content&nbsphere</p>').to have_tag('p', :text => mymock.text)
   # or
   expect('<p> Some content&nbsphere</p>').to have_tag('p') do
-    with_content mymock.text
+    with_text mymock.text
   end
 
   # matching text content as it's seen by user:
