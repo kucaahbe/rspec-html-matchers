@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 require 'spec_helper'
 
 describe 'have_tag' do
@@ -463,7 +463,7 @@ describe 'have_tag' do
             with_text 'SAMPLE text'
           end
         }.to raise_spec_error(
-          %Q{"SAMPLE text" expected within "div" in following template:\n<div>sample text</div>}
+          /"SAMPLE text" expected within "div" in following template:/
         )
 
         expect {
@@ -471,7 +471,7 @@ describe 'have_tag' do
             with_text /SAMPLE tekzt/i
           end
         }.to raise_spec_error(
-          %Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n<div>sample text</div>}
+          %r{/SAMPLE tekzt/i regexp expected within "div" in following template:}
         )
       end
 
@@ -481,7 +481,7 @@ describe 'have_tag' do
             without_text 'sample text'
           end
         }.to raise_spec_error(
-          %Q{"sample text" unexpected within "div" in following template:\n<div>sample text</div>\nbut was found.}
+          %r{"sample text" unexpected within "div" in following template:}
         )
 
         expect {
@@ -489,7 +489,7 @@ describe 'have_tag' do
             without_text /SAMPLE text/i
           end
         }.to raise_spec_error(
-          %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n<div>sample text</div>\nbut was found.}
+          %r{/SAMPLE text/i regexp unexpected within "div" in following template:}
         )
       end
 
@@ -578,15 +578,65 @@ describe 'have_tag' do
 
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('div') }
-      }.to raise_spec_error(/expected following:\n#{ordered_list_regexp}\n\s*to have at least 1 element matching "div", found 0/)
+      }.to raise_spec_error(/to have at least 1 element matching "div", found 0/)
 
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('li', :count => 10) }
-      }.to raise_spec_error(/expected following:\n#{ordered_list_regexp}\n\s*to have 10 element\(s\) matching "li", found 3/)
+      }.to raise_spec_error(/to have 10 element\(s\) matching "li", found 3/)
 
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('li', :text => /SAMPLE text/i) }
-      }.to raise_spec_error(/\/SAMPLE text\/i regexp expected within "li" in following template:\n#{ordered_list_regexp}/)
+      }.to raise_spec_error(/\/SAMPLE text\/i regexp expected within "li"/)
+    end
+  end
+
+  context "deep nesting" do
+    asset 'multiple_lists'
+
+    it "should allow deep nesting" do
+      expect(rendered).to have_tag('div') do
+        with_tag 'ul.numeric' do
+          with_tag 'li#one'
+        end
+      end
+    end
+
+    it "should clear context between nested tags" do
+      expect(rendered).to have_tag('div') do |div|
+        expect(div).to have_tag 'ul.numeric'
+        expect(div).to have_tag 'ul.alpha'
+      end
+    end
+
+    it "should narrow context when deep nesting" do
+      expect do
+        expect(rendered).to have_tag('div') do |div|
+          expect(div).to have_tag 'ul.numeric' do |ul_numeric|
+            expect(ul_numeric).to have_tag 'li#aye'
+          end
+        end
+      end .to raise_spec_error(/at least 1 element matching "li#aye", found 0/)
+    end
+
+    # This is the past behaviour of with_tag: because if it narrows the context
+    # to the scope of it's tag, it can't then clear that context to revert to
+    # it's parent context when the block is done ...
+    it "should not narrow context for with_tag" do
+      expect(rendered).to have_tag('div') do |div|
+        expect(div).to have_tag 'ul.numeric' do
+          with_tag 'li#aye'
+        end
+      end
+    end
+
+    it "should narrow context for with_text" do
+      expect do
+        expect(rendered).to have_tag('div') do |div|
+          expect(div).to have_tag 'ul.numeric' do
+            with_text 'A'
+          end
+        end
+      end .to raise_spec_error(/"A" expected within "ul.numeric"/)
     end
   end
 
