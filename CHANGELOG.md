@@ -11,6 +11,12 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.8.2
+-----
+
+* fixed README (thanks to [Rodrigo Castro](https://github.com/roooodcastro))
+* fixed deep nesting (thanks to [Misha Gorodnitzky](https://github.com/misaka))
+
 0.8.1
 -----
 
