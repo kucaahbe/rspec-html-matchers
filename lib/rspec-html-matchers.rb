@@ -311,14 +311,18 @@ module RSpecHtmlMatchers
     raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
     raise ArgumentError, 'this matcher does not accept block' if block_given?
     tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag(tag, :text => text)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, :text => text)
+    end
   end
 
   def without_text text
     raise StandardError, 'this matcher should be used inside "have_tag" matcher block' unless defined?(@__current_scope_for_nokogiri_matcher)
     raise ArgumentError, 'this matcher does not accept block' if block_given?
     tag = @__current_scope_for_nokogiri_matcher.instance_variable_get(:@tag)
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag(tag, :text => text)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, :text => text)
+    end
   end
   alias :but_without_text :without_text
 
@@ -327,7 +331,9 @@ module RSpecHtmlMatchers
   # @see #have_tag
   # @note this should be used within block of have_tag matcher
   def with_tag tag, options={}, &block
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag(tag, options, &block)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
+    end
   end
 
   # without_tag matcher
@@ -335,7 +341,9 @@ module RSpecHtmlMatchers
   # @see #have_tag
   # @note this should be used within block of have_tag matcher
   def without_tag tag, options={}, &block
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag(tag, options, &block)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)
+    end
   end
 
   # form assertion
@@ -460,14 +468,18 @@ module RSpecHtmlMatchers
     # TODO, should be: with_text_area name, text=nil
     #options = form_tag_options('text',name,value)
     options = { :with => { :name => name } }
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag('textarea', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('textarea', options)
+    end
   end
 
   def without_text_area name
     # TODO, should be: without_text_area name, text=nil
     #options = form_tag_options('text',name,value)
     options = { :with => { :name => name } }
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag('textarea', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('textarea', options)
+    end
   end
 
   def with_checkbox name, value=nil
@@ -495,7 +507,9 @@ module RSpecHtmlMatchers
     id = options[:with].delete(:id)
     tag='select'; tag += '#'+id if id
     options[:with].merge!(:name => name)
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag(tag, options, &block)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
+    end
   end
 
   def without_select name, options={}, &block
@@ -503,7 +517,9 @@ module RSpecHtmlMatchers
     id = options[:with].delete(:id)
     tag='select'; tag += '#'+id if id
     options[:with].merge!(:name => name)
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag(tag, options, &block)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)
+    end
   end
 
   def with_option text, value=nil, options={}
@@ -519,7 +535,9 @@ module RSpecHtmlMatchers
     end
     options.delete(:selected)
     options.merge!(:text => text) if text
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag(tag, options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options)
+    end
   end
 
   def without_option text, value=nil, options={}
@@ -535,7 +553,9 @@ module RSpecHtmlMatchers
     end
     options.delete(:selected)
     options.merge!(:text => text) if text
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag(tag, options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options)
+    end
   end
 
   def with_button text, value=nil, options={}
@@ -546,7 +566,9 @@ module RSpecHtmlMatchers
     end
     options[:with].merge!(:value => value.to_s) if value
     options.merge!(:text => text) if text
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag('button', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('button', options)
+    end
   end
 
   def without_button text, value=nil, options={}
@@ -557,7 +579,9 @@ module RSpecHtmlMatchers
     end
     options[:with].merge!(:value => value.to_s) if value
     options.merge!(:text => text) if text
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag('button', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('button', options)
+    end
   end
 
   def with_submit value
@@ -575,11 +599,15 @@ module RSpecHtmlMatchers
   private
 
   def should_have_input(options)
-    expect(@__current_scope_for_nokogiri_matcher.document).to have_tag('input', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to have_tag('input', options)
+    end
   end
 
   def should_not_have_input(options)
-    expect(@__current_scope_for_nokogiri_matcher.document).to_not have_tag('input', options)
+    within_nested_tag do
+      expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('input', options)
+    end
   end
 
   # form_tag in method name name mean smth. like input, submit, tags that should appear in a form
@@ -588,6 +616,13 @@ module RSpecHtmlMatchers
     # .to_s if value is a digit or smth. else, see issue#10
     options[:with].merge!(:value => form_tag_value.to_s) if form_tag_value
     return options
+  end
+
+  def within_nested_tag(&block)
+    raise 'block needed' unless block_given?
+    parent_scope = @__current_scope_for_nokogiri_matcher
+    block.call
+    @__current_scope_for_nokogiri_matcher = parent_scope
   end
 
 end
