@@ -618,17 +618,6 @@ describe 'have_tag' do
       end .to raise_spec_error(/at least 1 element matching "li#aye", found 0/)
     end
 
-    # This is the past behaviour of with_tag: because if it narrows the context
-    # to the scope of it's tag, it can't then clear that context to revert to
-    # it's parent context when the block is done ...
-    it "should not narrow context for with_tag" do
-      expect(rendered).to have_tag('div') do |div|
-        expect(div).to have_tag 'ul.numeric' do
-          with_tag 'li#aye'
-        end
-      end
-    end
-
     it "should narrow context for with_text" do
       expect do
         expect(rendered).to have_tag('div') do |div|
@@ -637,6 +626,32 @@ describe 'have_tag' do
           end
         end
       end .to raise_spec_error(/"A" expected within "ul.numeric"/)
+    end
+  end
+
+  context 'find nested tags' do
+    asset 'nested_matchers'
+
+    it 'with block parameters' do
+      expect(rendered).to have_tag('div#one') do |a|
+        expect(a).to have_tag 'p.find_me', count: 2
+
+        expect(a).to have_tag 'b.nested', count: 3
+        expect(a).to have_tag('p.deep-nesting', count: 1) do |b|
+          expect(b).to have_tag 'b.nested', count: 2
+        end
+      end
+    end
+
+    it 'with short_hand methods' do
+      expect(rendered).to have_tag('div#one') do
+        with_tag 'p.find_me', count: 2
+
+        with_tag 'b.nested', count: 3
+        with_tag('p.deep-nesting', count: 1) do
+          with_tag 'b.nested', count: 2
+        end
+      end
     end
   end
 
