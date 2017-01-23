@@ -12,12 +12,13 @@ Gem::Specification.new do |s|
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
 
-  s.rubyforge_project = 'rspec-html-matchers'
-
   s.files            = Dir['lib/**/*.rb']
   s.test_files       = Dir['{spec,features}/**/*.{rb,feature}']
   s.require_path     = 'lib'
   s.extra_rdoc_files = ['README.md','CHANGELOG.md']
+
+  # depends on what ruby version nokogiri supports:
+  s.required_ruby_version = '>= 2.1'
 
   s.add_runtime_dependency 'rspec',    '>= 3.0.0.a', '< 4'
   s.add_runtime_dependency 'nokogiri', '~> 1'
@@ -30,7 +31,4 @@ DESC
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'travis-lint',        '~> 1'
   s.add_development_dependency 'yard'
-  if RUBY_ENGINE=='ruby' and RUBY_VERSION < '2.0.0'
-    s.add_development_dependency 'debugger',         '~> 1'
-  end
 end
