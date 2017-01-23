@@ -11,6 +11,13 @@ unreleased(TODO)
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.9.0
+-----
+
+* fixed `with\_tag` nesting (thanks to [randoum](https://github.com/randoum): [#59](https://github.com/kucaahbe/rspec-html-matchers/pull/59))
+* added ~> 2.4 ruby support
+* removed ~> 2 ruby support
+
 0.8.2
 -----
 
