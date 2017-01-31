@@ -1,10 +1,15 @@
 # -*- encoding: utf-8 -*-
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'rspec-html-matchers/version'
+
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
-  s.version     = '0.9.0'
+  s.version     = RSpecHtmlMatchers::Version::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['kucaahbe']
-  s.email       = ['kucaahbe@ukr.net']
+  s.email       = ['kucaahbe@ukr.net', 'randoum@gmail.com']
   s.license     = 'MIT'
   s.homepage    = 'http://github.com/kucaahbe/rspec-html-matchers'
   s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 3}

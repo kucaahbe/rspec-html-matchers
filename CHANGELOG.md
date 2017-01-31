@@ -6,15 +6,21 @@ unreleased(TODO)
 
 * with_tag should raise error when used outside have_tag
 * add ability to have_form('/url', 'PUT') or have_form('/url', :PUT)
-* inteligent check comments(make sure it is not searching inside comments)
+* intelligent check comments(make sure it is not searching inside comments)
 * shouldn't show all markup in error message if it is too big
 * order matching
 * improve documentation, add more usage examples (look at changelog and code!)
 
+0.9.1
+-----
+
+* re-added ruby support back to 1.8.7 (supporting same versions as rspec 3)
+* split lib in few files
+
 0.9.0
 -----
 
-* fixed `with\_tag` nesting (thanks to [randoum](https://github.com/randoum): [#59](https://github.com/kucaahbe/rspec-html-matchers/pull/59))
+* fixed `with_tag` nesting (thanks to [randoum](https://github.com/randoum): [#59](https://github.com/kucaahbe/rspec-html-matchers/pull/59))
 * added ~> 2.4 ruby support
 * removed ~> 2 ruby support
 
