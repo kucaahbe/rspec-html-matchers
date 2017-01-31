@@ -17,8 +17,7 @@ DESC
   s.require_path     = 'lib'
   s.extra_rdoc_files = ['README.md','CHANGELOG.md']
 
-  # depends on what ruby version nokogiri supports:
-  s.required_ruby_version = '>= 2.1'
+  s.required_ruby_version = '>= 1.8.7'
 
   s.add_runtime_dependency 'rspec',    '>= 3.0.0.a', '< 4'
   s.add_runtime_dependency 'nokogiri', '~> 1'

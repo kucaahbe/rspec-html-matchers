@@ -1,41 +1,98 @@
 sudo: false
 language: ruby
+
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+
 rvm:
-  - 2.1.0
-  - 2.1.1
-  - 2.1.2
-  - 2.2.0
-  - 2.3.0
-  - 2.3.1
+  - 1.8.7
+  - 1.9.3
+  - 2.0.0
+  - 2.1.10
+  - 2.2.6
+  - 2.3.3
   - 2.4.0
+
 jdk:
-  - openjdk7
   - oraclejdk7
+
+gemfile:
+  - Gemfile
+  - gemfiles/1.8.7.gemfile
+  - gemfiles/1.9.3.gemfile
+  - gemfiles/2.0.0.gemfile
+
+env:
+  - NO_CUCUMBER=true
+  - NO_CUCUMBER=false
+
+
 matrix:
   exclude:
-    - rvm: 2.1.0
-      jdk: openjdk7
+    - rvm: 1.8.7
+      gemfile: Gemfile
+    - rvm: 1.8.7
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 1.8.7
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 1.8.7
+      env: NO_CUCUMBER=false
 
-    - rvm: 2.1.1
-      jdk: openjdk7
+    - rvm: 1.9.3
+      gemfile: Gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 1.9.3
+      env: NO_CUCUMBER=true
 
-    - rvm: 2.1.2
-      jdk: openjdk7
+    - rvm: 2.0.0
+      gemfile: Gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 2.0.0
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 2.0.0
+      env: NO_CUCUMBER=true
 
-    - rvm: 2.2.0
-      jdk: openjdk7
+    - rvm: 2.1.10
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 2.1.10
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 2.1.10
+      env: NO_CUCUMBER=true
 
-    - rvm: 2.3.0
-      jdk: openjdk7
+    - rvm: 2.2.6
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 2.2.6
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 2.2.6
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 2.2.6
+      env: NO_CUCUMBER=true
 
-    - rvm: 2.3.1
-      jdk: openjdk7
+    - rvm: 2.3.3
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 2.3.3
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 2.3.3
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 2.3.3
+      env: NO_CUCUMBER=true
 
     - rvm: 2.4.0
-      jdk: openjdk7
+      gemfile: gemfiles/1.8.7.gemfile
+    - rvm: 2.4.0
+      gemfile: gemfiles/1.9.3.gemfile
+    - rvm: 2.4.0
+      gemfile: gemfiles/2.0.0.gemfile
+    - rvm: 2.4.0
+      env: NO_CUCUMBER=true
+
 branches:
   only:
     - master

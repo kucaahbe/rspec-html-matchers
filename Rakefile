@@ -3,7 +3,9 @@ require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 Bundler::GemHelper.install_tasks
 
-task :default => [:spec, :cucumber]
+suites = [:spec]
+suites << :cucumber unless ENV['NO_CUCUMBER'] == 'true'
+task :default => suites
 
 desc 'Validate the gemspec'
 task :gemspec do
