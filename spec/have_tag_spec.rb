@@ -295,7 +295,9 @@ describe 'have_tag' do
         expect(rendered).to have_tag('p',    :seen => 'content with ignored spaces in')
         expect(rendered).to have_tag('p',    :seen => 'content with nbsp  and  spaces   around')
 
-        expect(rendered).to have_tag('p',    :text => 'content with nbsp')
+        unless Nokogiri::VERSION == '1.5.11'
+          expect(rendered).to have_tag('p',    :text => 'content with nbsp')
+        end
         expect(rendered).to have_tag('pre',  :text => " 1. bla   \n 2. bla ")
       end
 
@@ -425,9 +427,10 @@ describe 'have_tag' do
           with_text /sample with 'single' and "double" quotes/
         end
 
-
-        expect(rendered).to have_tag('p') do
-          with_text 'content with nbsp'
+        unless Nokogiri::VERSION == '1.5.11'
+          expect(rendered).to have_tag('p') do
+            with_text 'content with nbsp'
+          end
         end
 
         expect(rendered).to have_tag('pre') do
@@ -634,22 +637,22 @@ describe 'have_tag' do
 
     it 'with block parameters' do
       expect(rendered).to have_tag('div#one') do |a|
-        expect(a).to have_tag 'p.find_me', count: 2
+        expect(a).to have_tag 'p.find_me', :count => 2
 
-        expect(a).to have_tag 'b.nested', count: 3
-        expect(a).to have_tag('p.deep-nesting', count: 1) do |b|
-          expect(b).to have_tag 'b.nested', count: 2
+        expect(a).to have_tag 'b.nested', :count => 3
+        expect(a).to have_tag('p.deep-nesting', :count => 1) do |b|
+          expect(b).to have_tag 'b.nested', :count => 2
         end
       end
     end
 
     it 'with short_hand methods' do
       expect(rendered).to have_tag('div#one') do
-        with_tag 'p.find_me', count: 2
+        with_tag 'p.find_me', :count => 2
 
-        with_tag 'b.nested', count: 3
-        with_tag('p.deep-nesting', count: 1) do
-          with_tag 'b.nested', count: 2
+        with_tag 'b.nested', :count => 3
+        with_tag('p.deep-nesting', :count => 1) do
+          with_tag 'b.nested', :count => 2
         end
       end
     end

@@ -16,7 +16,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.filter_run_excluding wip: true
+  config.filter_run_excluding :wip => true
 
   config.extend AssetHelpers
 end

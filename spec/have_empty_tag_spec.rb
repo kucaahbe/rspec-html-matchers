@@ -6,9 +6,9 @@ describe 'have_empty_tag' do
     asset 'single_element'
 
     it { expect(rendered).to have_empty_tag('div') }
-    it { expect(rendered).to have_empty_tag('div', class: "foo") }
-    it { expect(rendered).to have_empty_tag('div', class: "bar") }
-    it { expect(rendered).to have_empty_tag('div', class: "foo bar") }
+    it { expect(rendered).to have_empty_tag('div', :class => "foo") }
+    it { expect(rendered).to have_empty_tag('div', :class => "bar") }
+    it { expect(rendered).to have_empty_tag('div', :class => "foo bar") }
   end
 
   context 'when paragraphs' do
@@ -23,7 +23,7 @@ describe 'have_empty_tag' do
     it { expect(rendered).to_not have_empty_tag('html') }
     it { expect(rendered).to_not have_empty_tag('body') }
     it { expect(rendered).to_not have_empty_tag('ol') }
-    it { expect(rendered).to_not have_empty_tag('ol', class: 'menu') }
+    it { expect(rendered).to_not have_empty_tag('ol', :class => 'menu') }
     it { expect(rendered).to_not have_empty_tag('li') }
   end
 end

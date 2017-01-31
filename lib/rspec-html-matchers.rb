@@ -304,7 +304,7 @@ module RSpecHtmlMatchers
   end
 
   def have_empty_tag tag, options={}
-    have_tag(tag, options.merge(text: ""))
+    have_tag(tag, options.merge(:text => ""))
   end
 
   def with_text text

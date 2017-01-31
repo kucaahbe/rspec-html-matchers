@@ -1,0 +1,6 @@
+source 'http://rubygems.org'
+gemspec path: '..'
+
+gem 'addressable', '= 2.4.0'
+gem 'mime-types', '= 2.6.2'
+gem 'nokogiri', '= 1.6.8.1'
