@@ -681,4 +681,22 @@ describe 'have_tag' do
     end
   end
 
+  context "for xml" do
+    asset "xml"
+
+    it "should find tags" do
+      expect(rendered).to have_tag('MYTAG', xml: true)
+      expect(rendered).to have_tag(:MYTAG, xml: true)
+      expect(rendered).to have_tag('MYTAG[MsgType=MYmsg]', xml: true)
+      expect(rendered).to have_tag('MYTAG LocalTime', xml: true)
+    end
+
+    it "should not find tags" do
+      expect(rendered).to_not have_tag('MYTAG2')
+      expect(rendered).to_not have_tag(:span)
+      expect(rendered).to_not have_tag('MYTAG#id')
+      expect(rendered).to_not have_tag('MYTAG#class')
+      expect(rendered).to_not have_tag('MYTAG OtherTime')
+    end
+  end
 end

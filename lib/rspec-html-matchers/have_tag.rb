@@ -73,7 +73,7 @@ module RSpecHtmlMatchers
 
       case document
         when String
-          @parent_scope = Nokogiri::HTML(document)
+          @parent_scope = nokogiri_parse(document)
           @document     = document
         else
           @parent_scope  = document.current_scope
@@ -108,6 +108,10 @@ module RSpecHtmlMatchers
     end
 
     private
+
+    def nokogiri_parse(document)
+      @options[:xml] ? Nokogiri::XML(document) : Nokogiri::HTML(document)
+    end
 
     def classes_to_selector(classes)
       case classes
