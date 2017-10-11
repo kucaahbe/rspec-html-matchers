@@ -685,10 +685,10 @@ describe 'have_tag' do
     asset "xml"
 
     it "should find tags" do
-      expect(rendered).to have_tag('MYTAG', xml: true)
-      expect(rendered).to have_tag(:MYTAG, xml: true)
-      expect(rendered).to have_tag('MYTAG[MsgType=MYmsg]', xml: true)
-      expect(rendered).to have_tag('MYTAG LocalTime', xml: true)
+      expect(rendered).to have_tag('MYTAG', :xml => true)
+      expect(rendered).to have_tag(:MYTAG, :xml => true)
+      expect(rendered).to have_tag('MYTAG[MsgType=MYmsg]', :xml => true)
+      expect(rendered).to have_tag('MYTAG LocalTime', :xml => true)
     end
 
     it "should not find tags" do
