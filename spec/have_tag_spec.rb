@@ -681,4 +681,11 @@ describe 'have_tag' do
     end
   end
 
+  context "XML tags" do
+    it "should match tags case sensitively" do
+      RSpecHtmlMatchers::set_parser_type 'XML'
+      expect('<Foo>bar</Foo>').to have_tag('Foo')
+    end
+  end
+
 end
