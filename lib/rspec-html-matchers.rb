@@ -50,6 +50,18 @@ module RSpecHtmlMatchers
     @__current_scope_for_nokogiri_matcher = HaveTag.new(tag, options, &block)
   end
 
+  # parse text as HTML (default) or XML
+  #
+  # Use XML format if you want case-sensitive parsing.
+  #
+  # @param [String] parser_type  The type of parser (HTML or XML) to use
+  #
+  # @example
+  #   RSpecHtmlMatchers::set_parser_type 'XML'
+  def self.set_parser_type parser_type = 'HTML'
+    HaveTag.set_parser_type(parser_type.upcase)
+  end
+
   def have_empty_tag tag, options={}
     have_tag(tag, options.merge(:text => ""))
   end

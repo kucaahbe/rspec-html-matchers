@@ -9,6 +9,8 @@ module RSpecHtmlMatchers
     attr_reader :failure_message, :failure_message_when_negated
     attr_reader :parent_scope, :current_scope
 
+    @@parser_type = 'HTML'
+
     DESCRIPTIONS = {
         :have_at_least_1 => %Q|have at least 1 element matching "%s"|,
         :have_n          => %Q|have %i element(s) matching "%s"|
@@ -42,6 +44,10 @@ module RSpecHtmlMatchers
     }
 
 
+    def self.set_parser_type parser_type
+       @@parser_type = parser_type
+    end
+
     def initialize tag, options={}, &block
       @tag, @options, @block = tag.to_s, options, block
 
@@ -73,7 +79,7 @@ module RSpecHtmlMatchers
 
       case document
         when String
-          @parent_scope = Nokogiri::HTML(document)
+          @parent_scope = @@parser_type == 'XML' ? Nokogiri::XML(document) : Nokogiri::HTML(document)
           @document     = document
         else
           @parent_scope  = document.current_scope
