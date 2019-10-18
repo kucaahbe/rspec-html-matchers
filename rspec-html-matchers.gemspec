@@ -30,9 +30,10 @@ DESC
   s.add_development_dependency 'simplecov',          '~> 0'
   s.add_development_dependency 'cucumber',           '~> 1'
   s.add_development_dependency 'capybara',           '~> 2'
-  s.add_development_dependency 'selenium-webdriver', '~> 2'
+  s.add_development_dependency 'selenium-webdriver', '~> 3'
   s.add_development_dependency 'sinatra',            '~> 1'
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'travis-lint',        '~> 1'
   s.add_development_dependency 'yard'
+  s.add_development_dependency 'webdrivers'
 end
