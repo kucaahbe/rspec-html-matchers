@@ -6,12 +6,6 @@ before_script:
 services:
   - xvfb
 rvm:
-  - 1.8.7-head
-  - 1.9.3
-  - 2.0.0
-  - 2.1.10
-  - 2.2.6
-  - 2.3.3
   - 2.4.0
   - 2.6.5
 
@@ -20,9 +14,6 @@ jdk:
 
 gemfile:
   - Gemfile
-  - gemfiles/1.8.7.gemfile
-  - gemfiles/1.9.3.gemfile
-  - gemfiles/2.0.0.gemfile
 
 env:
   - NO_CUCUMBER=true
@@ -31,75 +22,9 @@ env:
 
 matrix:
   exclude:
-    - rvm: 1.8.7
-      gemfile: Gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 1.8.7
-      gemfile: gemfiles/2.0.0.gemfile
-    - rvm: 1.8.7
-      env: NO_CUCUMBER=false
-
-    - rvm: 1.9.3
-      gemfile: Gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/2.0.0.gemfile
-    - rvm: 1.9.3
-      env: NO_CUCUMBER=true
-
-    - rvm: 2.0.0
-      gemfile: Gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.0.0
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.0.0
-      env: NO_CUCUMBER=true
-
-    - rvm: 2.1.10
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/2.0.0.gemfile
-    - rvm: 2.1.10
-      env: NO_CUCUMBER=true
-
-    - rvm: 2.2.6
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.2.6
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.2.6
-      gemfile: gemfiles/2.0.0.gemfile
-    - rvm: 2.2.6
-      env: NO_CUCUMBER=true
-
-    - rvm: 2.3.3
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.3.3
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.3.3
-      gemfile: gemfiles/2.0.0.gemfile
-    - rvm: 2.3.3
-      env: NO_CUCUMBER=true
-
-    - rvm: 2.4.0
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.4.0
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.4.0
-      gemfile: gemfiles/2.0.0.gemfile
     - rvm: 2.4.0
       env: NO_CUCUMBER=true
 
-    - rvm: 2.6.5
-      gemfile: gemfiles/1.8.7.gemfile
-    - rvm: 2.6.5
-      gemfile: gemfiles/1.9.3.gemfile
-    - rvm: 2.6.5
-      gemfile: gemfiles/2.0.0.gemfile
     - rvm: 2.6.5
       env: NO_CUCUMBER=true
 
