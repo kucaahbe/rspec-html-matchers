@@ -3,8 +3,8 @@ rspec-html-matchers
 
 [RSpec 3](https://www.relishapp.com/rspec) matchers for testing your html (for [RSpec 2](https://www.relishapp.com/rspec/rspec-core/v/2-99/docs) use 0.5.x version).
 
-[![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.png)](http://badge.fury.io/rb/rspec-html-matchers)
-[![Build Status](https://travis-ci.org/kucaahbe/rspec-html-matchers.png)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
+[![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.svg)](http://badge.fury.io/rb/rspec-html-matchers)
+[![Build Status](https://travis-ci.org/kucaahbe/rspec-html-matchers.svg)](http://travis-ci.org/kucaahbe/rspec-html-matchers)
 
 Goals
 -----
