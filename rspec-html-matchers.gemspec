@@ -46,4 +46,8 @@ DESC
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'travis-lint',        '~> 1'
   s.add_development_dependency 'yard'
+
+  if RUBY_PLATFORM == 'java'
+    s.add_development_dependency 'ruby-debug'
+  end
 end

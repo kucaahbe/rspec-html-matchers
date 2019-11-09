@@ -50,8 +50,13 @@ module RSpecHtmlMatchers
     @__current_scope_for_nokogiri_matcher = HaveTag.new(tag, options, &block)
   end
 
+  # tests whether tag have any content inside
+  #
+  # @example
+  #   expect('<div></div>').to have_empty_tag('div') # success
+  #   expect('<div>hi</div>').to have_empty_tag('div') # fail
   def have_empty_tag tag, options={}
-    have_tag(tag, options.merge(:text => ""))
+    have_tag(tag, options.merge(:blank => true))
   end
 
   def with_text text

@@ -43,6 +43,7 @@ jobs:
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
 
   - rvm: jruby-1.7
+    gemfile: gemfiles/jruby-1.7/Gemfile
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
     jdk: openjdk8
 

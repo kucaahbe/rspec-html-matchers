@@ -30,6 +30,9 @@ module RSpecHtmlMatchers
         :expected_at_least    => %Q|expected following:\n%s\nto have at least %i element(s) matching "%s", found %i.|,
         :unexpected_at_least  => %Q|expected following:\n%s\nto NOT have at least %i element(s) matching "%s", but found %i.|,
 
+        :expected_blank       => %Q|expected following template to contain empty tag %s:\n%s|,
+        :unexpected_blank     => %Q|expected following template to contain tag %s with other tags:\n%s|,
+
         :expected_regexp      => %Q|%s regexp expected within "%s" in following template:\n%s|,
         :unexpected_regexp    => %Q|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|,
 
@@ -80,13 +83,13 @@ module RSpecHtmlMatchers
           @document      = @parent_scope.to_html
       end
       @current_scope = begin
-        @parent_scope.css(@tag)
-          # on jruby this produce exception if css was not found:
-          # undefined method `decorate' for nil:NilClass
-      rescue NoMethodError
-        Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
-      end
-      if tag_presents? and text_right? and count_right?
+                         @parent_scope.css(@tag)
+                         # on jruby this produce exception if css was not found:
+                         # undefined method `decorate' for nil:NilClass
+                       rescue NoMethodError
+                         Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
+                       end
+      if tag_presents? and proper_content? and count_right?
         @block.call(self) if @block
         true
       else
@@ -146,6 +149,30 @@ module RSpecHtmlMatchers
       end
     end
 
+    def proper_content?
+      if @options.key?(:blank)
+        maybe_empty?
+      else
+        text_right?
+      end
+    end
+
+    def maybe_empty?
+      if @options[:blank]
+        @failure_message_when_negated = MESSAGES[:unexpected_blank] % [@tag, @document]
+        @failure_message = MESSAGES[:expected_blank] % [@tag, @document]
+      else
+        @failure_message_when_negated = MESSAGES[:expected_blank] % [@tag, @document]
+        @failure_message = MESSAGES[:unexpected_blank] % [@tag, @document]
+      end
+
+      if @options[:blank]
+        @current_scope.children.empty?
+      else
+        !@current_scope.children.empty?
+      end
+    end
+
     def text_right?
       return true unless @options[:text]
 
@@ -176,9 +203,17 @@ module RSpecHtmlMatchers
     protected
 
     def validate_options!
+      validate_text_options!
       validate_count_presence!
       validate_count_when_set_min_max!
       validate_count_when_set_range!
+    end
+
+    def validate_text_options!
+      # TODO: test these options validations
+      if @options.key?(:blank)
+        raise ':text option is not accepted when :blank => true' if @options[:blank] && @options.key?(:text)
+      end
     end
 
     def validate_count_presence!
