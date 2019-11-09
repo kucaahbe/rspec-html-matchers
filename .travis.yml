@@ -40,17 +40,17 @@ jobs:
     rvm: 2.0
 
   - rvm: 1.9
-    gemfile: gemfiles/1.9.3.gemfile
+    gemfile: gemfiles/ruby-1.9/Gemfile
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
 
   - rvm: jruby-1.7
-    gemfile: gemfiles/1.9.3.gemfile
+    gemfile: gemfiles/ruby-1.9/Gemfile
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
     jdk: openjdk8
 
   - rvm: 1.8
     dist: trusty
-    gemfile: gemfiles/1.8.7.gemfile
+    gemfile: gemfiles/ruby-1.8/Gemfile
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
 
   allow_failures:
