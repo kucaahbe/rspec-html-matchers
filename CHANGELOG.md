@@ -1,6 +1,18 @@
 Changelog
 =========
 
+unreleased
+----------
+
+* added ruby 2.7 to build matrix (no official support until stable release though)
+* added ruby 2.6 to build matrix ([#70](https://github.com/kucaahbe/rspec-html-matchers/pull/70))
+
+infrastructure/misc:
+
+* migrated to travis-ci.com instead of travis-ci.org (thanks [Hamada Takayuki](https://github.com/hamadata) for inspiration: [#70](https://github.com/kucaahbe/rspec-html-matchers/pull/70))
+* refactor travis-ci build setup
+* updated status badges to SVG (thanks to [Olle Jonsson](https://github.com/olleolleolle): [#71](https://github.com/kucaahbe/rspec-html-matchers/pull/71))
+
 0.9.1
 -----
 
