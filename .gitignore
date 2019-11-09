@@ -5,11 +5,11 @@
 /.rvmrc
 /.rbenv-*
 /.ruby-version
-# common stuff
-/bin/
+/.gems
+# bundler
 /.bundle/
 /Gemfile.lock
-# documentation and other trash
+# documentation, artifacts and configs
 /html
 /doc
 /.yardoc
