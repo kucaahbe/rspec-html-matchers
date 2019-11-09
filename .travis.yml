@@ -1,33 +1,57 @@
-sudo: false
 language: ruby
+
+services:
+  - xvfb
 
 before_script:
   - export DISPLAY=:99.0
-services:
-  - xvfb
-rvm:
-  - 2.4.0
-  - 2.6.5
 
-jdk:
-  - oraclejdk9
+cache: bundler
 
-gemfile:
-  - Gemfile
+# NOTE: please, specify rubies versions in descending order,
+# it adds convenience when checking out travis-ci builds dashboard
+# also, newer rubies will be built first
+jobs:
+  include:
+  - rvm: 2.7
 
-env:
-  - NO_CUCUMBER=true
-  - NO_CUCUMBER=false
+  - rvm: 2.6
 
+  - rvm: 2.5
 
-matrix:
-  exclude:
-    - rvm: 2.4.0
-      env: NO_CUCUMBER=true
+  - rvm: jruby-9.2 # 2.5 compatible
+    jdk: openjdk8
 
-    - rvm: 2.6.5
-      env: NO_CUCUMBER=true
+  - rvm: 2.4
 
-branches:
-  only:
-    - master
+  - rvm: 2.3
+
+  - rvm: jruby-9.1 # 2.3 compatible
+    jdk: openjdk8
+
+  - rvm: 2.2
+
+  - rvm: jruby-9.0 # 2.2 compatible
+    jdk: openjdk8
+
+  - rvm: 2.1
+
+  - name: 'Ruby: 2.0'
+    rvm: 2.0
+
+  - rvm: 1.9
+    gemfile: gemfiles/1.9.3.gemfile
+    env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
+
+  - rvm: jruby-1.7
+    gemfile: gemfiles/1.9.3.gemfile
+    env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
+    jdk: openjdk8
+
+  - rvm: 1.8
+    dist: trusty
+    gemfile: gemfiles/1.8.7.gemfile
+    env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
+
+  allow_failures:
+  - rvm: 2.7
