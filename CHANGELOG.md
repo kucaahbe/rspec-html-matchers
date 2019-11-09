@@ -83,7 +83,7 @@ infrastructure/misc:
 0.4.4
 -----
 
-* options for have_tag now support Regexp (thanks to [Ian C. Anderson](http://github.com/iancanderson))
+* options for have_tag now support Regexp (thanks to [Ian C. Anderson](https://github.com/iancanderson))
 
 0.4.3
 -----
@@ -132,14 +132,14 @@ infrastructure/misc:
 0.2.2
 -----
 
-* leading and trailing whitespaces are ignored in tags where they should be ignored(#11, and again thanks to [Simon Schoeters](http://github.com/cimm))
+* leading and trailing whitespaces are ignored in tags where they should be ignored(#11, and again thanks to [Simon Schoeters](https://github.com/cimm))
 * whitespaces ignoring as browser does in :text matching
 * have_tag backwards compability(thanks to [Felix Tjandrawibawa](https://github.com/cemeng), #12)
 
 0.2.1
 -----
 
-* make possible use non-string as :text option(#10, thanks for idea to [Simon Schoeters](http://github.com/cimm))
+* make possible use non-string as :text option(#10, thanks for idea to [Simon Schoeters](https://github.com/cimm))
 
 0.2.0
 -----
@@ -158,7 +158,7 @@ infrastructure/misc:
 0.0.6
 -----
 
-* allow for single quotes in content matchers (thanks to [Kelly Felkins](http://github.com/kellyfelkins)).
+* allow for single quotes in content matchers (thanks to [Kelly Felkins](https://github.com/kellyfelkins)).
 
 0.0.5 (trial-trip)
 ------------------

@@ -1,4 +1,4 @@
-# rspec-html-matchers [![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.svg)](http://badge.fury.io/rb/rspec-html-matchers) [![Build Status](https://travis-ci.com/kucaahbe/rspec-html-matchers.svg?branch=master)](https://travis-ci.com/kucaahbe/rspec-html-matchers)
+# rspec-html-matchers [![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.svg)](https://badge.fury.io/rb/rspec-html-matchers) [![Build Status](https://travis-ci.com/kucaahbe/rspec-html-matchers.svg?branch=master)](https://travis-ci.com/kucaahbe/rspec-html-matchers)
 
 [RSpec 3](https://www.relishapp.com/rspec) matchers for testing your html (for [RSpec 2](https://www.relishapp.com/rspec/rspec-core/v/2-99/docs) use 0.5.x version).
 
@@ -6,11 +6,11 @@ Goals
 -----
 
 * designed for testing **complex** html output. If you plan to perform simple matching, consider using:
-  * [assert_select](http://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
+  * [assert_select](https://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
   * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
-  * [matchers provided by capybara](http://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
+  * [matchers provided by capybara](https://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
 * developer-friendly output in error messages
-* built on top of [nokogiri](http://www.nokogiri.org/)
+* built on top of [nokogiri](https://www.nokogiri.org/)
 * has support for [capybara](https://github.com/jnicklas/capybara), see below
 * syntax is similar to `have_tag` matcher from rspec-rails 1.x, but with own syntactic sugar
 * framework agnostic, as input should be `String` (or capybara's page, see below)
@@ -51,7 +51,7 @@ Cucumber configuration:
 World RSpecHtmlMatchers
 ```
 
-as this gem requires **nokogiri**, here are [instructions for installing it](http://nokogiri.org/tutorials/installing_nokogiri.html).
+as this gem requires **nokogiri**, here are [instructions for installing it](https://nokogiri.org/tutorials/installing_nokogiri.html).
 
 Usage
 -----
@@ -81,7 +81,7 @@ expect(rendered).to have_tag('form', :with => { :action => '/users', :method => 
 end
 ```
 
-Example above should be self-descriptive, if not, please refer to the [`have_tag`](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers%3Ahave_tag) documentation
+Example above should be self-descriptive, if not, please refer to the [`have_tag`](https://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers%3Ahave_tag) documentation
 
 Input can be any html string. Let's take a look at these examples:
 
@@ -189,7 +189,7 @@ where `page` is an instance of Capybara::Session
   - with\_date\_field
 
 and of course you can use the `without_` matchers,
-for more info take a look at [documentation](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
+for more info take a look at [documentation](https://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
 
 ### rspec 1 partial backwards compatibility:
 
@@ -200,7 +200,7 @@ expect(response).to have_tag('div', 'expected content')
 expect(response).to have_tag('div', /regexp matching expected content/)
 ```
 
-[RSpec 1 `have_tag` documentation](http://old.rspec.info/rails/writing/views.html)
+[RSpec 1 `have_tag` documentation](https://old.rspec.info/rails/writing/views.html)
 
 Matching Tag Attributes
 -----------------------
@@ -214,7 +214,7 @@ expect(index).to have_tag("img[alt!='']")
 More info
 ---------
 
-You can find more on [documentation](http://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
+You can find more on [documentation](https://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
 
 Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/master/CHANGELOG.md) and [issues](https://github.com/kucaahbe/rspec-html-matchers/issues), might be helpful.
 
@@ -230,8 +230,8 @@ Contribution
 Contributors
 ============
 
-- [Kelly Felkins](http://github.com/kellyfelkins)
-- [Ryan Wilcox](http://github.com/rwilcox)
+- [Kelly Felkins](https://github.com/kellyfelkins)
+- [Ryan Wilcox](https://github.com/rwilcox)
 - [Simon Schoeters](https://github.com/cimm)
 - [Felix Tjandrawibawa](https://github.com/cemenghttps://github.com/cemeng)
 - [Szymon Przybył](https://github.com/apocalyptiq)
