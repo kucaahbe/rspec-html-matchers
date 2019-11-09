@@ -4,11 +4,7 @@ World(RSpec::Matchers)
 require 'sinatra/base'
 require 'capybara/cucumber'
 require 'rspec-html-matchers'
-begin
-  require 'webdrivers'
-rescue LoadError
-  # noop
-end
+require 'webdrivers'
 require 'selenium-webdriver'
 
 World RSpecHtmlMatchers
@@ -31,9 +27,9 @@ end
 
 Capybara.configure do |config|
   config.default_max_wait_time = 15 if config.respond_to? :default_max_wait_time=
-  config.default_driver = :selenium
-  config.default_driver = :headless_chrome if Gem.loaded_specs['selenium-webdriver'].version >= Gem::Version.new('3')
+  config.default_driver = :headless_chrome
 end
+
 Capybara.app = SimpleApp
 
 Before do

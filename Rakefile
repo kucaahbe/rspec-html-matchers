@@ -1,13 +1,17 @@
 require 'bundler/setup'
 require 'rspec/core/rake_task'
-require 'cucumber/rake/task'
+begin
+  require 'cucumber/rake/task'
+rescue LoadError
+  # noop
+end
+
 Bundler::GemHelper.install_tasks
 
 task :default => :test
 
-desc 'Run RSpec and (if CUCUMBER!=false) cucumber tests'
+desc 'Run RSpec and (if enabled and CUCUMBER!=false) cucumber tests'
 task 'test' => 'spec'
-task 'test' => 'cucumber' if ENV['CUCUMBER'] != 'false'
 
 RSpec::Core::RakeTask.new 'spec'
 
@@ -22,9 +26,12 @@ namespace 'spec' do
   end
 end
 
-Cucumber::Rake::Task.new 'cucumber' do |t|
-  t.fork = true
-  t.profile = 'default'
+if defined? Cucumber::Rake::Task
+  Cucumber::Rake::Task.new 'cucumber' do |t|
+    t.fork = true
+    t.profile = 'default'
+  end
+  task 'test' => 'cucumber' if ENV['CUCUMBER'] != 'false'
 end
 
 desc 'Validate the gemspec'
