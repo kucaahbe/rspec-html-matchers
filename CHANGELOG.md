@@ -1,9 +1,10 @@
 Changelog
 =========
 
-unreleased
-----------
+0.9.2
+-----
 
+* fixed have_empty_tag matcher on jruby
 * added ruby 2.7 to build matrix (no official support until stable release though)
 * added ruby 2.6 to build matrix ([#70](https://github.com/kucaahbe/rspec-html-matchers/pull/70))
 
