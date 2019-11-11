@@ -26,7 +26,7 @@ DESC
   # ruby support is tied to rspec & nokogiri gems:
   s.required_ruby_version = '>= 1.8.7'
 
-  s.add_runtime_dependency 'rspec',    '>= 3.0.0.a', '< 4'
+  s.add_runtime_dependency 'rspec',    '>= 3.0.0.a', '< 5'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
   # cucumber tests:
