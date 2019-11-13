@@ -38,7 +38,7 @@ describe "have_form" do
             with_select("book[publisher_id]") do
               with_option(nil)
               with_option("The Pragmatic Bookshelf", :selected => true)
-              with_option(/sitepoint/,2)
+              with_option(/sitepoint/, 2)
               with_option("O'Reilly", 3, :selected => false)
             end
           end
@@ -90,14 +90,14 @@ describe "have_form" do
       it "should find text field" do
         expect(rendered).to have_form("/books", :post) do
           with_text_field('book[title]')
-          with_text_field('book[title]',nil)
-          with_text_field('book[author]','Authorname')
+          with_text_field('book[title]', nil)
+          with_text_field('book[author]', 'Authorname')
         end
       end
 
       it "should not find text field" do
         expect(rendered).to have_form("/books", :post) do
-          without_text_field('book[title]','title does not exist')
+          without_text_field('book[title]', 'title does not exist')
           without_text_field('book[authoRR]')
           without_text_field('book[blabla]')
         end
@@ -115,7 +115,7 @@ describe "have_form" do
 
       it "should not find email field" do
         expect(rendered).to have_form("/books", :post) do
-          without_email_field('book[author]','Authorname')
+          without_email_field('book[author]', 'Authorname')
           without_email_field('user[emaiL]')
           without_email_field('user[apocalyptiq]')
         end
@@ -132,7 +132,7 @@ describe "have_form" do
 
       it "should not find url field" do
         expect(rendered).to have_form("/books", :post) do
-          without_url_field('user[url]','Authorname')
+          without_url_field('user[url]', 'Authorname')
           without_url_field('user[emaiL]')
           without_url_field('user[apocalyptiq]')
         end
@@ -150,8 +150,8 @@ describe "have_form" do
 
       it "should not find number field" do
         expect(rendered).to have_form("/books", :post) do
-          without_number_field('number',400)
-          without_number_field('number','400')
+          without_number_field('number', 400)
+          without_number_field('number', '400')
           without_number_field('user[emaiL]')
           without_number_field('user[apocalyptiq]')
         end
@@ -162,9 +162,9 @@ describe "have_form" do
       it "should find range field" do
         expect(rendered).to have_form("/books", :post) do
           with_range_field('range1', 1, 3)
-          with_range_field('range1','1','3')
-          with_range_field('range2', 1, 3, :with => { :value => 2 } )
-          with_range_field('range2', 1, 3, :with => { :value => '2' } )
+          with_range_field('range1', '1', '3')
+          with_range_field('range2', 1, 3, :with => { :value => 2 })
+          with_range_field('range2', 1, 3, :with => { :value => '2' })
         end
       end
 
@@ -172,7 +172,7 @@ describe "have_form" do
         expect(rendered).to have_form("/books", :post) do
           without_range_field('number')
           without_range_field('range1', 1, 5)
-          without_range_field('range2', 1, 3, :with => { :value => 5 } )
+          without_range_field('range2', 1, 3, :with => { :value => 5 })
         end
       end
     end
@@ -183,7 +183,7 @@ describe "have_form" do
           with_date_field(:date)
           with_date_field(:date, 'book_date')
           with_date_field(:month, 'book_month', :with => { :value => 5 })
-          with_date_field(:week,'book_week')
+          with_date_field(:week, 'book_week')
           with_date_field(:time, 'book_time')
           with_date_field(:datetime, 'book_datetime')
           with_date_field('datetime-local', 'book_datetime_local')
@@ -257,14 +257,14 @@ describe "have_form" do
       it "should find check box" do
         expect(rendered).to have_form("/books", :post) do
           with_checkbox("book[still_in_print]")
-          with_checkbox("book[still_in_print]","1")
+          with_checkbox("book[still_in_print]", "1")
         end
       end
 
       it "should not find check box" do
         expect(rendered).to have_form("/books", :post) do
           without_checkbox("book[book]")
-          without_checkbox("book[still_in_print]","500")
+          without_checkbox("book[still_in_print]", "500")
         end
       end
     end
@@ -272,14 +272,14 @@ describe "have_form" do
     context "with_radio_button" do
       it "should find radio button" do
         expect(rendered).to have_form("/books", :post) do
-          with_radio_button("form[name]","true")
+          with_radio_button("form[name]", "true")
         end
       end
 
       it "should not find radio button" do
         expect(rendered).to have_form("/books", :post) do
-          without_radio_button("form[name]","100500")
-          without_radio_button("form[item]","false")
+          without_radio_button("form[name]", "100500")
+          without_radio_button("form[item]", "false")
         end
       end
     end

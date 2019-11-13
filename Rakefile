@@ -2,7 +2,7 @@ require 'bundler/setup'
 require 'rspec/core/rake_task'
 begin
   require 'cucumber/rake/task'
-rescue LoadError
+rescue LoadError # rubocop:disable Lint/HandleExceptions
   # noop
 end
 
@@ -36,6 +36,6 @@ end
 
 desc 'Validate the gemspec'
 task 'gemspec' do
-  gemspec = eval File.read(Dir['*.gemspec'].first)
+  gemspec = eval File.read(Dir['*.gemspec'].first) # rubocop:disable Security/Eval
   puts 'gemspec valid' if gemspec.validate
 end

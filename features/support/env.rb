@@ -9,8 +9,8 @@ require 'selenium-webdriver'
 
 World RSpecHtmlMatchers
 
-$ASSETS_DIR = File.expand_path('../tmp',__FILE__)
-$INDEX_HTML = File.join($ASSETS_DIR,'index.html')
+$ASSETS_DIR = File.expand_path('../tmp', __FILE__)
+$INDEX_HTML = File.join($ASSETS_DIR, 'index.html')
 
 class SimpleApp < Sinatra::Base
   set :public_folder, $ASSETS_DIR

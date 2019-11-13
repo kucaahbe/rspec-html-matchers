@@ -1,8 +1,7 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 module RSpecHtmlMatchers
-
   # @api
   # @private
   # for nokogiri regexp matching
@@ -15,5 +14,4 @@ module RSpecHtmlMatchers
       node_set.find_all { |node| node.content =~ @regex }
     end
   end
-
 end

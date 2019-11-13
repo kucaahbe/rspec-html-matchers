@@ -1,0 +1,31 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - bin/*
+    - .gems/*
+
+Layout/AlignHash:
+  EnforcedHashRocketStyle: table
+
+Layout/AlignArguments:
+  EnforcedStyle: with_fixed_indentation
+
+Style/Encoding:
+  Enabled: false
+Naming/FileName:
+  Enabled: false
+Naming/PredicateName:
+  Enabled: false
+Gemspec/RubyVersionGlobalsUsage: # maybe later
+  Enabled: false
+Gemspec/OrderedDependencies: # nonsense
+  Enabled: false
+Gemspec/RequiredRubyVersion: # rubocop errors when specifying TargetRubyVersion as 1.8.7
+  Enabled: false
+Layout/IndentHeredoc:
+  Enabled: false
+Lint/AmbiguousRegexpLiteral: # not a big deal
+  Enabled: false
+Lint/AssignmentInCondition: # "I know I'm using an assignment as a condition. It's not a mistake."
+  Enabled: false

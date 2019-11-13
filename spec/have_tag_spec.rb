@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'spec_helper'
 
 describe 'have_tag' do
@@ -31,17 +32,17 @@ describe 'have_tag' do
       expect {
         expect(rendered).to have_tag('span')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 1 element matching "span", found 0.}
+        %{expected following:\n#{rendered}\nto have at least 1 element matching "span", found 0.}
       )
       expect {
         expect(rendered).to have_tag('span#some_id')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_id", found 0.}
+        %{expected following:\n#{rendered}\nto have at least 1 element matching "span#some_id", found 0.}
       )
       expect {
         expect(rendered).to have_tag('span.some_class')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 1 element matching "span.some_class", found 0.}
+        %{expected following:\n#{rendered}\nto have at least 1 element matching "span.some_class", found 0.}
       )
     end
 
@@ -49,69 +50,68 @@ describe 'have_tag' do
       expect {
         expect(rendered).to_not have_tag('div')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have element matching "div", found 2.}
+        %{expected following:\n#{rendered}\nto NOT have element matching "div", found 2.}
       )
       expect {
         expect(rendered).to_not have_tag('div#div')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have element matching "div#div", found 1.}
+        %{expected following:\n#{rendered}\nto NOT have element matching "div#div", found 1.}
       )
       expect {
         expect(rendered).to_not have_tag('p.paragraph')
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have element matching "p.paragraph", found 1.}
+        %{expected following:\n#{rendered}\nto NOT have element matching "p.paragraph", found 1.}
       )
     end
 
     context "with additional HTML attributes(:with option)" do
       it "should find tags" do
-        expect(rendered).to have_tag('input#search',:with => {:type => "text"})
-        expect(rendered).to have_tag(:input ,:with => {:type => "submit", :value => "Save"})
+        expect(rendered).to have_tag('input#search', :with => { :type => "text" })
+        expect(rendered).to have_tag(:input, :with => { :type => "submit", :value => "Save" })
       end
 
       it "should find tags that have classes specified via array(or string)" do
-        expect(rendered).to have_tag('div',:with => {:class => %w(class-one class-two)})
-        expect(rendered).to have_tag('div',:with => {:class => 'class-two class-one'})
+        expect(rendered).to have_tag('div', :with => { :class => %w(class-one class-two) })
+        expect(rendered).to have_tag('div', :with => { :class => 'class-two class-one' })
       end
 
       it "should not find tags that have classes specified via array" do
-        expect(rendered).to_not have_tag('div',:with => {:class => %w(class-other class-two)})
+        expect(rendered).to_not have_tag('div', :with => { :class => %w(class-other class-two) })
       end
 
       it "should not find tags that have classes specified via array and display appropriate message" do
         expect {
-          expect(rendered).to have_tag('div',:with => {:class => %w(class-other class-two)})
+          expect(rendered).to have_tag('div', :with => { :class => %w(class-other class-two) })
         }.to raise_spec_error(
-          %Q{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
+          %{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
         )
         expect {
-          expect(rendered).to have_tag('div',:with => {:class => 'class-other class-two'})
+          expect(rendered).to have_tag('div', :with => { :class => 'class-other class-two' })
         }.to raise_spec_error(
-          %Q{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
+          %{expected following:\n#{rendered}\nto have at least 1 element matching "div.class-other.class-two", found 0.}
         )
       end
 
       it "should not find tags" do
-        expect(rendered).to_not have_tag('input#search',:with => {:type => "some_other_type"})
-        expect(rendered).to_not have_tag(:input, :with => {:type => "some_other_type"})
+        expect(rendered).to_not have_tag('input#search', :with => { :type => "some_other_type" })
+        expect(rendered).to_not have_tag(:input, :with => { :type => "some_other_type" })
       end
 
       it "should not find tags and display appropriate message" do
         expect {
-          expect(rendered).to have_tag('input#search',:with => {:type => "some_other_type"})
+          expect(rendered).to have_tag('input#search', :with => { :type => "some_other_type" })
         }.to raise_spec_error(
-          %Q{expected following:\n#{rendered}\nto have at least 1 element matching "input#search[type='some_other_type']", found 0.}
+          %{expected following:\n#{rendered}\nto have at least 1 element matching "input#search[type='some_other_type']", found 0.}
         )
       end
 
       it "should find unexpected tags and display appropriate message" do
         expect {
-          expect(rendered).to_not have_tag('input#search',:with => {:type => "text"})
+          expect(rendered).to_not have_tag('input#search', :with => { :type => "text" })
         }.to raise_spec_error(
-          %Q{expected following:\n#{rendered}\nto NOT have element matching "input#search[type='text']", found 1.}
+          %{expected following:\n#{rendered}\nto NOT have element matching "input#search[type='text']", found 1.}
         )
       end
-
     end
 
     context "with additional HTML attributes (:without option)" do
@@ -167,13 +167,13 @@ describe 'have_tag' do
       expect {
         expect(rendered).to have_tag('p', :count => 10)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have 10 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have 10 element(s) matching "p", found 3.}
       )
 
       expect {
         expect(rendered).to have_tag('p', :count => 4..8)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 4 and at most 8 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have at least 4 and at most 8 element(s) matching "p", found 3.}
       )
     end
 
@@ -181,13 +181,13 @@ describe 'have_tag' do
       expect {
         expect(rendered).to_not have_tag('p', :count => 3)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have 3 element(s) matching "p", but found.}
+        %{expected following:\n#{rendered}\nto NOT have 3 element(s) matching "p", but found.}
       )
 
       expect {
         expect(rendered).to_not have_tag('p', :count => 1..3)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have at least 1 and at most 3 element(s) matching "p", but found 3.}
+        %{expected following:\n#{rendered}\nto NOT have at least 1 and at most 3 element(s) matching "p", but found 3.}
       )
     end
 
@@ -195,12 +195,12 @@ describe 'have_tag' do
       expect {
         expect(rendered).to have_tag('p', :min => 100)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
       )
       expect {
         expect(rendered).to have_tag('p', :minimum => 100)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have at least 100 element(s) matching "p", found 3.}
       )
     end
 
@@ -208,12 +208,12 @@ describe 'have_tag' do
       expect {
         expect(rendered).to_not have_tag('p', :min => 2)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
+        %{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
       )
       expect {
         expect(rendered).to_not have_tag('p', :minimum => 2)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
+        %{expected following:\n#{rendered}\nto NOT have at least 2 element(s) matching "p", but found 3.}
       )
     end
 
@@ -221,10 +221,10 @@ describe 'have_tag' do
       expect {
         expect(rendered).to have_tag('p', :max => 2)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
       )
       expect { expect(rendered).to have_tag('p', :maximum => 2) }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
+        %{expected following:\n#{rendered}\nto have at most 2 element(s) matching "p", found 3.}
       )
     end
 
@@ -232,12 +232,12 @@ describe 'have_tag' do
       expect {
         expect(rendered).to_not have_tag('p', :max => 5)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
+        %{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
       )
       expect {
         expect(rendered).to_not have_tag('p', :maximum => 5)
       }.to raise_spec_error(
-        %Q{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
+        %{expected following:\n#{rendered}\nto NOT have at most 5 element(s) matching "p", but found 3.}
       )
     end
 
@@ -246,34 +246,34 @@ describe 'have_tag' do
         expect(rendered).to have_tag('div', :count => 'string')
       }.to raise_error(/wrong :count/)
 
-      wrong_params_error_msg_1 = ':count with :minimum or :maximum has no sence!'
+      wrong_params_error_msg1 = ':count with :minimum or :maximum has no sence!'
 
       expect {
         expect(rendered).to have_tag('div', :count => 2, :minimum => 1)
-      }.to raise_error(wrong_params_error_msg_1)
+      }.to raise_error(wrong_params_error_msg1)
 
       expect {
         expect(rendered).to have_tag('div', :count => 2, :min     => 1)
-      }.to raise_error(wrong_params_error_msg_1)
+      }.to raise_error(wrong_params_error_msg1)
 
       expect {
         expect(rendered).to have_tag('div', :count => 2, :maximum => 1)
-      }.to raise_error(wrong_params_error_msg_1)
+      }.to raise_error(wrong_params_error_msg1)
 
       expect {
         expect(rendered).to have_tag('div', :count => 2, :max     => 1)
-      }.to raise_error(wrong_params_error_msg_1)
+      }.to raise_error(wrong_params_error_msg1)
 
-      wrong_params_error_msg_2 = ':minimum should be less than :maximum!'
+      wrong_params_error_msg2 = ':minimum should be less than :maximum!'
 
       expect {
         expect(rendered).to have_tag('div', :minimum => 2, :maximum => 1)
-      }.to raise_error(wrong_params_error_msg_2)
+      }.to raise_error(wrong_params_error_msg2)
 
-      [ 4..1, -2..6, 'a'..'z', 3..-9 ].each do |range|
+      [4..1, -2..6, 'a'..'z', 3..-9].each do |range|
         expect {
-          expect(rendered).to have_tag('div', :count => range )
-        }.to raise_error("Your :count range(#{range.to_s}) has no sence!")
+          expect(rendered).to have_tag('div', :count => range)
+        }.to raise_error("Your :count range(#{range}) has no sence!")
       end
     end
   end
@@ -282,13 +282,12 @@ describe 'have_tag' do
     asset 'quotes'
 
     context 'using standard syntax' do
-
       it "should find tags" do
         expect(rendered).to have_tag('div',  :text => 'sample text')
         expect(rendered).to have_tag('p',    :text => 'one')
         expect(rendered).to have_tag('div',  :text => /SAMPLE/i)
         expect(rendered).to have_tag('span', :text => "sample with 'single' quotes")
-        expect(rendered).to have_tag('span', :text => %Q{sample with 'single' and "double" quotes})
+        expect(rendered).to have_tag('span', :text => %{sample with 'single' and "double" quotes})
         expect(rendered).to have_tag('span', :text => /sample with 'single' and "double" quotes/)
 
         expect(rendered).to have_tag('p',    :seen => 'content with ignored spaces around')
@@ -296,9 +295,9 @@ describe 'have_tag' do
         expect(rendered).to have_tag('p',    :seen => 'content with nbsp  and  spaces   around')
 
         unless Nokogiri::VERSION == '1.5.11'
-          expect(rendered).to have_tag('p',    :text => 'content with nbsp')
+          expect(rendered).to have_tag('p', :text => 'content with nbsp')
         end
-        expect(rendered).to have_tag('pre',  :text => " 1. bla   \n 2. bla ")
+        expect(rendered).to have_tag('pre', :text => " 1. bla   \n 2. bla ")
       end
 
       it "should find with unicode text specified" do
@@ -327,8 +326,8 @@ describe 'have_tag' do
 
       it "should invoke #to_s method for :text" do
         expect {
-          expect(rendered).to_not have_tag('p', :text => 100500 )
-          expect(rendered).to have_tag('p', :text => 315 )
+          expect(rendered).to_not have_tag('p', :text => 100500)
+          expect(rendered).to have_tag('p', :text => 315)
         }.to_not raise_exception
       end
 
@@ -337,12 +336,12 @@ describe 'have_tag' do
         expect {
           expect(rendered).to have_tag('div', :text => 'SAMPLE text')
         }.to raise_spec_error(
-          %Q{"SAMPLE text" expected within "div" in following template:\n#{rendered}}
+          %{"SAMPLE text" expected within "div" in following template:\n#{rendered}}
         )
         expect {
           expect(rendered).to have_tag('div', :text => /SAMPLE tekzt/i)
         }.to raise_spec_error(
-          %Q{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
+          %{/SAMPLE tekzt/i regexp expected within "div" in following template:\n#{rendered}}
         )
       end
 
@@ -350,26 +349,24 @@ describe 'have_tag' do
         expect {
           expect(rendered).to_not have_tag('div', :text => 'sample text')
         }.to raise_spec_error(
-          %Q{"sample text" unexpected within "div" in following template:\n#{rendered}\nbut was found.}
+          %{"sample text" unexpected within "div" in following template:\n#{rendered}\nbut was found.}
         )
         expect {
           expect(rendered).to_not have_tag('div', :text => /SAMPLE text/i)
         }.to raise_spec_error(
-          %Q{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
+          %{/SAMPLE text/i regexp unexpected within "div" in following template:\n#{rendered}\nbut was found.}
         )
       end
-
     end
 
     context 'using alternative syntax(with_text/without_text)' do
-
       it "should raise exception when used outside any other tag matcher" do
         expect {
           with_text 'sample text'
-        }.to raise_error(StandardError,/inside "have_tag"/)
+        }.to raise_error(StandardError, /inside "have_tag"/)
         expect {
           without_text 'sample text'
-        }.to raise_error(StandardError,/inside "have_tag"/)
+        }.to raise_error(StandardError, /inside "have_tag"/)
       end
 
       it "should raise exception when used with block" do
@@ -379,11 +376,11 @@ describe 'have_tag' do
               puts 'bla'
             end
           end
-        }.to raise_error(ArgumentError,/does not accept block/)
+        }.to raise_error(ArgumentError, /does not accept block/)
 
         expect {
           expect(rendered).to have_tag('div') do
-            with_text 'sample text', proc { puts 'bla' }
+            with_text('sample text', proc { puts 'bla' })
           end
         }.to raise_error(ArgumentError)
 
@@ -393,11 +390,11 @@ describe 'have_tag' do
               puts 'bla'
             end
           end
-        }.to raise_error(ArgumentError,/does not accept block/)
+        }.to raise_error(ArgumentError, /does not accept block/)
 
         expect {
           expect(rendered).to have_tag('div') do
-            without_text 'sample text', proc { puts 'bla' }
+            without_text('sample text', proc { puts 'bla' })
           end
         }.to raise_error(ArgumentError)
       end
@@ -420,7 +417,7 @@ describe 'have_tag' do
         end
 
         expect(rendered).to have_tag('span') do
-          with_text %Q{sample with 'single' and "double" quotes}
+          with_text %{sample with 'single' and "double" quotes}
         end
 
         expect(rendered).to have_tag('span') do
@@ -495,9 +492,7 @@ describe 'have_tag' do
           %r{/SAMPLE text/i regexp unexpected within "div" in following template:}
         )
       end
-
     end
-
   end
 
   context "mixed matching" do
@@ -577,8 +572,6 @@ describe 'have_tag' do
     end
 
     it "should not find tags and display appropriate message" do
-      ordered_list_regexp = rendered[/<ol.*<\/ol>/m].gsub(/(\n?\s{2,}|\n\s?)/,'\n*\s*')
-
       expect {
         expect(rendered).to have_tag('ol') { with_tag('li'); with_tag('div') }
       }.to raise_spec_error(/to have at least 1 element matching "div", found 0/)
@@ -662,23 +655,19 @@ describe 'have_tag' do
     asset 'quotes'
 
     context "string as second argument" do
-
       it "should map a string argument to :text => string" do
         expect(rendered).to have_tag('div',  'sample text')
       end
-
     end
 
     context "Regexp as second argument" do
-
       it "should match against a valid Regexp" do
         expect(rendered).to have_tag('div',  /sample\s/)
       end
 
       it "should not match against an invalid Regexp" do
-        expect(rendered).to_not have_tag('div',  /not matching/)
+        expect(rendered).to_not have_tag('div', /not matching/)
       end
     end
   end
-
 end

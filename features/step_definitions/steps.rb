@@ -1,5 +1,5 @@
 Given /^I have following template:$/ do |string|
-  File.open($INDEX_HTML,'w+') do |file|
+  File.open($INDEX_HTML, 'w+') do |file|
     file.write(string)
   end
 end

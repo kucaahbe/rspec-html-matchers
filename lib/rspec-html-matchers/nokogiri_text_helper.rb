@@ -1,8 +1,7 @@
-# frozen_string_literal: true
 # encoding: UTF-8
+# frozen_string_literal: true
 
 module RSpecHtmlMatchers
-
   # @api
   # @private
   class NokogiriTextHelper
@@ -22,5 +21,4 @@ module RSpecHtmlMatchers
       end
     end
   end
-
 end

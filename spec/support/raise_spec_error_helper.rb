@@ -11,8 +11,8 @@ RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
     begin
       block.call
       false
-    rescue RSpec::Expectations::ExpectationNotMetError => rspec_error
-      @actual_msg = rspec_error.message
+    rescue RSpec::Expectations::ExpectationNotMetError => e
+      @actual_msg = e.message
 
       case expected_exception_msg
       when String
@@ -28,9 +28,9 @@ RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
 
   supports_block_expectations
 
-  failure_message do |block|
+  failure_message do |_block|
     if actual_msg
-<<MSG
+<<MSG # rubocop:disable Layout/IndentationWidth
 expected RSpec::Expectations::ExpectationNotMetError with message:
 #{expected_exception_msg}
 
@@ -38,7 +38,7 @@ got:
 #{actual_msg}
 
 Diff:
-#{RSpec::Support::Differ.new.diff_as_string(actual_msg,expected_exception_msg.to_s)}
+#{RSpec::Support::Differ.new.diff_as_string(actual_msg, expected_exception_msg.to_s)}
 MSG
     elsif catched_exception
       "expected RSpec::Expectations::ExpectationNotMetError, but was #{catched_exception.inspect}"

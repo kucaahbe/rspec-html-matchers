@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
@@ -21,7 +22,7 @@ DESC
   s.files            = Dir['lib/**/*.rb']
   s.test_files       = Dir['{spec,features}/**/*.{rb,feature}']
   s.require_path     = 'lib'
-  s.extra_rdoc_files = ['README.md','CHANGELOG.md']
+  s.extra_rdoc_files = ['README.md', 'CHANGELOG.md']
 
   # ruby support is tied to rspec & nokogiri gems:
   s.required_ruby_version = '>= 1.8.7'
@@ -46,6 +47,7 @@ DESC
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'travis-lint',        '~> 1'
   s.add_development_dependency 'yard'
+  s.add_development_dependency 'rubocop', '= 0.76.0' if ruby_version >= Gem::Version.new('2.3')
 
   if RUBY_PLATFORM == 'java'
     s.add_development_dependency 'ruby-debug'
