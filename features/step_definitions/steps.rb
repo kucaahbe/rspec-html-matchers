@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Given /^I have following template:$/ do |string|
-  File.open($INDEX_HTML, 'w+') do |file|
+  File.open($INDEX_HTML, 'w+') do |file| # rubocop:disable Style/GlobalVars
     file.write(string)
   end
 end

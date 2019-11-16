@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -14,7 +15,7 @@ Gem::Specification.new do |s|
   s.email       = ['kucaahbe@ukr.net', 'randoum@gmail.com']
   s.license     = 'MIT'
   s.homepage    = 'https://github.com/kucaahbe/rspec-html-matchers'
-  s.summary     = %q{Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 3}
+  s.summary     = "Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 3"
   s.description = <<DESC
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
@@ -49,7 +50,5 @@ DESC
   s.add_development_dependency 'yard'
   s.add_development_dependency 'rubocop', '= 0.76.0' if ruby_version >= Gem::Version.new('2.3')
 
-  if RUBY_PLATFORM == 'java'
-    s.add_development_dependency 'ruby-debug'
-  end
+  s.add_development_dependency 'ruby-debug' if RUBY_PLATFORM == 'java'
 end

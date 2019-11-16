@@ -41,7 +41,6 @@ describe "my view spec" do
   it "has tags" do
     expect(rendered).to have_tag('div')
   end
-
 end
 ```
 

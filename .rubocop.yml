@@ -11,7 +11,33 @@ Layout/AlignHash:
 Layout/AlignArguments:
   EnforcedStyle: with_fixed_indentation
 
+Style/BlockDelimiters:
+  IgnoredMethods: expect
+
+Style/Documentation:
+  Exclude:
+    - spec/**/*
+    - features/**/*
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/MethodDefParentheses:
+  EnforcedStyle: require_no_parentheses
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
 Style/Encoding:
+  Enabled: false
+Style/ExpandPathArguments:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/SafeNavigation:
   Enabled: false
 Naming/FileName:
   Enabled: false

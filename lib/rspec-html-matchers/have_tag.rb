@@ -11,15 +11,15 @@ module RSpecHtmlMatchers
     attr_reader :parent_scope, :current_scope
 
     DESCRIPTIONS = {
-      :have_at_least_1 => %|have at least 1 element matching "%s"|,
-      :have_n          => %|have %i element(s) matching "%s"|
-    }
+      :have_at_least_1 => %(have at least 1 element matching "%s"),
+      :have_n          => %|have %i element(s) matching "%s"|,
+    }.freeze
 
     MESSAGES = {
-      :expected_tag         => %|expected following:\n%s\nto #{DESCRIPTIONS[:have_at_least_1]}, found 0.|,
-      :unexpected_tag       => %|expected following:\n%s\nto NOT have element matching "%s", found %s.|,
+      :expected_tag         => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_at_least_1]}, found 0.),
+      :unexpected_tag       => %(expected following:\n%s\nto NOT have element matching "%s", found %s.),
 
-      :expected_count       => %|expected following:\n%s\nto #{DESCRIPTIONS[:have_n]}, found %s.|,
+      :expected_count       => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_n]}, found %s.),
       :unexpected_count     => %|expected following:\n%s\nto NOT have %i element(s) matching "%s", but found.|,
 
       :expected_btw_count   => %|expected following:\n%s\nto have at least %i and at most %i element(s) matching "%s", found %i.|,
@@ -31,22 +31,24 @@ module RSpecHtmlMatchers
       :expected_at_least    => %|expected following:\n%s\nto have at least %i element(s) matching "%s", found %i.|,
       :unexpected_at_least  => %|expected following:\n%s\nto NOT have at least %i element(s) matching "%s", but found %i.|,
 
-      :expected_blank       => %|expected following template to contain empty tag %s:\n%s|,
-      :unexpected_blank     => %|expected following template to contain tag %s with other tags:\n%s|,
+      :expected_blank       => %(expected following template to contain empty tag %s:\n%s),
+      :unexpected_blank     => %(expected following template to contain tag %s with other tags:\n%s),
 
-      :expected_regexp      => %|%s regexp expected within "%s" in following template:\n%s|,
-      :unexpected_regexp    => %|%s regexp unexpected within "%s" in following template:\n%s\nbut was found.|,
+      :expected_regexp      => %(%s regexp expected within "%s" in following template:\n%s),
+      :unexpected_regexp    => %(%s regexp unexpected within "%s" in following template:\n%s\nbut was found.),
 
-      :expected_text        => %|"%s" expected within "%s" in following template:\n%s|,
-      :unexpected_text      => %|"%s" unexpected within "%s" in following template:\n%s\nbut was found.|,
+      :expected_text        => %("%s" expected within "%s" in following template:\n%s),
+      :unexpected_text      => %("%s" unexpected within "%s" in following template:\n%s\nbut was found.),
 
-      :wrong_count_error    => %|:count with :minimum or :maximum has no sence!|,
-      :min_max_error        => %|:minimum should be less than :maximum!|,
+      :wrong_count_error    => %(:count with :minimum or :maximum has no sence!),
+      :min_max_error        => %(:minimum should be less than :maximum!),
       :bad_range_error      => %|Your :count range(%s) has no sence!|,
-    }
+    }.freeze
 
     def initialize tag, options = {}, &block
-      @tag, @options, @block = tag.to_s, options, block
+      @tag = tag.to_s
+      @options = options
+      @block = block
 
       if with_attrs = @options.delete(:with)
         if classes = with_attrs.delete(:class)
@@ -97,14 +99,12 @@ module RSpecHtmlMatchers
       end
     end
 
-    def document
-      @document
-    end
+    attr_reader :document
 
     def description
-      # TODO should it be more complicated?
-      if @options.has_key?(:count)
-        DESCRIPTIONS[:have_n] % [@options[:count], @tag]
+      # TODO: should it be more complicated?
+      if @options.key?(:count)
+        format(DESCRIPTIONS[:have_n], @options[:count], @tag)
       else
         DESCRIPTIONS[:have_at_least_1] % @tag
       end
@@ -112,7 +112,7 @@ module RSpecHtmlMatchers
 
     private
 
-    def classes_to_selector(classes)
+    def classes_to_selector classes
       case classes
       when Array
         classes.join('.')
@@ -124,10 +124,10 @@ module RSpecHtmlMatchers
     def tag_presents?
       if @current_scope.first
         @count = @current_scope.count
-        @failure_message_when_negated = MESSAGES[:unexpected_tag] % [@document, @tag, @count]
+        @failure_message_when_negated = format(MESSAGES[:unexpected_tag], @document, @tag, @count)
         true
       else
-        @failure_message = MESSAGES[:expected_tag] % [@document, @tag]
+        @failure_message = format(MESSAGES[:expected_tag], @document, @tag)
         false
       end
     end
@@ -135,14 +135,14 @@ module RSpecHtmlMatchers
     def count_right?
       case @options[:count]
       when Integer
-        ((@failure_message_when_negated = MESSAGES[:unexpected_count] % [@document, @count, @tag]) && @count == @options[:count]) || (@failure_message = MESSAGES[:expected_count] % [@document, @options[:count], @tag, @count]; false)
+        ((@failure_message_when_negated = format(MESSAGES[:unexpected_count], @document, @count, @tag)) && @count == @options[:count]) || (@failure_message = format(MESSAGES[:expected_count], @document, @options[:count], @tag, @count); false)
       when Range
-        ((@failure_message_when_negated = MESSAGES[:unexpected_btw_count] % [@document, @options[:count].min, @options[:count].max, @tag, @count]) && @options[:count].member?(@count)) || (@failure_message = MESSAGES[:expected_btw_count] % [@document, @options[:count].min, @options[:count].max, @tag, @count]; false)
+        ((@failure_message_when_negated = format(MESSAGES[:unexpected_btw_count], @document, @options[:count].min, @options[:count].max, @tag, @count)) && @options[:count].member?(@count)) || (@failure_message = format(MESSAGES[:expected_btw_count], @document, @options[:count].min, @options[:count].max, @tag, @count); false)
       when nil
         if @options[:maximum]
-          ((@failure_message_when_negated = MESSAGES[:unexpected_at_most] % [@document, @options[:maximum], @tag, @count]) && @count <= @options[:maximum]) || (@failure_message = MESSAGES[:expected_at_most] % [@document, @options[:maximum], @tag, @count]; false)
+          ((@failure_message_when_negated = format(MESSAGES[:unexpected_at_most], @document, @options[:maximum], @tag, @count)) && @count <= @options[:maximum]) || (@failure_message = format(MESSAGES[:expected_at_most], @document, @options[:maximum], @tag, @count); false)
         elsif @options[:minimum]
-          ((@failure_message_when_negated = MESSAGES[:unexpected_at_least] % [@document, @options[:minimum], @tag, @count]) && @count >= @options[:minimum]) || (@failure_message = MESSAGES[:expected_at_least] % [@document, @options[:minimum], @tag, @count]; false)
+          ((@failure_message_when_negated = format(MESSAGES[:unexpected_at_least], @document, @options[:minimum], @tag, @count)) && @count >= @options[:minimum]) || (@failure_message = format(MESSAGES[:expected_at_least], @document, @options[:minimum], @tag, @count); false)
         else
           true
         end
@@ -159,11 +159,11 @@ module RSpecHtmlMatchers
 
     def maybe_empty?
       if @options[:blank]
-        @failure_message_when_negated = MESSAGES[:unexpected_blank] % [@tag, @document]
-        @failure_message = MESSAGES[:expected_blank] % [@tag, @document]
+        @failure_message_when_negated = format(MESSAGES[:unexpected_blank], @tag, @document)
+        @failure_message = format(MESSAGES[:expected_blank], @tag, @document)
       else
-        @failure_message_when_negated = MESSAGES[:expected_blank] % [@tag, @document]
-        @failure_message = MESSAGES[:unexpected_blank] % [@tag, @document]
+        @failure_message_when_negated = format(MESSAGES[:expected_blank], @tag, @document)
+        @failure_message = format(MESSAGES[:unexpected_blank], @tag, @document)
       end
 
       if @options[:blank]
@@ -179,23 +179,23 @@ module RSpecHtmlMatchers
       case text = @options[:text]
       when Regexp
         new_scope = @current_scope.css(':regexp()', NokogiriRegexpHelper.new(text))
-        unless new_scope.empty?
-          @count = new_scope.count
-          @failure_message_when_negated = MESSAGES[:unexpected_regexp] % [text.inspect, @tag, @document]
-          true
-        else
-          @failure_message = MESSAGES[:expected_regexp] % [text.inspect, @tag, @document]
+        if new_scope.empty?
+          @failure_message = format(MESSAGES[:expected_regexp], text.inspect, @tag, @document)
           false
+        else
+          @count = new_scope.count
+          @failure_message_when_negated = format(MESSAGES[:unexpected_regexp], text.inspect, @tag, @document)
+          true
         end
       else
         new_scope = @current_scope.css(':content()', NokogiriTextHelper.new(text, @options[:squeeze_text]))
-        unless new_scope.empty?
-          @count = new_scope.count
-          @failure_message_when_negated = MESSAGES[:unexpected_text] % [text, @tag, @document]
-          true
-        else
-          @failure_message = MESSAGES[:expected_text] % [text, @tag, @document]
+        if new_scope.empty?
+          @failure_message = format(MESSAGES[:expected_text], text, @tag, @document)
           false
+        else
+          @count = new_scope.count
+          @failure_message_when_negated = format(MESSAGES[:unexpected_text], text, @tag, @document)
+          true
         end
       end
     end
@@ -211,8 +211,8 @@ module RSpecHtmlMatchers
 
     def validate_text_options!
       # TODO: test these options validations
-      if @options.key?(:blank)
-        raise ':text option is not accepted when :blank => true' if @options[:blank] && @options.key?(:text)
+      if @options.key?(:blank) && @options[:blank] && @options.key?(:text) # rubocop:disable Style/GuardClause, Style/IfUnlessModifier
+        raise ':text option is not accepted when :blank => true'
       end
     end
 
@@ -220,28 +220,24 @@ module RSpecHtmlMatchers
       raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) || @options[:count].is_a?(Integer)
 
       [:min, :minimum, :max, :maximum].each do |key|
-        raise MESSAGES[:wrong_count_error] if @options.has_key?(key) && @options.has_key?(:count)
+        raise MESSAGES[:wrong_count_error] if @options.key?(key) && @options.key?(:count)
       end
     end
 
     def validate_count_when_set_min_max!
-      begin
-        raise MESSAGES[:min_max_error] if @options[:minimum] > @options[:maximum]
-      rescue NoMethodError # nil > 4 # rubocop:disable Lint/HandleExceptions
-      rescue ArgumentError # 2 < nil # rubocop:disable Lint/HandleExceptions
-      end
+      raise MESSAGES[:min_max_error] if @options[:minimum] > @options[:maximum]
+    rescue NoMethodError # nil > 4 # rubocop:disable Lint/HandleExceptions
+    rescue ArgumentError # 2 < nil # rubocop:disable Lint/HandleExceptions
     end
 
     def validate_count_when_set_range!
       begin
-        begin
-          raise MESSAGES[:bad_range_error] % [@options[:count].to_s] if count_is_range_but_no_min?
-        rescue ArgumentError, "comparison of String with" # if @options[:count] == 'a'..'z' # rubocop:disable Lint/RescueType
-          raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
-        end
-      rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
-        raise MESSAGES[:bad_range_error] % [@options[:count].to_s]
+        raise format(MESSAGES[:bad_range_error], @options[:count].to_s) if count_is_range_but_no_min?
+      rescue ArgumentError, 'comparison of String with' # if @options[:count] == 'a'..'z' # rubocop:disable Lint/RescueType
+        raise format(MESSAGES[:bad_range_error], @options[:count].to_s)
       end
+    rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
+      raise format(MESSAGES[:bad_range_error], @options[:count].to_s)
     end
 
     def count_is_range_but_no_min?
@@ -253,9 +249,9 @@ module RSpecHtmlMatchers
       @options[:minimum] ||= @options.delete(:min)
       @options[:maximum] ||= @options.delete(:max)
 
-      @options[:text] = @options[:text].to_s if @options.has_key?(:text) && !@options[:text].is_a?(Regexp)
+      @options[:text] = @options[:text].to_s if @options.key?(:text) && !@options[:text].is_a?(Regexp)
 
-      if @options.has_key?(:seen) && !@options[:seen].is_a?(Regexp)
+      if @options.key?(:seen) && !@options[:seen].is_a?(Regexp) # rubocop:disable Style/GuardClause
         @options[:text] = @options[:seen].to_s
         @options[:squeeze_text] = true
       end

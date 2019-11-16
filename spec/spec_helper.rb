@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if defined?(SimpleCov)
   SimpleCov.start do
     add_group 'Main', '/lib/'

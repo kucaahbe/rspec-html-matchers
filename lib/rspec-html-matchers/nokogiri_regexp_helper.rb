@@ -6,7 +6,7 @@ module RSpecHtmlMatchers
   # @private
   # for nokogiri regexp matching
   class NokogiriRegexpHelper
-    def initialize(regex)
+    def initialize regex
       @regex = regex
     end
 

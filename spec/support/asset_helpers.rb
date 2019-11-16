@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AssetHelpers
   ASSETS = File.expand_path('../../fixtures/%s.html', __FILE__)
 

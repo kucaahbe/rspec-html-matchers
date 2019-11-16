@@ -5,6 +5,25 @@ require 'rspec-html-matchers/nokogiri_regexp_helper'
 require 'rspec-html-matchers/nokogiri_text_helper'
 require 'rspec-html-matchers/have_tag'
 
+# RSpec global configuration:
+#
+#   RSpec.configure do |config|
+#     config.include RSpecHtmlMatchers
+#   end
+#
+# RSpec per-test configuration
+#
+#   RSpec.describe "my view spec" do
+#     include RSpecHtmlMatchers
+#
+#     it "has tags" do
+#       expect(rendered).to have_tag('div')
+#     end
+#   end
+#
+# Cucumber configuration:
+#
+#   World RSpecHtmlMatchers
 module RSpecHtmlMatchers
   # tag assertion, this is the core of functionality, other matchers are shortcuts to this matcher
   #
@@ -42,7 +61,7 @@ module RSpecHtmlMatchers
   #   expect('<div class="one two">').to have_tag('div', :with => { :class => 'two one' })
   def have_tag tag, options = {}, &block
     # for backwards compatibility with rpecs have tag:
-    options = { :text => options } if options.kind_of?(String) || options.kind_of?(Regexp)
+    options = { :text => options } if options.is_a?(String) || options.is_a?(Regexp)
     @__current_scope_for_nokogiri_matcher = HaveTag.new(tag, options, &block)
   end
 
@@ -175,7 +194,7 @@ module RSpecHtmlMatchers
     should_not_have_input(options)
   end
 
-  DATE_FIELD_TYPES = %w(date month week time datetime datetime-local)
+  DATE_FIELD_TYPES = %w[date month week time datetime datetime-local].freeze
 
   def with_date_field date_field_type, name = nil, options = {}
     date_field_type = date_field_type.to_s
@@ -196,7 +215,7 @@ module RSpecHtmlMatchers
   end
 
   def with_password_field name, value = nil
-    # TODO add ability to explicitly say that value should be empty
+    # TODO: add ability to explicitly say that value should be empty
     options = form_tag_options('password', name, value)
     should_have_input(options)
   end
@@ -282,9 +301,7 @@ module RSpecHtmlMatchers
     end
     tag = 'option'
     options[:with].merge!(:value => value.to_s) if value
-    if options[:selected]
-      options[:with].merge!(:selected => "selected")
-    end
+    options[:with].merge!(:selected => 'selected') if options[:selected]
     options.delete(:selected)
     options.merge!(:text => text) if text
     within_nested_tag do
@@ -300,9 +317,7 @@ module RSpecHtmlMatchers
     end
     tag = 'option'
     options[:with].merge!(:value => value.to_s) if value
-    if options[:selected]
-      options[:with].merge!(:selected => "selected")
-    end
+    options[:with].merge!(:selected => 'selected') if options[:selected]
     options.delete(:selected)
     options.merge!(:text => text) if text
     within_nested_tag do
@@ -350,13 +365,13 @@ module RSpecHtmlMatchers
 
   private
 
-  def should_have_input(options)
+  def should_have_input options
     within_nested_tag do
       expect(@__current_scope_for_nokogiri_matcher).to have_tag('input', options)
     end
   end
 
-  def should_not_have_input(options)
+  def should_not_have_input options
     within_nested_tag do
       expect(@__current_scope_for_nokogiri_matcher).to_not have_tag('input', options)
     end
@@ -367,10 +382,10 @@ module RSpecHtmlMatchers
     options = { :with => { :name => form_tag_name, :type => form_tag_type } }
     # .to_s if value is a digit or smth. else, see issue#10
     options[:with].merge!(:value => form_tag_value.to_s) if form_tag_value
-    return options
+    options
   end
 
-  def within_nested_tag(&block)
+  def within_nested_tag &block
     raise 'block needed' unless block_given?
 
     parent_scope = @__current_scope_for_nokogiri_matcher

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
   define_method :actual_msg do
     @actual_msg
@@ -8,7 +10,7 @@ RSpec::Matchers.define :raise_spec_error do |expected_exception_msg|
   end
 
   match do |block|
-    begin
+    begin # rubocop:disable Style/RedundantBegin
       block.call
       false
     rescue RSpec::Expectations::ExpectationNotMetError => e
@@ -43,7 +45,7 @@ MSG
     elsif catched_exception
       "expected RSpec::Expectations::ExpectationNotMetError, but was #{catched_exception.inspect}"
     else
-      "expected RSpec::Expectations::ExpectationNotMetError, but was no exception"
+      'expected RSpec::Expectations::ExpectationNotMetError, but was no exception'
     end
   end
 end

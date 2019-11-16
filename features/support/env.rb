@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # setup rspec matchers
 require 'rspec/expectations'
 World(RSpec::Matchers)
@@ -9,6 +11,7 @@ require 'selenium-webdriver'
 
 World RSpecHtmlMatchers
 
+# rubocop:disable Style/GlobalVars
 $ASSETS_DIR = File.expand_path('../tmp', __FILE__)
 $INDEX_HTML = File.join($ASSETS_DIR, 'index.html')
 
@@ -39,3 +42,4 @@ end
 After do
   FileUtils.rm_rf $ASSETS_DIR
 end
+# rubocop:enable Style/GlobalVars

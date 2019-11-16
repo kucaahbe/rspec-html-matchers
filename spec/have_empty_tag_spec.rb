@@ -1,4 +1,5 @@
 # encoding: UTF-8
+# frozen_string_literal: true
 
 require 'spec_helper'
 
@@ -7,9 +8,9 @@ describe 'have_empty_tag' do
     asset 'single_element'
 
     it { expect(rendered).to have_empty_tag('div') }
-    it { expect(rendered).to have_empty_tag('div', :class => "foo") }
-    it { expect(rendered).to have_empty_tag('div', :class => "bar") }
-    it { expect(rendered).to have_empty_tag('div', :class => "foo bar") }
+    it { expect(rendered).to have_empty_tag('div', :class => 'foo') }
+    it { expect(rendered).to have_empty_tag('div', :class => 'bar') }
+    it { expect(rendered).to have_empty_tag('div', :class => 'foo bar') }
   end
 
   context 'when paragraphs' do
