@@ -51,7 +51,6 @@ Style/NumericLiterals:
 Style/Semicolon:
   Exclude:
     - 'lib/rspec-html-matchers.rb'
-    - 'lib/rspec-html-matchers/have_tag.rb'
     - 'spec/have_tag_spec.rb'
 
 # Offense count: 175

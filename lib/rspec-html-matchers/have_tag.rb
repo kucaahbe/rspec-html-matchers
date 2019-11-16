@@ -6,13 +6,10 @@ require 'nokogiri'
 module RSpecHtmlMatchers
   # @api
   # @private
-  class HaveTag
-    attr_reader :failure_message, :failure_message_when_negated
-    attr_reader :parent_scope, :current_scope
-
+  class HaveTag # rubocop:disable Metrics/ClassLength
     DESCRIPTIONS = {
       :have_at_least_1 => %(have at least 1 element matching "%s"),
-      :have_n          => %|have %i element(s) matching "%s"|,
+      :have_n          => %(have %i element(s) matching "%s"),
     }.freeze
 
     MESSAGES = {
@@ -20,16 +17,16 @@ module RSpecHtmlMatchers
       :unexpected_tag       => %(expected following:\n%s\nto NOT have element matching "%s", found %s.),
 
       :expected_count       => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_n]}, found %s.),
-      :unexpected_count     => %|expected following:\n%s\nto NOT have %i element(s) matching "%s", but found.|,
+      :unexpected_count     => %(expected following:\n%s\nto NOT have %i element(s) matching "%s", but found.),
 
-      :expected_btw_count   => %|expected following:\n%s\nto have at least %i and at most %i element(s) matching "%s", found %i.|,
-      :unexpected_btw_count => %|expected following:\n%s\nto NOT have at least %i and at most %i element(s) matching "%s", but found %i.|,
+      :expected_btw_count   => %(expected following:\n%s\nto have at least %i and at most %i element(s) matching "%s", found %i.),
+      :unexpected_btw_count => %(expected following:\n%s\nto NOT have at least %i and at most %i element(s) matching "%s", but found %i.),
 
-      :expected_at_most     => %|expected following:\n%s\nto have at most %i element(s) matching "%s", found %i.|,
-      :unexpected_at_most   => %|expected following:\n%s\nto NOT have at most %i element(s) matching "%s", but found %i.|,
+      :expected_at_most     => %(expected following:\n%s\nto have at most %i element(s) matching "%s", found %i.),
+      :unexpected_at_most   => %(expected following:\n%s\nto NOT have at most %i element(s) matching "%s", but found %i.),
 
-      :expected_at_least    => %|expected following:\n%s\nto have at least %i element(s) matching "%s", found %i.|,
-      :unexpected_at_least  => %|expected following:\n%s\nto NOT have at least %i element(s) matching "%s", but found %i.|,
+      :expected_at_least    => %(expected following:\n%s\nto have at least %i element(s) matching "%s", found %i.),
+      :unexpected_at_least  => %(expected following:\n%s\nto NOT have at least %i element(s) matching "%s", but found %i.),
 
       :expected_blank       => %(expected following template to contain empty tag %s:\n%s),
       :unexpected_blank     => %(expected following template to contain tag %s with other tags:\n%s),
@@ -42,7 +39,7 @@ module RSpecHtmlMatchers
 
       :wrong_count_error    => %(:count with :minimum or :maximum has no sence!),
       :min_max_error        => %(:minimum should be less than :maximum!),
-      :bad_range_error      => %|Your :count range(%s) has no sence!|,
+      :bad_range_error      => %(Your :count range(%s) has no sence!),
     }.freeze
 
     def initialize tag, options = {}, &block
@@ -68,24 +65,29 @@ module RSpecHtmlMatchers
       end
 
       validate_options!
-      set_options
+      organize_options!
     end
 
-    def matches? document, &block
+    attr_reader :failure_message
+    attr_reader :failure_message_when_negated
+    attr_reader :current_scope
+
+    def matches? src, &block
       @block = block if block
 
-      document = document.html if defined?(Capybara::Session) && document.is_a?(Capybara::Session)
+      src = src.html if defined?(Capybara::Session) && src.is_a?(Capybara::Session)
 
-      case document
+      case src
       when String
-        @parent_scope = Nokogiri::HTML(document)
-        @document     = document
+        parent_scope = Nokogiri::HTML(src)
+        @document    = src
       else
-        @parent_scope  = document.current_scope
-        @document      = @parent_scope.to_html
+        parent_scope  = src.current_scope
+        @document     = parent_scope.to_html
       end
+
       @current_scope = begin
-                         @parent_scope.css(@tag)
+                         parent_scope.css(tag)
                          # on jruby this produce exception if css was not found:
                          # undefined method `decorate' for nil:NilClass
                        rescue NoMethodError
@@ -99,18 +101,20 @@ module RSpecHtmlMatchers
       end
     end
 
-    attr_reader :document
-
     def description
       # TODO: should it be more complicated?
-      if @options.key?(:count)
-        format(DESCRIPTIONS[:have_n], @options[:count], @tag)
+      if options.key?(:count)
+        format(DESCRIPTIONS[:have_n], options[:count], tag)
       else
-        DESCRIPTIONS[:have_at_least_1] % @tag
+        DESCRIPTIONS[:have_at_least_1] % tag
       end
     end
 
     private
+
+    attr_reader :tag
+    attr_reader :options
+    attr_reader :document
 
     def classes_to_selector classes
       case classes
@@ -122,27 +126,41 @@ module RSpecHtmlMatchers
     end
 
     def tag_presents?
-      if @current_scope.first
-        @count = @current_scope.count
-        @failure_message_when_negated = format(MESSAGES[:unexpected_tag], @document, @tag, @count)
-        true
+      if current_scope.first
+        @count = current_scope.count
+        match_succeeded! :unexpected_tag, document, tag, @count
       else
-        @failure_message = format(MESSAGES[:expected_tag], @document, @tag)
-        false
+        match_failed! :expected_tag, document, tag
       end
     end
 
-    def count_right?
-      case @options[:count]
+    def count_right? # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+      case options[:count]
       when Integer
-        ((@failure_message_when_negated = format(MESSAGES[:unexpected_count], @document, @count, @tag)) && @count == @options[:count]) || (@failure_message = format(MESSAGES[:expected_count], @document, @options[:count], @tag, @count); false)
+        if @count == options[:count]
+          match_succeeded! :unexpected_count, document, @count, tag
+        else
+          match_failed! :expected_count, document, options[:count], tag, @count
+        end
       when Range
-        ((@failure_message_when_negated = format(MESSAGES[:unexpected_btw_count], @document, @options[:count].min, @options[:count].max, @tag, @count)) && @options[:count].member?(@count)) || (@failure_message = format(MESSAGES[:expected_btw_count], @document, @options[:count].min, @options[:count].max, @tag, @count); false)
+        if options[:count].member? @count
+          match_succeeded! :unexpected_btw_count, document, options[:count].min, options[:count].max, tag, @count
+        else
+          match_failed! :expected_btw_count, document, options[:count].min, options[:count].max, tag, @count
+        end
       when nil
-        if @options[:maximum]
-          ((@failure_message_when_negated = format(MESSAGES[:unexpected_at_most], @document, @options[:maximum], @tag, @count)) && @count <= @options[:maximum]) || (@failure_message = format(MESSAGES[:expected_at_most], @document, @options[:maximum], @tag, @count); false)
-        elsif @options[:minimum]
-          ((@failure_message_when_negated = format(MESSAGES[:unexpected_at_least], @document, @options[:minimum], @tag, @count)) && @count >= @options[:minimum]) || (@failure_message = format(MESSAGES[:expected_at_least], @document, @options[:minimum], @tag, @count); false)
+        if options[:maximum]
+          if @count <= options[:maximum]
+            match_succeeded! :unexpected_at_most, document, options[:maximum], tag, @count
+          else
+            match_failed! :expected_at_most, document, options[:maximum], tag, @count
+          end
+        elsif options[:minimum]
+          if @count >= options[:minimum]
+            match_succeeded! :unexpected_at_least, document, options[:minimum], tag, @count
+          else
+            match_failed! :expected_at_least, document, options[:minimum], tag, @count
+          end
         else
           true
         end
@@ -150,7 +168,7 @@ module RSpecHtmlMatchers
     end
 
     def proper_content?
-      if @options.key?(:blank)
+      if options.key?(:blank)
         maybe_empty?
       else
         text_right?
@@ -158,49 +176,35 @@ module RSpecHtmlMatchers
     end
 
     def maybe_empty?
-      if @options[:blank]
-        @failure_message_when_negated = format(MESSAGES[:unexpected_blank], @tag, @document)
-        @failure_message = format(MESSAGES[:expected_blank], @tag, @document)
+      if options[:blank] && current_scope.children.empty?
+        match_succeeded! :unexpected_blank, tag, document
       else
-        @failure_message_when_negated = format(MESSAGES[:expected_blank], @tag, @document)
-        @failure_message = format(MESSAGES[:unexpected_blank], @tag, @document)
-      end
-
-      if @options[:blank]
-        @current_scope.children.empty?
-      else
-        !@current_scope.children.empty?
+        match_failed! :expected_blank, tag, document
       end
     end
 
     def text_right?
-      return true unless @options[:text]
+      return true unless options[:text]
 
-      case text = @options[:text]
+      case text = options[:text]
       when Regexp
-        new_scope = @current_scope.css(':regexp()', NokogiriRegexpHelper.new(text))
+        new_scope = current_scope.css(':regexp()', NokogiriRegexpHelper.new(text))
         if new_scope.empty?
-          @failure_message = format(MESSAGES[:expected_regexp], text.inspect, @tag, @document)
-          false
+          match_failed! :expected_regexp, text.inspect, tag, document
         else
           @count = new_scope.count
-          @failure_message_when_negated = format(MESSAGES[:unexpected_regexp], text.inspect, @tag, @document)
-          true
+          match_succeeded! :unexpected_regexp, text.inspect, tag, document
         end
       else
-        new_scope = @current_scope.css(':content()', NokogiriTextHelper.new(text, @options[:squeeze_text]))
+        new_scope = current_scope.css(':content()', NokogiriTextHelper.new(text, options[:squeeze_text]))
         if new_scope.empty?
-          @failure_message = format(MESSAGES[:expected_text], text, @tag, @document)
-          false
+          match_failed! :expected_text, text, tag, document
         else
           @count = new_scope.count
-          @failure_message_when_negated = format(MESSAGES[:unexpected_text], text, @tag, @document)
-          true
+          match_succeeded! :unexpected_text, text, tag, document
         end
       end
     end
-
-    protected
 
     def validate_options!
       validate_text_options!
@@ -211,41 +215,41 @@ module RSpecHtmlMatchers
 
     def validate_text_options!
       # TODO: test these options validations
-      if @options.key?(:blank) && @options[:blank] && @options.key?(:text) # rubocop:disable Style/GuardClause, Style/IfUnlessModifier
+      if options.key?(:blank) && options[:blank] && options.key?(:text) # rubocop:disable Style/GuardClause, Style/IfUnlessModifier
         raise ':text option is not accepted when :blank => true'
       end
     end
 
     def validate_count_presence!
-      raise 'wrong :count specified' unless [Range, NilClass].include?(@options[:count].class) || @options[:count].is_a?(Integer)
+      raise 'wrong :count specified' unless [Range, NilClass].include?(options[:count].class) || options[:count].is_a?(Integer)
 
       [:min, :minimum, :max, :maximum].each do |key|
-        raise MESSAGES[:wrong_count_error] if @options.key?(key) && @options.key?(:count)
+        raise MESSAGES[:wrong_count_error] if options.key?(key) && options.key?(:count)
       end
     end
 
     def validate_count_when_set_min_max!
-      raise MESSAGES[:min_max_error] if @options[:minimum] > @options[:maximum]
+      raise MESSAGES[:min_max_error] if options[:minimum] > options[:maximum]
     rescue NoMethodError # nil > 4 # rubocop:disable Lint/HandleExceptions
     rescue ArgumentError # 2 < nil # rubocop:disable Lint/HandleExceptions
     end
 
     def validate_count_when_set_range!
       begin
-        raise format(MESSAGES[:bad_range_error], @options[:count].to_s) if count_is_range_but_no_min?
-      rescue ArgumentError, 'comparison of String with' # if @options[:count] == 'a'..'z' # rubocop:disable Lint/RescueType
-        raise format(MESSAGES[:bad_range_error], @options[:count].to_s)
+        raise format(MESSAGES[:bad_range_error], options[:count].to_s) if count_is_range_but_no_min?
+      rescue ArgumentError, 'comparison of String with' # if options[:count] == 'a'..'z' # rubocop:disable Lint/RescueType
+        raise format(MESSAGES[:bad_range_error], options[:count].to_s)
       end
     rescue TypeError # fix for 1.8.7 for 'rescue ArgumentError, "comparison of String with"' stroke
-      raise format(MESSAGES[:bad_range_error], @options[:count].to_s)
+      raise format(MESSAGES[:bad_range_error], options[:count].to_s)
     end
 
     def count_is_range_but_no_min?
-      @options[:count] && @options[:count].is_a?(Range) &&
-        (@options[:count].min.nil? || (@options[:count].min < 0))
+      options[:count].is_a?(Range) &&
+        (options[:count].min.nil? || (options[:count].min < 0))
     end
 
-    def set_options
+    def organize_options!
       @options[:minimum] ||= @options.delete(:min)
       @options[:maximum] ||= @options.delete(:max)
 
@@ -255,6 +259,16 @@ module RSpecHtmlMatchers
         @options[:text] = @options[:seen].to_s
         @options[:squeeze_text] = true
       end
+    end
+
+    def match_succeeded! message, *args
+      @failure_message_when_negated = format MESSAGES[message], *args
+      true
+    end
+
+    def match_failed! message, *args
+      @failure_message = format MESSAGES[message], *args
+      false
     end
   end
 end
