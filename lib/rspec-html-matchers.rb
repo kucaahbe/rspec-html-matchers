@@ -1,9 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require 'rspec'
-require 'nokogiri'
-
 require 'rspec-html-matchers/nokogiri_regexp_helper'
 require 'rspec-html-matchers/nokogiri_text_helper'
 require 'rspec-html-matchers/have_tag'
