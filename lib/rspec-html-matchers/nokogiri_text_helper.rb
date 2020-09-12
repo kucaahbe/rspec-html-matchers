@@ -15,7 +15,7 @@ module RSpecHtmlMatchers
     def content node_set
       node_set.find_all do |node|
         actual_content = node.content.gsub(NON_BREAKING_SPACE, ' ')
-        actual_content = node.content.strip.squeeze(' ') if @squeeze_text
+        actual_content = node.content.gsub(/\s+/, ' ').strip if @squeeze_text
 
         actual_content == @text
       end

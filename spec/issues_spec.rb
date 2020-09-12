@@ -13,4 +13,15 @@ describe 'working on github issues' do
       expect('<p>My paragraph.</p>').not_to have_tag('body')
     end
   end
+
+  it '#73' do # https://github.com/kucaahbe/rspec-html-matchers/issues/73
+    rendered = <<HTML
+      <p>
+         content with ignored
+         spaces
+         around
+      </p>
+HTML
+    expect(rendered).to have_tag('p', :seen => 'content with ignored spaces around')
+  end
 end
