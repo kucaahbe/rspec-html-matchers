@@ -79,7 +79,7 @@ module RSpecHtmlMatchers
 
       case src
       when String
-        parent_scope = Nokogiri::HTML(src)
+        parent_scope = Nokogiri::HTML::DocumentFragment.parse(src)
         @document    = src
       else
         parent_scope  = src.current_scope
