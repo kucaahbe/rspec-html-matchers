@@ -669,4 +669,16 @@ describe 'have_tag' do
       end
     end
   end
+
+  context 'html and body elements' do
+    asset 'document'
+
+    it 'should find the html element' do
+      expect(rendered).to have_tag('html')
+    end
+
+    it 'should find the body element' do
+      expect(rendered).to have_tag('body')
+    end
+  end
 end
