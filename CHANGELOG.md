@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.9.4
+-----
+* html/body matching from now is forbidden ([#75](https://github.com/kucaahbe/rspec-html-matchers/pull/75))
+* make ruby 2.7 possible to fail on CI
+
 0.9.3
 -----
 * fix for :seen option ([#73](https://github.com/kucaahbe/rspec-html-matchers/issues/73))
