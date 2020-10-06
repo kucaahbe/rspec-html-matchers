@@ -51,6 +51,3 @@ jobs:
     dist: trusty
     gemfile: gemfiles/ruby-1.8/Gemfile
     env: CUCUMBER=false # getting to work cucumber environment is kinda pain here
-
-  allow_failures:
-  - rvm: 2.7
