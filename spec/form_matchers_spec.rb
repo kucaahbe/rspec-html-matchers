@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'have_form' do
   asset 'form'
 
-  context 'without &block' do
+  context '[without &block]' do
     it 'should find form' do
       # sanity check
       expect(rendered).to have_form('/books', :post)
@@ -18,8 +18,8 @@ describe 'have_form' do
     end
   end
 
-  context 'with &block' do
-    context 'with_select' do
+  context '[with &block]' do
+    context '[with_select]' do
       it 'should find select' do
         expect(rendered).to have_form('/books', :post) do
           with_select('book[publisher_id]', :with => { :id => 'book_publisher_id' })
@@ -34,7 +34,7 @@ describe 'have_form' do
         end
       end
 
-      context 'with_option' do
+      context '[with_option]' do
         it 'should find options' do
           expect(rendered).to have_form('/books', :post) do
             with_select('book[publisher_id]') do
@@ -57,7 +57,7 @@ describe 'have_form' do
         end
       end
 
-      context 'with_button' do
+      context '[with_button]' do
         it 'should find button' do
           expect(rendered).to have_form('/books', :post) do
             with_button('Cancel Book')
@@ -72,7 +72,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_hidden_field' do
+    context '[with_hidden_field]' do
       it 'should find hidden field' do
         expect(rendered).to have_form('/books', :post) do
           with_hidden_field('authenticity_token')
@@ -88,7 +88,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_text_field' do
+    context '[with_text_field]' do
       it 'should find text field' do
         expect(rendered).to have_form('/books', :post) do
           with_text_field('book[title]')
@@ -106,7 +106,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_email_field' do
+    context '[with_email_field]' do
       it 'should find email field' do
         expect(rendered).to have_form('/books', :post) do
           with_email_field('user[email]')
@@ -124,7 +124,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_url_field' do
+    context '[with_url_field]' do
       it 'should find url field' do
         expect(rendered).to have_form('/books', :post) do
           with_url_field('user[url]')
@@ -141,7 +141,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_number_field' do
+    context '[with_number_field]' do
       it 'should find number field' do
         expect(rendered).to have_form('/books', :post) do
           with_number_field('number')
@@ -160,7 +160,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_range_field' do
+    context '[with_range_field]' do
       it 'should find range field' do
         expect(rendered).to have_form('/books', :post) do
           with_range_field('range1', 1, 3)
@@ -179,7 +179,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_date_field' do
+    context '[with_date_field]' do
       it 'should find date field' do
         expect(rendered).to have_form('/books', :post) do
           with_date_field(:date)
@@ -213,7 +213,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_password_field' do
+    context '[with_password_field]' do
       it 'should find password field' do
         expect(rendered).to have_form('/books', :post) do
           with_password_field('user[password]')
@@ -227,7 +227,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_file_field' do
+    context '[with_file_field]' do
       it 'should find file field' do
         expect(rendered).to have_form('/books', :post) do
           with_file_field('form[file]')
@@ -241,7 +241,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_text_area' do
+    context '[with_text_area]' do
       it 'should find text area' do
         expect(rendered).to have_form('/books', :post) do
           with_text_area('book[description]')
@@ -255,7 +255,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_check_box' do
+    context '[with_check_box]' do
       it 'should find check box' do
         expect(rendered).to have_form('/books', :post) do
           with_checkbox('book[still_in_print]')
@@ -271,7 +271,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_radio_button' do
+    context '[with_radio_button]' do
       it 'should find radio button' do
         expect(rendered).to have_form('/books', :post) do
           with_radio_button('form[name]', 'true')
@@ -286,7 +286,7 @@ describe 'have_form' do
       end
     end
 
-    context 'with_submit' do
+    context '[with_submit]' do
       it 'should find submit' do
         expect(rendered).to have_form('/books', :post) do
           with_submit('Create Book')

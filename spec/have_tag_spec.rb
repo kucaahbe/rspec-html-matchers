@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe 'have_tag' do
-  context 'through css selector' do
+  context '[through css selector]' do
     asset 'search_and_submit'
 
     it 'should have right description' do
@@ -65,7 +65,7 @@ describe 'have_tag' do
       )
     end
 
-    context 'with additional HTML attributes(:with option)' do
+    context '[with additional HTML attributes(:with option)]' do
       it 'should find tags' do
         expect(rendered).to have_tag('input#search', :with => { :type => 'text' })
         expect(rendered).to have_tag(:input, :with => { :type => 'submit', :value => 'Save' })
@@ -115,7 +115,7 @@ describe 'have_tag' do
       end
     end
 
-    context 'with additional HTML attributes (:without option)' do
+    context '[with additional HTML attributes (:without option)]' do
       asset 'single_element'
 
       it 'should find tags that have classes specified via array (or string)' do
@@ -133,7 +133,7 @@ describe 'have_tag' do
     end
   end
 
-  context 'by count' do
+  context '[by count]' do
     asset 'paragraphs'
 
     it 'should have right description' do
@@ -279,10 +279,10 @@ describe 'have_tag' do
     end
   end
 
-  context 'with :text/:seen specified' do
+  context '[with :text/:seen specified]' do
     asset 'quotes'
 
-    context 'using standard syntax' do
+    context '[using standard syntax]' do
       it 'should find tags' do
         expect(rendered).to have_tag('div',  :text => 'sample text')
         expect(rendered).to have_tag('p',    :text => 'one')
@@ -358,7 +358,7 @@ describe 'have_tag' do
       end
     end
 
-    context 'using alternative syntax(with_text/without_text)' do
+    context '[using alternative syntax(with_text/without_text)]' do
       it 'should raise exception when used outside any other tag matcher' do
         expect {
           with_text 'sample text'
@@ -494,7 +494,7 @@ describe 'have_tag' do
     end
   end
 
-  context 'mixed matching' do
+  context '[mixed matching]' do
     asset 'special'
 
     it 'should find tags by count and exact content' do
@@ -535,7 +535,7 @@ describe 'have_tag' do
     end
   end
 
-  context 'nested matching:' do
+  context '[nested matching]' do
     asset 'ordered_list'
 
     it 'should find tags' do
@@ -585,7 +585,7 @@ describe 'have_tag' do
     end
   end
 
-  context 'deep nesting' do
+  context '[deep nesting]' do
     asset 'multiple_lists'
 
     it 'should allow deep nesting' do
@@ -624,7 +624,7 @@ describe 'have_tag' do
     end
   end
 
-  context 'find nested tags' do
+  context '[find nested tags]' do
     asset 'nested_matchers'
 
     it 'with block parameters' do
@@ -650,16 +650,16 @@ describe 'have_tag' do
     end
   end
 
-  context 'backwards compatibility for unnamed arguments' do
+  context '[backwards compatibility for unnamed arguments]' do
     asset 'quotes'
 
-    context 'string as second argument' do
+    context '[string as second argument]' do
       it 'should map a string argument to :text => string' do
         expect(rendered).to have_tag('div',  'sample text')
       end
     end
 
-    context 'Regexp as second argument' do
+    context '[Regexp as second argument]' do
       it 'should match against a valid Regexp' do
         expect(rendered).to have_tag('div',  /sample\s/)
       end
@@ -670,10 +670,10 @@ describe 'have_tag' do
     end
   end
 
-  context 'html and body elements' do
+  context '[html and body elements]' do
     asset 'document'
 
-    context 'matching attributes' do
+    context '[matching attributes]' do
       it 'should find the html element with specified attributes' do
         expect(rendered).to have_tag('html', :class => 'nojs')
       end
@@ -691,7 +691,7 @@ describe 'have_tag' do
       end
     end
 
-    context 'quirk: when no attributes specified, match is not intended to work' do
+    context '[quirk: when no attributes specified, match is not intended to work]' do
       it '<html> positive match should raise error' do
         expect {
           expect(rendered).to have_tag('html')

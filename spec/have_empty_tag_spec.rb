@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe 'have_empty_tag' do
-  context 'when single element' do
+  context '[single element]' do
     asset 'single_element'
 
     it { expect(rendered).to have_empty_tag('div') }
@@ -13,13 +13,13 @@ describe 'have_empty_tag' do
     it { expect(rendered).to have_empty_tag('div', :class => 'foo bar') }
   end
 
-  context 'when paragraphs' do
+  context '[paragraphs]' do
     asset 'paragraphs'
 
     it { expect(rendered).to_not have_empty_tag('p') }
   end
 
-  context 'when ordered list' do
+  context '[ordered list]' do
     asset 'ordered_list'
 
     it { expect(rendered).to_not have_empty_tag('html') }

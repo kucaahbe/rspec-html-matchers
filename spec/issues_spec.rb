@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe 'working on github issues' do
-  it '#73' do # https://github.com/kucaahbe/rspec-html-matchers/issues/73
+  it '[seen Option Not Matching Seen Text (https://github.com/kucaahbe/rspec-html-matchers/issues/73)]' do
     rendered = <<HTML
       <p>
          content with ignored
