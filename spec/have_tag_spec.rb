@@ -673,12 +673,48 @@ describe 'have_tag' do
   context 'html and body elements' do
     asset 'document'
 
-    it 'should find the html element' do
-      expect(rendered).to have_tag('html')
+    context 'matching attributes' do
+      it 'should find the html element with specified attributes' do
+        expect(rendered).to have_tag('html', :class => 'nojs')
+      end
+
+      it 'should find the body element with specified attributes' do
+        expect(rendered).to have_tag('body', :class => 'container')
+      end
+
+      it 'should not find the html element with specified attributes' do
+        expect(rendered).to have_tag('html', :class => 'nonexistent')
+      end
+
+      it 'should not find the body element with specified attributes' do
+        expect(rendered).to have_tag('body', :class => 'nonexistent')
+      end
     end
 
-    it 'should find the body element' do
-      expect(rendered).to have_tag('body')
+    context 'quirk: when no attributes specified, match is not intended to work' do
+      it '<html> positive match should raise error' do
+        expect {
+          expect(rendered).to have_tag('html')
+        }.to raise_error(ArgumentError)
+      end
+
+      it '<html> negative match should raise error' do
+        expect {
+          expect(rendered).to_not have_tag('html')
+        }.to raise_error(ArgumentError)
+      end
+
+      it '<body> positive match should raise error' do
+        expect {
+          expect(rendered).to have_tag('body')
+        }.to raise_error(ArgumentError)
+      end
+
+      it '<body> negative match should raise error' do
+        expect {
+          expect(rendered).to_not have_tag('body')
+        }.to raise_error(ArgumentError)
+      end
     end
   end
 end

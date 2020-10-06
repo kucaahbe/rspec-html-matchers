@@ -207,10 +207,26 @@ module RSpecHtmlMatchers
     end
 
     def validate_options!
+      validate_html_body_tags!
       validate_text_options!
       validate_count_presence!
       validate_count_when_set_min_max!
       validate_count_when_set_range!
+    end
+
+    # here is a demo:
+    #   irb(main):009:0> Nokogiri::HTML('<p>asd</p>').xpath('//html')
+    #   => [#<Nokogiri::XML::Element:0x3fea02cd3f58 name="html" children=[#<Nokogiri::XML::Element:0x3fea02cd37c4 name="body" children=[#<Nokogiri::XML::Element:0x3fea02cd34e0 name="p" children=[#<Nokogiri::XML::Text:0x3fea02cd3134 "asd">]>]>]>]
+    #   irb(main):010:0> Nokogiri::HTML('<p>asd</p>').xpath('//body')
+    #   => [#<Nokogiri::XML::Element:0x3fea02ce3df4 name="body" children=[#<Nokogiri::XML::Element:0x3fea02ce3a70 name="p" children=[#<Nokogiri::XML::Text:0x3fea02ce350c "asd">]>]>]
+    #   irb(main):011:0> Nokogiri::HTML('<p>asd</p>').xpath('//p')
+    #   => [#<Nokogiri::XML::Element:0x3fea02cf3754 name="p" children=[#<Nokogiri::XML::Text:0x3fea02cf2f98 "asd">]>]
+    #   irb(main):012:0> Nokogiri::HTML('<p>asd</p>').xpath('//a')
+    #   => []
+    def validate_html_body_tags!
+      if %w[html body].include?(tag) && options.empty?
+        raise ArgumentError, 'matching <html> and <body> tags without specifying additional options does not work, see: https://github.com/kucaahbe/rspec-html-matchers/pull/75'
+      end
     end
 
     def validate_text_options!
