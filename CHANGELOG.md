@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.9.3
+-----
+* fix for :seen option ([#73](https://github.com/kucaahbe/rspec-html-matchers/issues/73))
+* fix for html/body matching ([#62](https://github.com/kucaahbe/rspec-html-matchers/issues/62))
+* a bit of linting and refactoring
+
 0.9.2
 -----
 
