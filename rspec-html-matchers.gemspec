@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.email       = ['kucaahbe@ukr.net', 'randoum@gmail.com']
   s.license     = 'MIT'
   s.homepage    = 'https://github.com/kucaahbe/rspec-html-matchers'
-  s.summary     = "Nokogiri based 'have_tag' and 'with_tag' matchers for rspec 3"
+  s.summary     = "Nokogiri based 'have_tag' and 'with_tag' matchers for RSpec"
   s.description = <<DESC
 #{s.summary}. Does not depend on assert_select matcher, provides useful error messages.
 DESC
@@ -28,7 +28,7 @@ DESC
   # ruby support is tied to rspec & nokogiri gems:
   s.required_ruby_version = '>= 1.8.7'
 
-  s.add_runtime_dependency 'rspec',    '>= 3.0.0.a', '< 4'
+  s.add_runtime_dependency 'rspec',    '>= 3.0.0.a'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
   # cucumber tests:

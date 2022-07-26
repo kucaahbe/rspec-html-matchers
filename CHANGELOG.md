@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.10.0
+------
+
+* relax rspec dependecy upper limit
 * add ruby 3.0 to test matrix
 * add ruby 3.1 to test matrix
 * remove 1.8 ruby from test matrix, this is the first step to remove it's support completely
