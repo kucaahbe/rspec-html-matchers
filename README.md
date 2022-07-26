@@ -1,6 +1,10 @@
-# rspec-html-matchers [![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.svg)](https://badge.fury.io/rb/rspec-html-matchers) [![Build Status](https://travis-ci.com/kucaahbe/rspec-html-matchers.svg?branch=master)](https://travis-ci.com/kucaahbe/rspec-html-matchers)
+# rspec-html-matchers [![Gem Version](https://badge.fury.io/rb/rspec-html-matchers.svg)](https://badge.fury.io/rb/rspec-html-matchers)
 
 [RSpec 3](https://www.relishapp.com/rspec) matchers for testing your html (for [RSpec 2](https://www.relishapp.com/rspec/rspec-core/v/2-99/docs) use 0.5.x version).
+
+[![RSpec MRI](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-mri.yml/badge.svg)](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-mri.yml)
+[![RSpec JRuby](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-jruby.yml/badge.svg)](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-jruby.yml)
+[![Cucumber MRI](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/cucumber-mri.yml/badge.svg)](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/cucumber-mri.yml)
 
 Goals
 -----

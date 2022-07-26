@@ -1,6 +1,10 @@
 Changelog
 =========
 
+* add ruby 3.0 to test matrix
+* add ruby 3.1 to test matrix
+* remove 1.8 ruby from test matrix, this is the first step to remove it's support completely
+
 0.9.4
 -----
 * html/body matching from now is forbidden ([#75](https://github.com/kucaahbe/rspec-html-matchers/pull/75))

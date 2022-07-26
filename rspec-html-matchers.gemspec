@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-# frozen_string_literal: true
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'rspec-html-matchers/version'
-ruby_version = Gem::Version.new(RUBY_VERSION)
+# NOTE: .dup is needed for ruby 1.9
+ruby_version = Gem::Version.new(RUBY_VERSION.dup)
 
 Gem::Specification.new do |s|
   s.name        = 'rspec-html-matchers'
@@ -46,7 +46,6 @@ DESC
 
   s.add_development_dependency 'simplecov',          '~> 0'
   s.add_development_dependency 'rake',               '~> 10'
-  s.add_development_dependency 'travis-lint',        '~> 1'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'rubocop', '= 0.76.0' if ruby_version >= Gem::Version.new('2.3')
 
