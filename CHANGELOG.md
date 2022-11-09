@@ -1,6 +1,8 @@
 Changelog
 =========
 
+**NOTE**: the master branch has been deprecated, for latest docs and stuff use [main](https://github.com/kucaahbe/rspec-html-matchers/blob/main/CHANGELOG.md) branch instead
+
 0.10.0
 ------
 

@@ -6,6 +6,8 @@
 [![RSpec JRuby](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-jruby.yml/badge.svg)](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/rspec-jruby.yml)
 [![Cucumber MRI](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/cucumber-mri.yml/badge.svg)](https://github.com/kucaahbe/rspec-html-matchers/actions/workflows/cucumber-mri.yml)
 
+**NOTE**: the master branch has been deprecated, for latest docs and stuff use main branch instead
+
 Goals
 -----
 
