@@ -10,10 +10,10 @@ name: Cucumber (MRI)
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 permissions:
   contents: read

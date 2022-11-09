@@ -219,7 +219,7 @@ More info
 
 You can find more on [documentation](https://www.rubydoc.info/gems/rspec-html-matchers/RSpecHtmlMatchers)
 
-Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/master/CHANGELOG.md) and [issues](https://github.com/kucaahbe/rspec-html-matchers/issues), might be helpful.
+Also, please read [CHANGELOG](https://github.com/kucaahbe/rspec-html-matchers/blob/main/CHANGELOG.md) and [issues](https://github.com/kucaahbe/rspec-html-matchers/issues), might be helpful.
 
 Contribution
 ============
