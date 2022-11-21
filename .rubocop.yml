@@ -5,10 +5,10 @@ AllCops:
     - bin/*
     - .gems/*
 
-Layout/AlignHash:
+Layout/HashAlignment:
   EnforcedHashRocketStyle: table
 
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Style/BlockDelimiters:
@@ -49,7 +49,7 @@ Gemspec/OrderedDependencies: # nonsense
   Enabled: false
 Gemspec/RequiredRubyVersion: # rubocop errors when specifying TargetRubyVersion as 1.8.7
   Enabled: false
-Layout/IndentHeredoc:
+Layout/HeredocIndentation:
   Enabled: false
 Lint/AmbiguousRegexpLiteral: # not a big deal
   Enabled: false
