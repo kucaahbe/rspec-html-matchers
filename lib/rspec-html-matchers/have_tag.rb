@@ -8,12 +8,12 @@ module RSpecHtmlMatchers
   # @private
   class HaveTag # rubocop:disable Metrics/ClassLength
     DESCRIPTIONS = {
-      :have_at_least_1 => %(have at least 1 element matching "%s"),
-      :have_n          => %(have %i element(s) matching "%s"),
+      :have_at_least_one => %(have at least 1 element matching "%s"),
+      :have_n            => %(have %i element(s) matching "%s"),
     }.freeze
 
     MESSAGES = {
-      :expected_tag         => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_at_least_1]}, found 0.),
+      :expected_tag         => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_at_least_one]}, found 0.),
       :unexpected_tag       => %(expected following:\n%s\nto NOT have element matching "%s", found %s.),
 
       :expected_count       => %(expected following:\n%s\nto #{DESCRIPTIONS[:have_n]}, found %s.),
@@ -49,7 +49,7 @@ module RSpecHtmlMatchers
 
       if with_attrs = @options.delete(:with)
         if classes = with_attrs.delete(:class)
-          @tag += '.' + classes_to_selector(classes)
+          @tag += ".#{classes_to_selector(classes)}"
         end
         selector = with_attrs.inject('') do |html_attrs_string, (k, v)|
           html_attrs_string += "[#{k}='#{v}']"
@@ -58,19 +58,15 @@ module RSpecHtmlMatchers
         @tag += selector
       end
 
-      if without_attrs = @options.delete(:without)
-        if classes = without_attrs.delete(:class)
-          @tag += ":not(.#{classes_to_selector(classes)})"
-        end
+      if (without_attrs = @options.delete(:without)) && classes = without_attrs.delete(:class)
+        @tag += ":not(.#{classes_to_selector(classes)})"
       end
 
       validate_options!
       organize_options!
     end
 
-    attr_reader :failure_message
-    attr_reader :failure_message_when_negated
-    attr_reader :current_scope
+    attr_reader :failure_message, :failure_message_when_negated, :current_scope
 
     def matches? src, &block
       @block = block if block
@@ -87,12 +83,12 @@ module RSpecHtmlMatchers
       end
 
       @current_scope = begin
-                         parent_scope.css(tag)
-                         # on jruby this produce exception if css was not found:
-                         # undefined method `decorate' for nil:NilClass
-                       rescue NoMethodError
-                         Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
-                       end
+        parent_scope.css(tag)
+      # on jruby this produce exception if css was not found:
+      # undefined method `decorate' for nil:NilClass
+      rescue NoMethodError
+        Nokogiri::XML::NodeSet.new(Nokogiri::XML::Document.new)
+      end
       if tag_presents? && proper_content? && count_right?
         @block.call(self) if @block
         true
@@ -106,15 +102,13 @@ module RSpecHtmlMatchers
       if options.key?(:count)
         format(DESCRIPTIONS[:have_n], options[:count], tag)
       else
-        DESCRIPTIONS[:have_at_least_1] % tag
+        DESCRIPTIONS[:have_at_least_one] % tag
       end
     end
 
     private
 
-    attr_reader :tag
-    attr_reader :options
-    attr_reader :document
+    attr_reader :tag, :options, :document
 
     def classes_to_selector classes
       case classes
@@ -224,9 +218,9 @@ module RSpecHtmlMatchers
     #   irb(main):012:0> Nokogiri::HTML('<p>asd</p>').xpath('//a')
     #   => []
     def validate_html_body_tags!
-      if %w[html body].include?(tag) && options.empty?
-        raise ArgumentError, 'matching <html> and <body> tags without specifying additional options does not work, see: https://github.com/kucaahbe/rspec-html-matchers/pull/75'
-      end
+      return unless %w[html body].include?(tag) && options.empty?
+
+      raise ArgumentError, 'matching <html> and <body> tags without specifying additional options does not work, see: https://github.com/kucaahbe/rspec-html-matchers/pull/75'
     end
 
     def validate_text_options!
@@ -246,8 +240,8 @@ module RSpecHtmlMatchers
 
     def validate_count_when_set_min_max!
       raise MESSAGES[:min_max_error] if options[:minimum] > options[:maximum]
-    rescue NoMethodError # nil > 4 # rubocop:disable Lint/HandleExceptions
-    rescue ArgumentError # 2 < nil # rubocop:disable Lint/HandleExceptions
+    rescue NoMethodError # nil > 4 # rubocop:disable Lint/SuppressedException
+    rescue ArgumentError # 2 < nil # rubocop:disable Lint/SuppressedException
     end
 
     def validate_count_when_set_range!

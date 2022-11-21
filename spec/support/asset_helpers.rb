@@ -4,7 +4,7 @@ module AssetHelpers
   ASSETS = File.expand_path('../../fixtures/%s.html', __FILE__)
 
   def asset name
-    f = fixtures[name] ||= IO.read(ASSETS % name)
+    f = fixtures[name] ||= File.read(ASSETS % name)
     let(:rendered) { f }
   end
 

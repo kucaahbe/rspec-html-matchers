@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+# frozen_string_literal: true
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
@@ -21,7 +22,6 @@ Gem::Specification.new do |s|
 DESC
 
   s.files            = Dir['lib/**/*.rb']
-  s.test_files       = Dir['{spec,features}/**/*.{rb,feature}']
   s.require_path     = 'lib'
   s.extra_rdoc_files = ['README.md', 'CHANGELOG.md']
 
@@ -50,4 +50,5 @@ DESC
   s.add_development_dependency 'rubocop', '~> 1.39' if ruby_version >= Gem::Version.new('2.3')
 
   s.add_development_dependency 'ruby-debug' if RUBY_PLATFORM == 'java'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

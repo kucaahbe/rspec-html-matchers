@@ -124,7 +124,7 @@ module RSpecHtmlMatchers
   def have_form action_url, method, options = {}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag = 'form'; tag += '#' + id if id
+    tag = 'form'; tag += "##{id}" if id
     options[:with].merge!(:action => action_url)
     options[:with].merge!(:method => method.to_s)
     have_tag tag, options, &block
@@ -276,7 +276,7 @@ module RSpecHtmlMatchers
   def with_select name, options = {}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag = 'select'; tag += '#' + id if id
+    tag = 'select'; tag += "##{id}" if id
     options[:with].merge!(:name => name)
     within_nested_tag do
       expect(@__current_scope_for_nokogiri_matcher).to have_tag(tag, options, &block)
@@ -286,7 +286,7 @@ module RSpecHtmlMatchers
   def without_select name, options = {}, &block
     options[:with] ||= {}
     id = options[:with].delete(:id)
-    tag = 'select'; tag += '#' + id if id
+    tag = 'select'; tag += "##{id}" if id
     options[:with].merge!(:name => name)
     within_nested_tag do
       expect(@__current_scope_for_nokogiri_matcher).to_not have_tag(tag, options, &block)

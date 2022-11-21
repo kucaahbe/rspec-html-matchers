@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'rspec/core/rake_task'
 begin
   require 'cucumber/rake/task'
-rescue LoadError # rubocop:disable Lint/HandleExceptions
+rescue LoadError
   # noop
 end
 

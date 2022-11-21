@@ -7,7 +7,7 @@ module RSpecHtmlMatchers
   class NokogiriTextHelper
     NON_BREAKING_SPACE = "\u00a0"
 
-    def initialize text, squeeze_text = false
+    def initialize text, squeeze_text = false # rubocop:disable Style/OptionalBooleanParameter
       @text = text
       @squeeze_text = squeeze_text
     end

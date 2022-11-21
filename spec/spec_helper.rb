@@ -9,7 +9,7 @@ end
 
 require 'rspec-html-matchers'
 
-Dir[File.expand_path('../../spec/support/**/*.rb', __FILE__)].each { |f| require f }
+Dir[File.expand_path('../../spec/support/**/*.rb', __FILE__)].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include RSpecHtmlMatchers

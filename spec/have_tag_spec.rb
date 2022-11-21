@@ -610,7 +610,7 @@ describe 'have_tag' do
             expect(ul_numeric).to have_tag 'li#aye'
           end
         end
-      end .to raise_spec_error(/at least 1 element matching "li#aye", found 0/)
+      end.to raise_spec_error(/at least 1 element matching "li#aye", found 0/)
     end
 
     it 'should narrow context for with_text' do
@@ -620,7 +620,7 @@ describe 'have_tag' do
             with_text 'A'
           end
         end
-      end .to raise_spec_error(/"A" expected within "ul.numeric"/)
+      end.to raise_spec_error(/"A" expected within "ul.numeric"/)
     end
   end
 

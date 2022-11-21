@@ -17,6 +17,10 @@ Layout/ArgumentAlignment:
 Style/BlockDelimiters:
   AllowedMethods: expect
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
 Style/Documentation:
   Exclude:
     - spec/**/*
@@ -57,4 +61,6 @@ Layout/HeredocIndentation:
 Lint/AmbiguousRegexpLiteral: # not a big deal
   Enabled: false
 Lint/AssignmentInCondition: # "I know I'm using an assignment as a condition. It's not a mistake."
+  Enabled: false
+Naming/BlockForwarding: # need to check is this available for older ruby versions
   Enabled: false
