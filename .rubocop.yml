@@ -2,8 +2,11 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
-    - bin/*
-    - .gems/*
+    - 'bin/*'
+    - '.gems/**/*'
+    - 'vendor/**/*'
+  SuggestExtensions: false
+  NewCops: enable
 
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
@@ -12,7 +15,7 @@ Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
 Style/BlockDelimiters:
-  IgnoredMethods: expect
+  AllowedMethods: expect
 
 Style/Documentation:
   Exclude:
