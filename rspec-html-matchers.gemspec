@@ -28,6 +28,8 @@ DESC
   # ruby support is tied to rspec & nokogiri gems:
   s.required_ruby_version = '>= 1.8.7'
 
+  s.metadata['rubygems_mfa_required'] = 'true' if s.respond_to?(:metadata)
+
   s.add_runtime_dependency 'rspec',    '>= 3.0.0.a'
   s.add_runtime_dependency 'nokogiri', '~> 1'
 
@@ -48,7 +50,5 @@ DESC
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'rubocop', '~> 1.39' if ruby_version >= Gem::Version.new('2.3')
-
   s.add_development_dependency 'ruby-debug' if RUBY_PLATFORM == 'java'
-  s.metadata['rubygems_mfa_required'] = 'true'
 end
