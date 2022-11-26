@@ -49,6 +49,6 @@ DESC
   s.add_development_dependency 'simplecov',          '~> 0'
   s.add_development_dependency 'rake',               '~> 10'
   s.add_development_dependency 'yard'
-  s.add_development_dependency 'rubocop', '~> 1.39' if ruby_version >= Gem::Version.new('2.3')
+  s.add_development_dependency 'rubocop', '~> 1.39' if ruby_version >= Gem::Version.new('2.6')
   s.add_development_dependency 'ruby-debug' if RUBY_PLATFORM == 'java'
 end
