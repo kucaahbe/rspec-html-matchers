@@ -11,7 +11,7 @@ Goals
 
 * designed for testing **complex** html output. If you plan to perform simple matching, consider using:
   * [assert_select](https://api.rubyonrails.org/classes/ActionDispatch/Assertions/SelectorAssertions.html#method-i-assert_select)
-  * [matchers provided out of the box in rspec-rails](https://www.relishapp.com/rspec/rspec-rails/v/2-11/docs/view-specs/view-spec)
+  * [matchers provided out of the box in rspec-rails](https://rspec.info/features/6-0/rspec-rails/view-specs/view-spec/)
   * [matchers provided by capybara](https://rdoc.info/github/jnicklas/capybara/Capybara/Node/Matchers)
 * developer-friendly output in error messages
 * built on top of [nokogiri](https://www.nokogiri.org/)
